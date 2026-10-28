@@ -10,13 +10,11 @@ import { Scene7RSVP } from './scenes/Scene7RSVP';
 import { Scene8Farewell } from './scenes/Scene8Farewell';
 import { MusicController } from './components/common/MusicController';
 import { QuickNav } from './components/common/QuickNav';
-import { RealCardShowcaseModal } from './components/common/RealCardShowcaseModal';
 
 type WeddingStage = 'curtain' | 'card' | 'experience';
 
 export function App() {
   const [stage, setStage] = useState<WeddingStage>('curtain');
-  const [isCardModalOpen, setIsCardModalOpen] = useState(false);
 
   const handleCurtainComplete = () => {
     setStage('card');
@@ -43,12 +41,6 @@ export function App() {
     <div className="relative min-h-screen bg-charcoal text-ivory selection:bg-antique-gold selection:text-royal-maroon-dark">
       {/* Floating Global Music Controller */}
       <MusicController />
-
-      {/* Real Card Showcase Modal (Photo & Video) */}
-      <RealCardShowcaseModal
-        isOpen={isCardModalOpen}
-        onClose={() => setIsCardModalOpen(false)}
-      />
 
       <AnimatePresence mode="wait">
         {/* SCENE 1: THE ROYAL CURTAIN ENTRANCE */}
@@ -88,10 +80,7 @@ export function App() {
             className="w-full flex flex-col"
           >
             {/* Scene 3: Royal Hero & Live Countdown */}
-            <Scene3Hero
-              onNavigateSection={scrollToSection}
-              onOpenCardModal={() => setIsCardModalOpen(true)}
-            />
+            <Scene3Hero onNavigateSection={scrollToSection} />
 
             {/* Scene 4: Interactive Wedding Events Timeline (8 Ceremonies) */}
             <Scene4Events />
@@ -109,7 +98,6 @@ export function App() {
             <Scene8Farewell
               onReplayInvitation={handleReplay}
               onNavigateSection={scrollToSection}
-              onOpenCardModal={() => setIsCardModalOpen(true)}
             />
 
             {/* Thumb-friendly mobile navigation bar */}

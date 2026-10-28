@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, MapPin, Heart, FileText, Clock, Eye } from 'lucide-react';
-import { RoyalDivider, JharokhaCrown } from '../components/common/OrnateMotif';
+import { Calendar, MapPin, Heart, FileText, Clock } from 'lucide-react';
+import { RoyalDivider, GaneshaMotif, JharokhaCrown } from '../components/common/OrnateMotif';
 import { ChauhanCrest } from '../components/common/ChauhanCrest';
 import { PetalShowerButton } from '../components/common/PetalShower';
 import { WEDDING_DATA } from '../data/weddingData';
 
 interface Scene3Props {
   onNavigateSection: (sectionId: string) => void;
-  onOpenCardModal?: () => void;
 }
 
-export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection, onOpenCardModal }) => {
+export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection }) => {
   // Countdown Timer calculation
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -57,23 +56,15 @@ export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection, onOpenCar
       </div>
 
       {/* Hero Header Content */}
-      <div className="w-full max-w-xl mx-auto text-center z-10 flex flex-col items-center mt-3">
-        {/* Sacred Mangalacharan & Ganesha Mandala from the Real Card */}
+      <div className="w-full max-w-xl mx-auto text-center z-10 flex flex-col items-center mt-4">
+        {/* Sacred Mangalacharan */}
         <motion.div
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="flex flex-col items-center mb-2"
+          className="flex flex-col items-center mb-3"
         >
-          {/* Card Ganesha Mandala in Ornate Gold Medallion */}
-          <div className="w-16 h-16 sm:w-20 sm:h-20 mb-1 rounded-full p-1 bg-[#FFFDF9] border-2 border-[#E6C98A] shadow-[0_0_20px_rgba(230,201,138,0.5)] flex items-center justify-center overflow-hidden">
-            <img
-              src="/images/card-ganesha-mandala.png"
-              alt="श्री गणेश"
-              className="w-full h-full object-cover"
-            />
-          </div>
-
+          <GaneshaMotif size={52} className="text-[#FCE8B2] mb-1 drop-shadow" />
           <p className="font-royal text-sm sm:text-base tracking-widest text-[#FCE8B2] font-bold uppercase drop-shadow-sm">
             {WEDDING_DATA.curtainIntro.om}
           </p>
@@ -92,35 +83,17 @@ export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection, onOpenCar
           <ChauhanCrest size="sm" showCaption={false} />
         </motion.div>
 
-        {/* Shubh Vivah Calligraphy Banner Flanked by Card's Twin Royal Elephants */}
+        {/* Shubh Vivah Calligraphy Banner */}
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.8 }}
-          className="my-3 flex items-center justify-center space-x-2 sm:space-x-3 w-full"
+          className="my-2"
         >
-          {/* Left Elephant in Ornate Gold Circular Medallion */}
-          <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-full overflow-hidden border-2 border-[#E6C98A] p-0.5 bg-[#FFFDF9] shadow-md flex-shrink-0">
-            <img
-              src="/images/card-left-elephant.png"
-              alt="शाही हाथी"
-              className="w-full h-full object-cover"
-            />
-          </div>
-
-          <div className="inline-block px-5 sm:px-7 py-1.5 sm:py-2 rounded-full border-2 border-[#E6C98A] bg-gradient-to-r from-[#4A0B14] via-[#751221] to-[#4A0B14] shadow-[0_0_20px_rgba(230,201,138,0.4)]">
-            <span className="font-royal text-base sm:text-2xl text-[#FFF4D0] tracking-widest font-bold whitespace-nowrap">
+          <div className="inline-block px-7 py-1.5 rounded-full border-2 border-[#E6C98A] bg-gradient-to-r from-[#4A0B14] via-[#751221] to-[#4A0B14] shadow-[0_0_20px_rgba(230,201,138,0.4)]">
+            <span className="font-royal text-lg sm:text-xl text-[#FFF4D0] tracking-widest font-bold">
               ॥ शुभ विवाह ॥
             </span>
-          </div>
-
-          {/* Right Elephant in Ornate Gold Circular Medallion */}
-          <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-full overflow-hidden border-2 border-[#E6C98A] p-0.5 bg-[#FFFDF9] shadow-md flex-shrink-0">
-            <img
-              src="/images/card-right-elephant.png"
-              alt="शाही हाथी"
-              className="w-full h-full object-cover"
-            />
           </div>
         </motion.div>
 
@@ -129,7 +102,7 @@ export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection, onOpenCar
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.8 }}
-          className="my-2 space-y-1"
+          className="my-3 space-y-1"
         >
           <h1 className="font-royal text-3xl sm:text-4xl text-[#FFF4D0] font-bold tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
             {WEDDING_DATA.couple.groom.name}
@@ -250,16 +223,6 @@ export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection, onOpenCar
             <Heart className="w-3.5 h-3.5 text-[#FCE8B2]" />
             <span>आदर सहित RSVP</span>
           </button>
-
-          {onOpenCardModal && (
-            <button
-              onClick={onOpenCardModal}
-              className="flex-1 min-w-[130px] flex items-center justify-center space-x-2 py-2.5 px-3 rounded-full border border-[#E6C98A] bg-gradient-to-r from-royal-maroon-dark via-royal-maroon to-royal-maroon-dark text-[#FFF4D0] text-xs font-hindi font-bold active:scale-95 transition-all shadow-md"
-            >
-              <Eye className="w-3.5 h-3.5 text-[#FCE8B2]" />
-              <span>मुद्रित पत्रिका झलक</span>
-            </button>
-          )}
 
           <a
             href={WEDDING_DATA.meta.pdfDownloadUrl}
