@@ -107,12 +107,6 @@
   );
 }
 
-/* Gold text gradient */
-.text-gold-gradient {
-  background: linear-gradient(135deg, #FCE8B2 0%, #D8AB4E 40%, #A57C2B 75%, #F5DE9C 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
 
 /* Antique Parchment Texture Simulation */
 .parchment-bg {

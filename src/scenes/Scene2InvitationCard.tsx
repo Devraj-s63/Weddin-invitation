@@ -82,8 +82,8 @@ export const Scene2InvitationCard: React.FC<Scene2Props> = ({ onEnterFestivities
 
                   {/* Center Sealed Monogram / Wedding Title */}
                   <div className="my-4 py-4 w-full flex flex-col items-center">
-                    <div className="w-16 h-16 rounded-full border-2 border-dashed border-antique-gold-dark flex items-center justify-center bg-royal-maroon text-antique-gold-lighter shadow-lg mb-3">
-                      <span className="font-royal text-xl font-bold">द & म</span>
+                    <div className="w-16 h-16 rounded-full border-2 border-dashed border-antique-gold flex items-center justify-center bg-royal-maroon text-[#FFF4D0] shadow-lg mb-3">
+                      <span className="font-royal text-xl font-bold tracking-widest">द • म</span>
                     </div>
 
                     <h2 className="font-royal text-2xl sm:text-3xl font-bold text-royal-maroon tracking-wider">
@@ -107,9 +107,9 @@ export const Scene2InvitationCard: React.FC<Scene2Props> = ({ onEnterFestivities
                     </p>
                   </div>
 
-                  {/* Pulsing Tap-to-Open Cue */}
+                  {/* Ceremonial Ambient Breathing Tap-to-Open Cue (Replacing mechanical bounce) */}
                   <div className="mt-2 flex flex-col items-center">
-                    <div className="px-5 py-2 rounded-full border border-antique-gold bg-royal-maroon text-antique-gold-light text-xs font-hindi tracking-wider font-semibold shadow-md animate-bounce">
+                    <div className="px-6 py-2.5 rounded-full border-2 border-antique-gold bg-gradient-to-r from-royal-maroon-dark via-royal-maroon to-royal-maroon-dark text-[#FFF4D0] text-xs font-hindi tracking-wider font-bold shadow-royal-glow animate-pulse-subtle hover:scale-105 active:scale-95 transition-all duration-300">
                       ✨ स्पर्श कर निमंत्रण खोलें ✨
                     </div>
                   </div>
@@ -152,15 +152,15 @@ export const Scene2InvitationCard: React.FC<Scene2Props> = ({ onEnterFestivities
                   {/* Groom & Bride Details */}
                   <div className="my-3 space-y-3 w-full">
                     {/* Groom Details */}
-                    <div className="bg-white/60 p-3 rounded-lg border border-antique-gold/30 shadow-sm">
-                      <p className="text-[11px] font-hindi text-sandstone-dark font-medium">वर</p>
+                    <div className="bg-white/70 p-3.5 rounded-lg border border-antique-gold/40 shadow-sm">
+                      <p className="text-xs font-hindi text-royal-maroon font-bold uppercase tracking-wider">वर</p>
                       <h3 className="font-royal text-lg sm:text-xl font-bold text-royal-maroon">
                         {WEDDING_DATA.couple.groom.name}
                       </h3>
-                      <p className="text-xs text-charcoal/80 font-hindi mt-0.5">
+                      <p className="text-xs text-charcoal font-hindi font-medium mt-0.5">
                         सुपुत्र: {WEDDING_DATA.couple.groom.father}
                       </p>
-                      <p className="text-[11px] text-charcoal/70 font-hindi">
+                      <p className="text-xs text-charcoal/80 font-hindi mt-0.5">
                         {WEDDING_DATA.couple.groom.grandparents} ({WEDDING_DATA.couple.groom.thikana})
                       </p>
                     </div>
@@ -173,15 +173,15 @@ export const Scene2InvitationCard: React.FC<Scene2Props> = ({ onEnterFestivities
                     </div>
 
                     {/* Bride Details */}
-                    <div className="bg-white/60 p-3 rounded-lg border border-antique-gold/30 shadow-sm">
-                      <p className="text-[11px] font-hindi text-sandstone-dark font-medium">वधू</p>
+                    <div className="bg-white/70 p-3.5 rounded-lg border border-antique-gold/40 shadow-sm">
+                      <p className="text-xs font-hindi text-royal-maroon font-bold uppercase tracking-wider">वधू</p>
                       <h3 className="font-royal text-lg sm:text-xl font-bold text-royal-maroon">
                         {WEDDING_DATA.couple.bride.name}
                       </h3>
-                      <p className="text-xs text-charcoal/80 font-hindi mt-0.5">
+                      <p className="text-xs text-charcoal font-hindi font-medium mt-0.5">
                         सुपुत्री: {WEDDING_DATA.couple.bride.father}
                       </p>
-                      <p className="text-[11px] text-charcoal/70 font-hindi">
+                      <p className="text-xs text-charcoal/80 font-hindi mt-0.5">
                         {WEDDING_DATA.couple.bride.grandparents} ({WEDDING_DATA.couple.bride.thikana})
                       </p>
                     </div>

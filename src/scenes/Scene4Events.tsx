@@ -46,11 +46,16 @@ export const Scene4Events: React.FC = () => {
     const details = encodeURIComponent(`${event.description}\nस्थान: पायल रिसोर्ट, भीलवाड़ा\nशुभ विवाह: देवराज सिंह चौहान संग मधु कंवर`);
     const location = encodeURIComponent('पायल रिसोर्ट, सरस डेयरी के पास, भीलवाड़ा, राजस्थान');
     
-    // Parse ISO date
-    const startIso = event.isoDate.replace(/-|:/g, '');
-    const startTime = `${startIso}00`;
-    // default 3 hour duration
-    const endTime = `${startIso}00`;
+    // Calculate proper 2.5 hour duration for wedding rituals
+    const startDate = new Date(event.isoDate);
+    const endDate = new Date(startDate.getTime() + 2.5 * 60 * 60 * 1000);
+    
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const formatCalDate = (d: Date) =>
+      `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
+    
+    const startTime = formatCalDate(startDate);
+    const endTime = formatCalDate(endDate);
     
     return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}&dates=${startTime}/${endTime}`;
   };
@@ -105,11 +110,11 @@ export const Scene4Events: React.FC = () => {
 
                     {/* Event Core Info */}
                     <div className="flex-1 ml-3 sm:ml-4 text-left">
-                      <div className="flex flex-wrap items-center gap-1.5 mb-1">
-                        <span className="text-[10px] font-hindi font-semibold px-2 py-0.5 rounded-full bg-antique-gold/20 text-antique-gold border border-antique-gold/30">
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
+                        <span className="text-xs font-hindi font-semibold px-2.5 py-0.5 rounded-full bg-antique-gold/20 text-[#FCE8B2] border border-antique-gold/40">
                           {event.tithi}
                         </span>
-                        <span className="text-[10px] font-hindi text-sandstone/80">
+                        <span className="text-xs font-hindi text-[#EAD7BE] font-medium">
                           {event.day}
                         </span>
                       </div>

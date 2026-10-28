@@ -110,12 +110,29 @@ export const Scene6Venue: React.FC = () => {
               </p>
             </div>
 
+            {/* OUTSTATION GUEST TRANSIT ASSISTANCE */}
+            <div className="w-full mt-4 pt-4 border-t border-royal-maroon/15 text-left">
+              <span className="text-xs font-royal text-royal-maroon uppercase font-bold tracking-wider">
+                दूरस्थ अतिथियों हेतु यात्रा मार्गदर्शन:
+              </span>
+              <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-hindi text-charcoal/80">
+                <div className="p-2 rounded bg-white/50 border border-royal-maroon/10">
+                  <span className="font-semibold text-royal-maroon-dark">🚆 निकटतम रेलवे स्टेशन:</span>
+                  <p className="mt-0.5">भीलवाड़ा जंक्शन (BHL) — मात्र 4.5 किमी</p>
+                </div>
+                <div className="p-2 rounded bg-white/50 border border-royal-maroon/10">
+                  <span className="font-semibold text-royal-maroon-dark">✈️ निकटतम हवाई अड्डे:</span>
+                  <p className="mt-0.5">डबोक/उदयपुर (UDR) 135 किमी • जयपुर (JAI) 240 किमी</p>
+                </div>
+              </div>
+            </div>
+
             {/* PRIMARY GOOGLE MAPS NAVIGATION BUTTON (Using exact URL) */}
             <a
               href={WEDDING_DATA.meta.mapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full max-w-sm py-3.5 px-6 rounded-full border border-antique-gold bg-gradient-to-r from-royal-maroon-dark via-royal-maroon to-royal-maroon-dark text-antique-gold-lighter font-royal text-sm sm:text-base font-bold shadow-royal-glow hover:shadow-2xl active:scale-95 transition-all flex items-center justify-center space-x-2"
+              className="w-full max-w-sm mt-5 py-3.5 px-6 rounded-full border border-antique-gold bg-gradient-to-r from-royal-maroon-dark via-royal-maroon to-royal-maroon-dark text-antique-gold-lighter font-royal text-sm sm:text-base font-bold shadow-royal-glow hover:shadow-2xl active:scale-95 transition-all flex items-center justify-center space-x-2"
             >
               <Navigation className="w-4 h-4 text-antique-gold" />
               <span>Google Maps पर रास्ता देखें</span>
