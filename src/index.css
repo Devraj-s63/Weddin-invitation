@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --royal-maroon: #650F1C;
+    --antique-gold: #C7A15A;
+    --ivory: #F7F0E2;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: #211B19;
+    color: #F7F0E2;
+    font-family: 'Noto Serif Devanagari', 'Tiro Devanagari Hindi', serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  /* Custom Royal Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #211B19;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #A77E3E;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #C7A15A;
+  }
+}
+
+/* Realistic Velvet Curtain Fabric Shading */
+.velvet-left {
+  background: repeating-linear-gradient(
+    90deg,
+    #2a050d 0%,
+    #4a0a14 4%,
+    #751221 8%,
+    #99192c 12%,
+    #650f1c 16%,
+    #3b0811 20%,
+    #200308 25%
+  );
+  box-shadow: inset -25px 0 35px -10px rgba(0, 0, 0, 0.85),
+              inset 15px 0 25px rgba(255, 255, 255, 0.05);
+}
+
+.velvet-right {
+  background: repeating-linear-gradient(
+    90deg,
+    #200308 0%,
+    #3b0811 5%,
+    #650f1c 9%,
+    #99192c 13%,
+    #751221 17%,
+    #4a0a14 21%,
+    #2a050d 25%
+  );
+  box-shadow: inset 25px 0 35px -10px rgba(0, 0, 0, 0.85),
+              inset -15px 0 25px rgba(255, 255, 255, 0.05);
+}
+
+/* Gold Zari Embroidery Border Effect */
+.gold-zari-border {
+  border: 2px solid #C7A15A;
+  box-shadow: 0 0 10px rgba(199, 161, 90, 0.3), inset 0 0 8px rgba(199, 161, 90, 0.2);
+  background-image: radial-gradient(circle at 50% 50%, rgba(199, 161, 90, 0.15) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+/* Scalloped Valance Pattern */
+.valance-scallop {
+  background: repeating-linear-gradient(
+    90deg,
+    #4A0B14 0px,
+    #650F1C 15px,
+    #851424 30px,
+    #650F1C 45px,
+    #4A0B14 60px
+  );
+  clip-path: polygon(
+    0% 0%, 100% 0%, 100% 85%,
+    95% 100%, 90% 85%, 85% 100%, 80% 85%, 75% 100%, 70% 85%,
+    65% 100%, 60% 85%, 55% 100%, 50% 85%, 45% 100%, 40% 85%,
+    35% 100%, 30% 85%, 25% 100%, 20% 85%, 15% 100%, 10% 85%,
+    5% 100%, 0% 85%
+  );
+}
+
+/* Rajasthani Archway Shape */
+.jharokha-arch {
+  clip-path: polygon(
+    0% 15%, 15% 8%, 30% 3%, 50% 0%, 70% 3%, 85% 8%, 100% 15%,
+    100% 100%, 0% 100%
+  );
+}
+
+/* Gold text gradient */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #FCE8B2 0%, #D8AB4E 40%, #A57C2B 75%, #F5DE9C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Antique Parchment Texture Simulation */
+.parchment-bg {
+  background-color: #F7F0E2;
+  background-image: 
+    radial-gradient(#E8DCBE 15%, transparent 16%),
+    radial-gradient(#DFCFAB 15%, transparent 16%);
+  background-size: 60px 60px;
+  background-position: 0 0, 30px 30px;
+}
+
+/* Card 3D Perspective */
+.perspective-1000 {
+  perspective: 1200px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* Safe Area Paddings */
+.pt-safe {
+  padding-top: max(1rem, env(safe-area-inset-top));
+}
+
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
