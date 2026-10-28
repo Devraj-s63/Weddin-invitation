@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Clock, ChevronDown, Bell, Sparkles } from 'lucide-react';
 import {
-  GaneshaMotif,
   KalashMotif,
   ThambMotif,
   MayraMotif,
   HaldiMotif,
   SangeetMotif,
-  NikasiMotif,
   PanigrahanMotif,
   RoyalDivider
 } from '../components/common/OrnateMotif';
@@ -21,7 +19,11 @@ export const Scene4Events: React.FC = () => {
   const getEventIcon = (type: WeddingEvent['iconType']) => {
     switch (type) {
       case 'vinayak':
-        return <GaneshaMotif size={44} className="text-antique-gold" />;
+        return (
+          <div className="w-11 h-11 rounded-full overflow-hidden flex items-center justify-center p-0.5">
+            <img src="/images/card-ganesha-mandala.png" alt="श्री गणेश" className="w-full h-full object-contain filter drop-shadow" />
+          </div>
+        );
       case 'kalash':
         return <KalashMotif size={44} className="text-antique-gold" />;
       case 'thamb':
@@ -33,7 +35,11 @@ export const Scene4Events: React.FC = () => {
       case 'sangeet':
         return <SangeetMotif size={44} className="text-antique-gold" />;
       case 'nikasi':
-        return <NikasiMotif size={44} className="text-antique-gold" />;
+        return (
+          <div className="w-11 h-11 flex items-center justify-center">
+            <img src="/images/card-left-elephant.png" alt="शाही हाथी" className="w-full h-full object-contain filter drop-shadow" />
+          </div>
+        );
       case 'panigrahan':
         return <PanigrahanMotif size={44} className="text-antique-gold" />;
       default:
