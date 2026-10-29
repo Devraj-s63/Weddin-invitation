@@ -64,7 +64,7 @@ async function fetchWithTimeout(url: string, timeoutMs: number = REQUEST_TIMEOUT
  * Increments only if this device is visiting for the first time.
  */
 export async function getOrRecordRealVisitor(
-  namespace: string = 'devraj-madhu-wedding-2026-v2',
+  namespace: string = 'devraj_madhu_chauhan_mewar_e89b21f47c3a0d5e',
   key: string = 'visitors'
 ): Promise<RealVisitorResult> {
   let isNewPerson = false;

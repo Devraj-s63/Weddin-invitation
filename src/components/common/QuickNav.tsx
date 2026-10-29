@@ -1,5 +1,6 @@
 import React from 'react';
 import { Calendar, Home, Users, MapPin, MessageCircle } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface QuickNavProps {
   activeSection?: string;
@@ -7,11 +8,13 @@ interface QuickNavProps {
 }
 
 export const QuickNav: React.FC<QuickNavProps> = ({ onNavigate }) => {
+  const { language } = useLanguage();
+
   const navItems = [
-    { id: 'hero-section', label: 'आरम्भ', icon: Home },
-    { id: 'events-section', label: 'कार्यक्रम', icon: Calendar },
-    { id: 'family-section', label: 'परिवार', icon: Users },
-    { id: 'venue-section', label: 'स्थल', icon: MapPin },
+    { id: 'hero-section', label: language === 'hi' ? 'आरम्भ' : 'Home', icon: Home },
+    { id: 'events-section', label: language === 'hi' ? 'कार्यक्रम' : 'Events', icon: Calendar },
+    { id: 'family-section', label: language === 'hi' ? 'परिवार' : 'Family', icon: Users },
+    { id: 'venue-section', label: language === 'hi' ? 'स्थल' : 'Venue', icon: MapPin },
     { id: 'rsvp-section', label: 'RSVP', icon: MessageCircle },
   ];
 
@@ -40,4 +43,3 @@ export const QuickNav: React.FC<QuickNavProps> = ({ onNavigate }) => {
     </nav>
   );
 };
-

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChauhanCrest } from '../components/common/ChauhanCrest';
 import { audioManager } from '../utils/audioManager';
 import { triggerPetalShower } from '../components/common/PetalShower';
-import { WEDDING_DATA } from '../data/weddingData';
+import { useLanguage } from '../context/LanguageContext';
 
 interface Scene1Props {
   onOpenComplete: () => void;
@@ -11,6 +11,7 @@ interface Scene1Props {
 
 export const Scene1CurtainEntrance: React.FC<Scene1Props> = ({ onOpenComplete }) => {
   const [isOpening, setIsOpening] = useState(false);
+  const { data } = useLanguage();
 
   const handleOpenCurtains = async () => {
     if (isOpening) return;
@@ -110,7 +111,7 @@ export const Scene1CurtainEntrance: React.FC<Scene1Props> = ({ onOpenComplete })
               className="mb-3"
             >
               <span className="font-royal text-sm sm:text-base tracking-widest text-[#FCE8B2] drop-shadow-md font-bold">
-                {WEDDING_DATA.curtainIntro.om}
+                {data.curtainIntro.om}
               </span>
             </motion.div>
 
@@ -132,10 +133,10 @@ export const Scene1CurtainEntrance: React.FC<Scene1Props> = ({ onOpenComplete })
               className="max-w-xs sm:max-w-md mx-auto my-3 space-y-2"
             >
               <h1 className="font-royal text-3xl sm:text-4xl text-[#FCE8B2] font-bold tracking-wider drop-shadow-lg">
-                {WEDDING_DATA.curtainIntro.welcome}
+                {data.curtainIntro.welcome}
               </h1>
               <p className="font-hindi text-sm sm:text-base text-ivory leading-relaxed font-medium drop-shadow-sm">
-                {WEDDING_DATA.curtainIntro.subtext}
+                {data.curtainIntro.subtext}
               </p>
             </motion.div>
 
@@ -156,14 +157,14 @@ export const Scene1CurtainEntrance: React.FC<Scene1Props> = ({ onOpenComplete })
                 <span className="relative z-10 flex items-center space-x-2">
                   <span className="text-[#FCE8B2]">⚜</span>
                   <span className="font-hindi font-bold text-lg text-white drop-shadow-sm">
-                    {WEDDING_DATA.curtainIntro.buttonText}
+                    {data.curtainIntro.buttonText}
                   </span>
                   <span className="text-[#FCE8B2]">⚜</span>
                 </span>
               </button>
 
               <p className="mt-2.5 text-xs text-[#EAD7BE] font-hindi tracking-wide font-medium drop-shadow-sm">
-                (स्पर्श करें एवं शाही उत्सव में प्रवेश करें)
+                {data.curtainIntro.touchHint}
               </p>
             </motion.div>
           </motion.div>

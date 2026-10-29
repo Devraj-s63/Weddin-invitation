@@ -13,10 +13,12 @@ import {
   RoyalDivider
 } from '../components/common/OrnateMotif';
 import { RoyalBorder } from '../components/common/RoyalBorder';
-import { WEDDING_DATA, type WeddingEvent } from '../data/weddingData';
+import { type WeddingEvent } from '../data/weddingData';
+import { useLanguage } from '../context/LanguageContext';
 
 export const Scene4Events: React.FC = () => {
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
+  const { data, language } = useLanguage();
 
   const getEventIcon = (type: WeddingEvent['iconType']) => {
     switch (type) {
@@ -70,20 +72,22 @@ export const Scene4Events: React.FC = () => {
         {/* Section Heading */}
         <div className="text-center mb-10">
           <p className="font-royal text-xs sm:text-sm text-antique-gold tracking-widest uppercase font-semibold">
-            शगुन कुंकुम पत्रिका
+            {language === 'hi' ? 'शगुन कुंकुम पत्रिका' : 'Auspicious Wedding Timeline'}
           </p>
           <h2 className="font-royal text-2xl sm:text-3xl text-antique-gold-lighter font-bold tracking-wide mt-1">
-            मांगलिक कार्यक्रम
+            {language === 'hi' ? 'मांगलिक कार्यक्रम' : 'Sacred Ceremonies'}
           </h2>
           <p className="font-hindi text-xs sm:text-sm text-sandstone/80 mt-1 max-w-md mx-auto">
-            वैदिक विधि-विधान एवं राजपूती परम्परा अनुसार आयोजित होने वाले पावन रस्मों की समय-सारिणी
+            {language === 'hi'
+              ? 'वैदिक विधि-विधान एवं राजपूती परम्परा अनुसार आयोजित होने वाले पावन रस्मों की समय-सारिणी'
+              : 'Schedule of traditional Rajputana wedding rituals and Vedic ceremonies'}
           </p>
           <RoyalDivider className="my-4" />
         </div>
 
         {/* Chronological Event Cards List */}
         <div className="space-y-4">
-          {WEDDING_DATA.events.map((event: WeddingEvent, index: number) => {
+          {data.events.map((event: WeddingEvent, index: number) => {
             const isExpanded = selectedEventId === event.id;
 
             return (
@@ -166,7 +170,9 @@ export const Scene4Events: React.FC = () => {
                           {/* Attire suggestion */}
                           {event.dressCodeSuggestion && (
                             <div className="flex items-center space-x-2 text-xs font-hindi text-sandstone">
-                              <span className="text-antique-gold font-semibold">वेशभूषा:</span>
+                              <span className="text-antique-gold font-semibold">
+                                {language === 'hi' ? 'वेशभूषा:' : 'Dress Code:'}
+                              </span>
                               <span>{event.dressCodeSuggestion}</span>
                             </div>
                           )}
@@ -181,7 +187,7 @@ export const Scene4Events: React.FC = () => {
                               className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full border border-antique-gold/50 bg-royal-maroon text-antique-gold-light hover:bg-royal-maroon-dark text-xs font-hindi font-medium active:scale-95 transition-all shadow-sm"
                             >
                               <Bell className="w-3 h-3 text-antique-gold" />
-                              <span>गूगल कैलेंडर में जोड़ें</span>
+                              <span>{language === 'hi' ? 'गूगल कैलेंडर में जोड़ें' : 'Add to Google Calendar'}</span>
                             </a>
                           </div>
                         </div>
@@ -199,20 +205,20 @@ export const Scene4Events: React.FC = () => {
           <RoyalBorder variant="maroon" padding="p-5 sm:p-6">
             <div className="text-center space-y-2">
               <span className="inline-block px-3 py-0.5 rounded-full bg-antique-gold/20 border border-antique-gold/40 text-antique-gold font-royal text-xs tracking-wider">
-                राजकीय भोज
+                {language === 'hi' ? 'राजकीय भोज' : 'Royal Banquet'}
               </span>
               <h3 className="font-royal text-xl sm:text-2xl text-antique-gold-lighter font-bold">
-                {WEDDING_DATA.reception.title}
+                {data.reception.title}
               </h3>
               <p className="font-royal text-sm sm:text-base text-ivory font-semibold">
-                {WEDDING_DATA.reception.day}, {WEDDING_DATA.reception.date}
+                {data.reception.day}, {data.reception.date}
               </p>
               <p className="font-hindi text-xs sm:text-sm text-antique-gold-light font-medium">
-                {WEDDING_DATA.reception.time}
+                {data.reception.time}
               </p>
               <div className="h-[1px] w-24 bg-antique-gold/40 mx-auto my-2" />
               <p className="font-hindi text-xs sm:text-sm text-sandstone">
-                स्थल: <span className="font-semibold text-ivory">{WEDDING_DATA.reception.venue}</span>, {WEDDING_DATA.reception.address}
+                {language === 'hi' ? 'स्थल:' : 'Venue:'} <span className="font-semibold text-ivory">{data.reception.venue}</span>, {data.reception.address}
               </p>
             </div>
           </RoyalBorder>
@@ -221,13 +227,13 @@ export const Scene4Events: React.FC = () => {
         {/* Barat Departure Note */}
         <div className="mt-4 p-4 rounded-xl border border-antique-gold/30 bg-charcoal/70 text-center">
           <p className="font-royal text-xs text-antique-gold tracking-wider uppercase font-semibold">
-            बारात प्रस्थान सूचना
+            {language === 'hi' ? 'बारात प्रस्थान सूचना' : 'Baraat Departure Notice'}
           </p>
           <p className="font-hindi text-xs sm:text-sm text-ivory/90 mt-1">
-            {WEDDING_DATA.baratNotes.time}
+            {data.baratNotes.time}
           </p>
           <p className="font-hindi text-xs text-sandstone/80 mt-0.5">
-            {WEDDING_DATA.baratNotes.destination}
+            {data.baratNotes.destination}
           </p>
         </div>
       </div>

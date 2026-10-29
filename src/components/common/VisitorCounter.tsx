@@ -3,6 +3,7 @@ import { Sparkles, Heart } from 'lucide-react';
 import { useVisitorCounter } from '../../hooks/useVisitorCounter';
 import { triggerPetalShower } from './PetalShower';
 import { KalashMotif } from './OrnateMotif';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface VisitorCounterProps {
   variant?: 'plaque' | 'pill';
@@ -21,6 +22,7 @@ export const VisitorCounter: React.FC<VisitorCounterProps> = ({
     isLoading,
     sendBlessing,
   } = useVisitorCounter();
+  const { data, language } = useLanguage();
 
   const [blessingSent, setBlessingSent] = useState(false);
 
@@ -38,18 +40,22 @@ export const VisitorCounter: React.FC<VisitorCounterProps> = ({
     return (
       <button
         onClick={onNavigateToLedger}
-        title="शाही अतिथि दर्शन पंजिका देखें"
+        title={language === 'hi' ? 'शाही अतिथि दर्शन पंजिका देखें' : 'View Royal Guest Register'}
         className={`inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border border-antique-gold/40 bg-gradient-to-r from-[#2B080F]/90 via-[#3D0A15]/90 to-[#2B080F]/90 hover:border-antique-gold text-antique-gold-lighter text-xs font-hindi transition-all active:scale-95 shadow-md group ${className}`}
       >
         <span className="w-1.5 h-1.5 rounded-full bg-[#E6C98A] animate-pulse" />
-        <span className="text-sandstone-light font-medium">कुल दर्शनार्थी:</span>
+        <span className="text-sandstone-light font-medium">
+          {language === 'hi' ? 'कुल दर्शनार्थी:' : 'Honored Guests:'}
+        </span>
         <span className="font-royal font-bold text-[#FFF4D0] tracking-wider text-sm">
           {isLoading ? '...' : formattedStandard}
         </span>
         <span className="text-[11px] text-antique-gold/80 font-royal">
           ({isLoading ? '...' : formattedDevanagari})
         </span>
-        <span className="text-[10px] text-sandstone/60">अतिथि</span>
+        <span className="text-[10px] text-sandstone/60">
+          {language === 'hi' ? 'अतिथि' : 'Visitors'}
+        </span>
       </button>
     );
   }
@@ -78,11 +84,11 @@ export const VisitorCounter: React.FC<VisitorCounterProps> = ({
 
       {/* Heading */}
       <h4 className="font-royal text-base sm:text-lg text-[#FFF4D0] font-bold tracking-wide">
-        शाही अतिथि दर्शन पंजिका
+        {data.visitorCounter.title}
       </h4>
 
       <p className="font-hindi text-xs text-sandstone/80 max-w-xs mx-auto mt-1 leading-relaxed">
-        इस शाही विवाह पत्रिका का दर्शन करने वाले कुल सम्मानीय अतिथि
+        {data.visitorCounter.subtitle}
       </p>
 
       {/* Real Counter Number Display */}
@@ -98,7 +104,9 @@ export const VisitorCounter: React.FC<VisitorCounterProps> = ({
 
         <div className="flex items-center justify-center space-x-1.5 mt-2 text-[10px] text-sandstone/70">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="font-hindi text-emerald-300 font-medium">लाइव वास्तविक गणना</span>
+          <span className="font-hindi text-emerald-300 font-medium">
+            {language === 'hi' ? 'लाइव वास्तविक गणना' : 'Live Verified Count'}
+          </span>
         </div>
       </div>
 
@@ -109,13 +117,17 @@ export const VisitorCounter: React.FC<VisitorCounterProps> = ({
           className="w-full max-w-[260px] flex items-center justify-center space-x-2 py-2 px-4 rounded-full border border-antique-gold/60 bg-gradient-to-r from-[#5A0F1D] via-[#781527] to-[#5A0F1D] text-[#FFF4D0] text-xs font-hindi font-medium hover:border-antique-gold hover:brightness-110 active:scale-95 transition-all shadow-md group"
         >
           <Heart className="w-3.5 h-3.5 text-rose-300 group-hover:scale-125 transition-transform" />
-          <span>वर-वधू को मंगल आशीर्वाद दें</span>
+          <span>
+            {language === 'hi' ? 'वर-वधू को मंगल आशीर्वाद दें' : 'Bestow Royal Blessings'}
+          </span>
           <Sparkles className="w-3 h-3 text-antique-gold" />
         </button>
 
         {blessingSent && (
           <p className="animate-fade-in text-[11px] font-hindi text-emerald-300 mt-2 bg-emerald-950/60 border border-emerald-500/30 rounded-full px-3 py-0.5">
-            🌸 पधारो सा! आपका मंगल शुभाशीर्वाद वर-वधू तक पहुँचा।
+            {language === 'hi'
+              ? '🌸 पधारो सा! आपका मंगल शुभाशीर्वाद वर-वधू तक पहुँचा।'
+              : '🌸 Warmest gratitude! Your blessing has reached the couple.'}
           </p>
         )}
       </div>

@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { MapPin, Navigation, Copy, Check, Phone, Compass } from 'lucide-react';
 import { RoyalDivider } from '../components/common/OrnateMotif';
 import { RoyalBorder } from '../components/common/RoyalBorder';
-import { WEDDING_DATA } from '../data/weddingData';
+import { useLanguage } from '../context/LanguageContext';
 
 export const Scene6Venue: React.FC = () => {
   const [copied, setCopied] = useState(false);
+  const { data, language } = useLanguage();
 
   const handleCopyAddress = () => {
-    navigator.clipboard.writeText(`${WEDDING_DATA.meta.venueName}, ${WEDDING_DATA.meta.venueAddress}`);
+    navigator.clipboard.writeText(`${data.meta.venueName}, ${data.meta.venueAddress}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
@@ -19,13 +20,13 @@ export const Scene6Venue: React.FC = () => {
         {/* Section Heading */}
         <div className="text-center mb-10">
           <p className="font-royal text-xs sm:text-sm text-antique-gold tracking-widest uppercase font-semibold">
-            विवाह उत्सव एवं प्रीतिभोज स्थल
+            {language === 'hi' ? 'विवाह उत्सव एवं प्रीतिभोज स्थल' : 'Wedding Celebrations & Banquet Venue'}
           </p>
           <h2 className="font-royal text-2xl sm:text-3xl text-antique-gold-lighter font-bold tracking-wide mt-1">
-            शुभ स्थल व मार्ग
+            {language === 'hi' ? 'शुभ स्थल व मार्ग' : 'Venue & Native Directions'}
           </h2>
           <p className="font-hindi text-xs sm:text-sm text-sandstone/80 mt-1 max-w-md mx-auto">
-            भीलवाड़ा, राजस्थान स्थित शाही उत्सव प्रांगण
+            {language === 'hi' ? 'भीलवाड़ा, राजस्थान स्थित शाही उत्सव प्रांगण' : 'Royal Wedding Grounds, Bhilwara, Rajasthan'}
           </p>
           <RoyalDivider className="my-4" />
         </div>
@@ -39,17 +40,17 @@ export const Scene6Venue: React.FC = () => {
             </div>
 
             <span className="font-royal text-xs tracking-widest text-royal-maroon uppercase font-bold">
-              मुख्य मांगलिक स्थल
+              {language === 'hi' ? 'मुख्य मांगलिक स्थल' : 'Primary Wedding Venue'}
             </span>
 
             {/* Venue Name */}
             <h3 className="font-royal text-2xl sm:text-3xl font-bold text-royal-maroon-dark mt-1">
-              {WEDDING_DATA.meta.venueName}
+              {data.meta.venueName}
             </h3>
 
             {/* Venue Address */}
             <p className="font-hindi text-sm sm:text-base text-charcoal/85 mt-2 max-w-sm leading-relaxed">
-              {WEDDING_DATA.meta.venueAddress}
+              {data.meta.venueAddress}
             </p>
 
             {/* Copy Address Button */}
@@ -60,12 +61,14 @@ export const Scene6Venue: React.FC = () => {
               {copied ? (
                 <>
                   <Check className="w-3.5 h-3.5 text-green-700" />
-                  <span className="text-green-700 font-medium">पता कॉपी हो गया</span>
+                  <span className="text-green-700 font-medium">
+                    {language === 'hi' ? 'पता कॉपी हो गया' : 'Address Copied'}
+                  </span>
                 </>
               ) : (
                 <>
                   <Copy className="w-3.5 h-3.5 text-royal-maroon" />
-                  <span>पता कॉपी करें</span>
+                  <span>{language === 'hi' ? 'पता कॉपी करें' : 'Copy Address'}</span>
                 </>
               )}
             </button>
@@ -83,14 +86,14 @@ export const Scene6Venue: React.FC = () => {
                   <circle cx="12" cy="15" r="1.5" fill="currentColor" />
                 </svg>
                 <span className="font-royal text-xs font-bold uppercase tracking-wider">
-                  राजकीय प्रीतिभोज (स्वागत भोज)
+                  {language === 'hi' ? 'राजकीय प्रीतिभोज (स्वागत भोज)' : 'Royal Banquet (Preeti Bhoj)'}
                 </span>
               </div>
               <p className="font-hindi text-sm font-semibold text-charcoal">
-                {WEDDING_DATA.reception.day}, {WEDDING_DATA.reception.date}
+                {data.reception.day}, {data.reception.date}
               </p>
               <p className="font-hindi text-xs text-sandstone-dark font-medium mt-0.5">
-                समय: {WEDDING_DATA.reception.time}
+                {language === 'hi' ? 'समय:' : 'Time:'} {data.reception.time}
               </p>
             </div>
 
@@ -99,47 +102,59 @@ export const Scene6Venue: React.FC = () => {
               <div className="flex items-center space-x-2 text-royal-maroon mb-1">
                 <Compass className="w-4 h-4 text-royal-maroon" />
                 <span className="font-royal text-xs font-bold uppercase tracking-wider">
-                  बारात प्रस्थान (ठि. चन्देरिया की ओर)
+                  {language === 'hi' ? 'बारात प्रस्थान (ठि. चन्देरिया की ओर)' : 'Baraat Departure (Towards Thikana Chanderiya)'}
                 </span>
               </div>
               <p className="font-hindi text-sm font-semibold text-charcoal">
-                {WEDDING_DATA.baratNotes.time}
+                {data.baratNotes.time}
               </p>
               <p className="font-hindi text-xs text-charcoal/75 mt-0.5">
-                {WEDDING_DATA.baratNotes.destination}
+                {data.baratNotes.destination}
               </p>
             </div>
 
             {/* OUTSTATION GUEST TRANSIT ASSISTANCE */}
             <div className="w-full mt-4 pt-4 border-t border-royal-maroon/15 text-left">
               <span className="text-xs font-royal text-royal-maroon uppercase font-bold tracking-wider">
-                दूरस्थ अतिथियों हेतु यात्रा मार्गदर्शन:
+                {language === 'hi' ? 'दूरस्थ अतिथियों हेतु यात्रा मार्गदर्शन:' : 'Transit Guidance for Outstation Guests:'}
               </span>
               <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-hindi text-charcoal/80">
                 <div className="p-2 rounded bg-white/50 border border-royal-maroon/10">
-                  <span className="font-semibold text-royal-maroon-dark">🚆 निकटतम रेलवे स्टेशन:</span>
-                  <p className="mt-0.5">भीलवाड़ा जंक्शन (BHL) — मात्र 4.5 किमी</p>
+                  <span className="font-semibold text-royal-maroon-dark">
+                    {language === 'hi' ? '🚆 निकटतम रेलवे स्टेशन:' : '🚆 Nearest Railway Station:'}
+                  </span>
+                  <p className="mt-0.5">
+                    {language === 'hi' ? 'भीलवाड़ा जंक्शन (BHL) — मात्र 4.5 किमी' : 'Bhilwara Junction (BHL) — only 4.5 km'}
+                  </p>
                 </div>
                 <div className="p-2 rounded bg-white/50 border border-royal-maroon/10">
-                  <span className="font-semibold text-royal-maroon-dark">✈️ निकटतम हवाई अड्डे:</span>
-                  <p className="mt-0.5">डबोक/उदयपुर (UDR) 135 किमी • जयपुर (JAI) 240 किमी</p>
+                  <span className="font-semibold text-royal-maroon-dark">
+                    {language === 'hi' ? '✈️ निकटतम हवाई अड्डे:' : '✈️ Nearest Airports:'}
+                  </span>
+                  <p className="mt-0.5">
+                    {language === 'hi'
+                      ? 'डबोक/उदयपुर (UDR) 135 किमी • जयपुर (JAI) 240 किमी'
+                      : 'Udaipur (UDR) 135 km • Jaipur (JAI) 240 km'}
+                  </p>
                 </div>
               </div>
             </div>
 
-            {/* PRIMARY GOOGLE MAPS NAVIGATION BUTTON (Using exact URL) */}
+            {/* PRIMARY GOOGLE MAPS NAVIGATION BUTTON */}
             <a
-              href={WEDDING_DATA.meta.mapsUrl}
+              href={data.meta.mapsUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full max-w-sm mt-5 py-3.5 px-6 rounded-full border border-antique-gold bg-gradient-to-r from-royal-maroon-dark via-royal-maroon to-royal-maroon-dark text-antique-gold-lighter font-royal text-sm sm:text-base font-bold shadow-royal-glow hover:shadow-2xl active:scale-95 transition-all flex items-center justify-center space-x-2"
             >
               <Navigation className="w-4 h-4 text-antique-gold" />
-              <span>Google Maps पर रास्ता देखें</span>
+              <span>{language === 'hi' ? 'Google Maps पर रास्ता देखें' : 'Get Directions on Google Maps'}</span>
             </a>
 
             <p className="mt-2 text-[11px] text-charcoal/60 font-hindi">
-              (टैप करने पर सीधे आपके फ़ोन के Google Maps में नेविगेशन खुलेगा)
+              {language === 'hi'
+                ? '(टैप करने पर सीधे आपके फ़ोन के Google Maps में नेविगेशन खुलेगा)'
+                : '(Opens native Google Maps navigation on your device)'}
             </p>
           </div>
         </RoyalBorder>
@@ -148,15 +163,17 @@ export const Scene6Venue: React.FC = () => {
         <div className="mt-6 p-4 rounded-xl border border-antique-gold/30 bg-charcoal/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
           <div>
             <p className="text-xs font-royal text-antique-gold uppercase tracking-wider font-semibold">
-              मार्ग दर्शन एवं सहायता हेतु सम्पर्क
+              {language === 'hi' ? 'मार्ग दर्शन एवं सहायता हेतु सम्पर्क' : 'For Route Assistance & Help'}
             </p>
             <p className="text-xs font-hindi text-sandstone/80 mt-0.5">
-              पहुँचने में किसी भी प्रकार की असुविधा होने पर सम्पर्क करें
+              {language === 'hi'
+                ? 'पहुँचने में किसी भी प्रकार की असुविधा होने पर सम्पर्क करें'
+                : 'Please feel free to call if you need any directions'}
             </p>
           </div>
 
           <div className="flex items-center space-x-2">
-            {WEDDING_DATA.meta.contactPhones.map((phone: string, i: number) => (
+            {data.meta.contactPhones.map((phone: string, i: number) => (
               <a
                 key={i}
                 href={`tel:+91${phone}`}

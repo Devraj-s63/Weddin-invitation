@@ -3,9 +3,10 @@ import { motion } from 'framer-motion';
 import { MessageCircle, Send, CheckCircle2, User, Users } from 'lucide-react';
 import { RoyalDivider } from '../components/common/OrnateMotif';
 import { RoyalBorder } from '../components/common/RoyalBorder';
-import { WEDDING_DATA } from '../data/weddingData';
+import { useLanguage } from '../context/LanguageContext';
 
 export const Scene7RSVP: React.FC = () => {
+  const { data, language } = useLanguage();
   const [guestName, setGuestName] = useState('');
   const [attendance, setAttendance] = useState<'attending' | 'not_attending'>('attending');
   const [guestCount, setGuestCount] = useState<number>(2);
@@ -17,34 +18,51 @@ export const Scene7RSVP: React.FC = () => {
     e.preventDefault();
 
     if (!guestName.trim()) {
-      setError('कृपया अपना शुभ नाम दर्ज करें।');
+      setError(language === 'hi' ? 'कृपया अपना शुभ नाम दर्ज करें।' : 'Please enter your honorable name.');
       return;
     }
     setError('');
 
-    // Format formal Hindi WhatsApp message
-    const attendanceHindi =
-      attendance === 'attending'
-        ? '✅ सहर्ष उपस्थिति — हम अवश्य पधारेंगे।'
-        : '🙏 आने में असमर्थ — हार्दिक शुभकामनाएं व शुभाशीर्वाद प्रेषित करते हैं।';
+    let messageText = '';
 
-    const guestCountText = attendance === 'attending' ? `\n👥 कुल सदस्य संख्या: ${guestCount} व्यक्ति` : '';
+    if (language === 'hi') {
+      const attendanceHindi =
+        attendance === 'attending'
+          ? '✅ सहर्ष उपस्थिति — हम अवश्य पधारेंगे।'
+          : '🙏 आने में असमर्थ — हार्दिक शुभकामनाएं व शुभाशीर्वाद प्रेषित करते हैं।';
 
-    const messageText = `*शाही विवाह उत्सव उपस्थिति सूचना (RSVP)*\n\n` +
-      `श्रीमान/श्रीमती ठा. राम सिंह जी चौहान एवं समस्त चौहान परिवार,\n\n` +
-      `आयुष्मान देवराज सिंह चौहान संग आयुष्मति मधु कंवर के शुभ विवाह के पावन अवसर पर:\n\n` +
-      `👤 *अतिथि का नाम:* ${guestName.trim()}\n` +
-      `📋 *उपस्थिति स्थिति:* ${attendanceHindi}${guestCountText}\n` +
-      (blessingMessage.trim() ? `\n💬 *वर-वधू हेतु शुभाशीर्वाद/संदेश:*\n"${blessingMessage.trim()}"\n` : '\n') +
-      `\nस्थान: पायल रिसोर्ट, भीलवाड़ा\n` +
-      `सादर प्रेषित।`;
+      const guestCountText = attendance === 'attending' ? `\n👥 कुल सदस्य संख्या: ${guestCount} व्यक्ति` : '';
+
+      messageText = `*शाही विवाह उत्सव उपस्थिति सूचना (RSVP)*\n\n` +
+        `श्रीमान/श्रीमती ठा. राम सिंह जी चौहान एवं समस्त चौहान परिवार,\n\n` +
+        `आयुष्मान देवराज सिंह चौहान संग आयुष्मति मधु कंवर के शुभ विवाह के पावन अवसर पर:\n\n` +
+        `👤 *अतिथि का नाम:* ${guestName.trim()}\n` +
+        `📋 *उपस्थिति स्थिति:* ${attendanceHindi}${guestCountText}\n` +
+        (blessingMessage.trim() ? `\n💬 *वर-वधू हेतु शुभाशीर्वाद/संदेश:*\n"${blessingMessage.trim()}"\n` : '\n') +
+        `\nस्थान: ${data.meta.venueName}, ${data.meta.locationCity}\n` +
+        `सादर प्रेषित।`;
+    } else {
+      const attendanceEn =
+        attendance === 'attending'
+          ? '✅ Attending with joy — We will surely grace the wedding.'
+          : '🙏 Unable to attend — Sending our heartfelt blessings to the couple.';
+
+      const guestCountText = attendance === 'attending' ? `\n👥 Estimated Family Members: ${guestCount}` : '';
+
+      messageText = `*Royal Rajputana Wedding RSVP*\n\n` +
+        `To Thakur Ram Singh Ji Chauhan & The Entire Chauhan Family,\n\n` +
+        `On the auspicious royal wedding of Devraj Singh Chauhan & Madhu Kanwar:\n\n` +
+        `👤 *Guest / Family Head:* ${guestName.trim()}\n` +
+        `📋 *Attendance Status:* ${attendanceEn}${guestCountText}\n` +
+        (blessingMessage.trim() ? `\n💬 *Blessings & Wishes:*\n"${blessingMessage.trim()}"\n` : '\n') +
+        `\nVenue: ${data.meta.venueName}, ${data.meta.locationCity}\n` +
+        `Warm regards.`;
+    }
 
     const encodedMessage = encodeURIComponent(messageText);
-    const whatsappUrl = `https://wa.me/${WEDDING_DATA.meta.rsvpPhone}?text=${encodedMessage}`;
+    const whatsappUrl = `https://wa.me/${data.meta.rsvpPhone}?text=${encodedMessage}`;
 
     setIsPrepared(true);
-
-    // Open WhatsApp
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   };
 
@@ -54,13 +72,15 @@ export const Scene7RSVP: React.FC = () => {
         {/* Section Heading */}
         <div className="text-center mb-8">
           <p className="font-royal text-xs sm:text-sm text-antique-gold tracking-widest uppercase font-semibold">
-            आदर सहित उपस्थिति सूचना
+            {language === 'hi' ? 'आदर सहित उपस्थिति सूचना' : 'Cordially Awaiting Your Presence'}
           </p>
           <h2 className="font-royal text-2xl sm:text-3xl text-antique-gold-lighter font-bold tracking-wide mt-1">
-            "आपका आगमन हमारे लिए सौभाग्य होगा"
+            {language === 'hi' ? '"आपका आगमन हमारे लिए सौभाग्य होगा"' : '"Your Gracious Presence is Our Honor"'}
           </h2>
           <p className="font-hindi text-xs sm:text-sm text-sandstone/80 mt-1 max-w-md mx-auto">
-            कृपया अपनी उपस्थिति की सूचना प्रेषित कर हमें अनुग्रहित करें
+            {language === 'hi'
+              ? 'कृपया अपनी उपस्थिति की सूचना प्रेषित कर हमें अनुग्रहित करें'
+              : 'Please confirm your attendance to help us extend a royal welcome'}
           </p>
           <RoyalDivider className="my-4" />
         </div>
@@ -71,7 +91,7 @@ export const Scene7RSVP: React.FC = () => {
             {/* Guest Name Field */}
             <div>
               <label className="block text-xs font-hindi text-antique-gold-light font-semibold mb-1.5">
-                आपका शुभ नाम (अतिथि / परिवार प्रमुख) *
+                {language === 'hi' ? 'आपका शुभ नाम (अतिथि / परिवार प्रमुख) *' : 'Your Honorable Name (Guest / Family Head) *'}
               </label>
               <div className="relative">
                 <input
@@ -81,7 +101,7 @@ export const Scene7RSVP: React.FC = () => {
                     setGuestName(e.target.value);
                     if (error) setError('');
                   }}
-                  placeholder="उदा. ठा. वीरेन्द्र सिंह जी"
+                  placeholder={language === 'hi' ? 'उदा. ठा. वीरेन्द्र सिंह जी' : 'e.g. Thakur Virendra Singh Ji'}
                   className="w-full px-4 py-3 rounded-xl border border-antique-gold/40 bg-charcoal-dark/70 text-ivory placeholder-sandstone/40 text-sm font-hindi focus:outline-none focus:border-antique-gold focus:ring-1 focus:ring-antique-gold"
                 />
                 <User className="absolute right-3.5 top-3.5 w-4 h-4 text-sandstone/50 pointer-events-none" />
@@ -96,7 +116,7 @@ export const Scene7RSVP: React.FC = () => {
             {/* Attendance Choice */}
             <div>
               <label className="block text-xs font-hindi text-antique-gold-light font-semibold mb-2">
-                क्या आप विवाह उत्सव में पधारेंगे? *
+                {language === 'hi' ? 'क्या आप विवाह उत्सव में पधारेंगे? *' : 'Will you grace the royal wedding? *'}
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <button
@@ -109,7 +129,7 @@ export const Scene7RSVP: React.FC = () => {
                   }`}
                 >
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>अवश्य पधारेंगे</span>
+                  <span>{language === 'hi' ? 'अवश्य पधारेंगे' : 'Joyfully Attending'}</span>
                 </button>
 
                 <button
@@ -121,7 +141,7 @@ export const Scene7RSVP: React.FC = () => {
                       : 'bg-charcoal/60 text-sandstone border-antique-gold/30 hover:border-antique-gold/60'
                   }`}
                 >
-                  <span>आने में असमर्थ (शुभकामनाएं)</span>
+                  <span>{language === 'hi' ? 'आने में असमर्थ (शुभकामनाएं)' : 'Unable to Attend (Wishes)'}</span>
                 </button>
               </div>
             </div>
@@ -134,7 +154,7 @@ export const Scene7RSVP: React.FC = () => {
                 exit={{ opacity: 0, height: 0 }}
               >
                 <label className="block text-xs font-hindi text-antique-gold-light font-semibold mb-1.5">
-                  सपरिवार कुल सदस्यों की अनुमानित संख्या
+                  {language === 'hi' ? 'सपरिवार कुल सदस्यों की अनुमानित संख्या' : 'Estimated Number of Family Members'}
                 </label>
                 <div className="flex items-center space-x-3">
                   <div className="flex items-center border border-antique-gold/40 rounded-xl bg-charcoal-dark/70 overflow-hidden">
@@ -156,55 +176,48 @@ export const Scene7RSVP: React.FC = () => {
                       +
                     </button>
                   </div>
-                  <span className="text-xs font-hindi text-sandstone flex items-center space-x-1">
+                  <span className="text-xs text-sandstone font-hindi flex items-center space-x-1">
                     <Users className="w-3.5 h-3.5 text-antique-gold" />
-                    <span>व्यक्ति / सदस्य</span>
+                    <span>{language === 'hi' ? `${guestCount} सदस्य` : `${guestCount} Member(s)`}</span>
                   </span>
                 </div>
               </motion.div>
             )}
 
-            {/* Optional Blessing / Message */}
+            {/* Blessing Message Field */}
             <div>
               <label className="block text-xs font-hindi text-antique-gold-light font-semibold mb-1.5">
-                वर-वधू हेतु शुभाशीर्वाद एवं मंगलकामनाएं (वैकल्पिक)
+                {language === 'hi' ? 'वर-वधू हेतु शुभाशीर्वाद / स्नेह सन्देश (ऐच्छिक)' : 'Blessings / Wishes for the Royal Couple (Optional)'}
               </label>
               <textarea
                 value={blessingMessage}
                 onChange={(e) => setBlessingMessage(e.target.value)}
-                rows={3}
-                placeholder="उदा. वर-वधू को जीवन की नई यात्रा की हार्दिक बधाई व अनंत शुभाशीर्वाद..."
-                className="w-full px-4 py-2.5 rounded-xl border border-antique-gold/40 bg-charcoal-dark/70 text-ivory placeholder-sandstone/40 text-xs sm:text-sm font-hindi focus:outline-none focus:border-antique-gold focus:ring-1 focus:ring-antique-gold"
+                rows={2}
+                placeholder={
+                  language === 'hi'
+                    ? 'वर-वधू के सुखद एवं मंगलमय दांपत्य जीवन हेतु अपनी शुभकामना लिखें...'
+                    : 'Write your warmest prayers and wishes for the newlywed couple...'
+                }
+                className="w-full px-4 py-2.5 rounded-xl border border-antique-gold/40 bg-charcoal-dark/70 text-ivory placeholder-sandstone/40 text-xs sm:text-sm font-hindi focus:outline-none focus:border-antique-gold focus:ring-1 focus:ring-antique-gold resize-none"
               />
             </div>
 
-            {/* SUBMIT BUTTON VIA WHATSAPP (+91 6377273385) */}
-            <div className="pt-2">
-              <button
-                type="submit"
-                className="w-full py-3.5 px-6 rounded-full border border-green-500 bg-gradient-to-r from-green-700 via-green-600 to-green-700 text-white font-royal text-sm sm:text-base font-bold shadow-lg hover:shadow-2xl active:scale-95 transition-all flex items-center justify-center space-x-2"
-              >
-                <MessageCircle className="w-5 h-5 text-white" />
-                <span>व्हाट्सएप पर RSVP संदेश भेजें</span>
-                <Send className="w-4 h-4 ml-1" />
-              </button>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full py-3.5 px-6 rounded-full border border-antique-gold bg-gradient-to-r from-royal-maroon-dark via-royal-maroon to-royal-maroon-dark text-antique-gold-lighter font-royal text-sm sm:text-base font-bold shadow-royal-glow hover:shadow-2xl active:scale-95 transition-all flex items-center justify-center space-x-2"
+            >
+              <MessageCircle className="w-4 h-4 text-emerald-400" />
+              <span>{language === 'hi' ? 'WhatsApp पर RSVP प्रेषित करें' : 'Send RSVP via WhatsApp'}</span>
+              <Send className="w-3.5 h-3.5 text-antique-gold" />
+            </button>
 
-              <p className="mt-2 text-[11px] text-sandstone/80 text-center font-hindi">
-                (बटन दबाने पर व्हाट्सएप में +91 6377273385 हेतु संदेश तैयार हो जाएगा, जिसे आप तुरंत भेज सकते हैं)
-              </p>
-            </div>
-
-            {/* Preparation Feedback Notice */}
             {isPrepared && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="p-3 rounded-lg bg-green-950/70 border border-green-600/40 text-center"
-              >
-                <p className="text-xs font-hindi text-green-200">
-                  ✨ आपका संदेश व्हाट्सएप पर तैयार हो गया है! कृपया व्हाट्सएप में 'Send' बटन दबाकर परिवार तक संदेश अवश्य पहुँचाएं।
-                </p>
-              </motion.div>
+              <p className="text-center text-xs text-emerald-300 font-hindi mt-2">
+                {language === 'hi'
+                  ? '✓ संदेश तैयार होकर WhatsApp में खुल गया है।'
+                  : '✓ RSVP formatted and opened in WhatsApp.'}
+              </p>
             )}
           </form>
         </RoyalBorder>

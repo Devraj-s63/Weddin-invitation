@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, Heart, FileText, Clock } from 'lucide-react';
-import { RoyalDivider, GaneshaMotif, JharokhaCrown } from '../components/common/OrnateMotif';
+import { RoyalDivider, JharokhaCrown } from '../components/common/OrnateMotif';
 import { ChauhanCrest } from '../components/common/ChauhanCrest';
 import { PetalShowerButton } from '../components/common/PetalShower';
 import { VisitorCounter } from '../components/common/VisitorCounter';
-import { WEDDING_DATA } from '../data/weddingData';
+import { useLanguage } from '../context/LanguageContext';
 
 interface Scene3Props {
   onNavigateSection: (sectionId: string) => void;
 }
 
 export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection }) => {
+  const { data, language } = useLanguage();
+
   // Countdown Timer calculation
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -21,7 +23,7 @@ export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection }) => {
   });
 
   useEffect(() => {
-    const target = new Date(WEDDING_DATA.meta.targetDate).getTime();
+    const target = new Date(data.meta.targetDate).getTime();
 
     const updateCountdown = () => {
       const now = new Date().getTime();
@@ -31,7 +33,7 @@ export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection }) => {
         setTimeLeft({
           days: Math.floor(difference / (1000 * 60 * 60 * 24)),
           hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
+          minutes: Math.floor((difference / (1000 * 60 * 60)) % 24),
           seconds: Math.floor((difference / 1000) % 60)
         });
       } else {
@@ -42,7 +44,7 @@ export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection }) => {
     updateCountdown();
     const interval = setInterval(updateCountdown, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [data.meta.targetDate]);
 
   return (
     <section id="hero-section" className="relative min-h-screen w-full flex flex-col items-center justify-between px-4 pt-16 pb-24 overflow-hidden bg-gradient-to-b from-[#1C060A] via-[#340A13] to-[#1C060A]">
@@ -65,12 +67,16 @@ export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection }) => {
           transition={{ duration: 0.8 }}
           className="flex flex-col items-center mb-3"
         >
-          <GaneshaMotif size={52} className="text-[#FCE8B2] mb-1 drop-shadow" />
+          <img
+            src="/images/ganesha-divine-clean.png"
+            alt="Shree Ganesh"
+            className="w-14 h-14 object-contain mb-1 drop-shadow"
+          />
           <p className="font-royal text-sm sm:text-base tracking-widest text-[#FCE8B2] font-bold uppercase drop-shadow-sm">
-            {WEDDING_DATA.curtainIntro.om}
+            {data.curtainIntro.om}
           </p>
           <p className="font-hindi text-xs text-[#EAD7BE] tracking-wide mt-0.5">
-            माँ कुलदेवी आशापुरा की असीम अनुकम्पा से
+            {data.cardReveal.kuldeviBlessing}
           </p>
         </motion.div>
 
@@ -93,7 +99,7 @@ export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection }) => {
         >
           <div className="inline-block px-7 py-1.5 rounded-full border-2 border-[#E6C98A] bg-gradient-to-r from-[#4A0B14] via-[#751221] to-[#4A0B14] shadow-[0_0_20px_rgba(230,201,138,0.4)]">
             <span className="font-royal text-lg sm:text-xl text-[#FFF4D0] tracking-widest font-bold">
-              ॥ शुभ विवाह ॥
+              {language === 'hi' ? '॥ शुभ विवाह ॥' : '॥ Royal Wedding ॥'}
             </span>
           </div>
         </motion.div>
@@ -106,23 +112,25 @@ export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection }) => {
           className="my-3 space-y-1"
         >
           <h1 className="font-royal text-3xl sm:text-4xl text-[#FFF4D0] font-bold tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-            {WEDDING_DATA.couple.groom.name}
+            {data.couple.groom.name}
           </h1>
           <p className="font-royal text-sm text-[#EAD7BE] tracking-widest uppercase font-semibold">
-            ({WEDDING_DATA.couple.groom.nickname})
+            ({data.couple.groom.nickname})
           </p>
 
           <div className="flex items-center justify-center space-x-3 my-2">
             <div className="h-[1px] w-14 bg-gradient-to-r from-transparent to-[#E6C98A]" />
-            <span className="font-royal text-base text-[#FCE8B2] font-bold italic">संग</span>
+            <span className="font-royal text-base text-[#FCE8B2] font-bold italic">
+              {data.cardReveal.sangText}
+            </span>
             <div className="h-[1px] w-14 bg-gradient-to-l from-transparent to-[#E6C98A]" />
           </div>
 
           <h2 className="font-royal text-3xl sm:text-4xl text-[#FFF4D0] font-bold tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-            {WEDDING_DATA.couple.bride.name}
+            {data.couple.bride.name}
           </h2>
           <p className="font-royal text-sm text-[#EAD7BE] tracking-widest uppercase font-semibold">
-            ({WEDDING_DATA.couple.bride.nickname})
+            ({data.couple.bride.nickname})
           </p>
         </motion.div>
 
@@ -134,17 +142,17 @@ export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection }) => {
           className="my-3"
         >
           <p className="font-royal text-lg sm:text-xl text-[#FFFDF9] font-bold tracking-wide">
-            {WEDDING_DATA.meta.dateFormatted}
+            {data.meta.dateFormatted}
           </p>
           <p className="font-hindi text-sm sm:text-base text-[#EAD7BE] mt-0.5 font-medium">
-            {WEDDING_DATA.meta.locationCity}
+            {data.meta.locationCity}
           </p>
           <p className="font-royal text-xs text-[#EAD7BE]/80 tracking-wider mt-1">
-            {WEDDING_DATA.meta.samvat}
+            {data.meta.samvat}
           </p>
         </motion.div>
 
-        <RoyalDivider className="my-3" text="पधारो सा" />
+        <RoyalDivider className="my-3" text={data.curtainIntro.welcome} />
 
         {/* Traditional Welcome Statement */}
         <motion.p
@@ -153,7 +161,9 @@ export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection }) => {
           transition={{ delay: 0.6, duration: 0.8 }}
           className="font-hindi text-sm sm:text-base text-ivory italic max-w-md px-4 leading-relaxed font-medium"
         >
-          "पधारो सा, हमारे यहाँ आयोजित इस पावन एवं शाही विवाह उत्सव में आपका सपरिवार हार्दिक स्वागत एवं अभिनंदन है।"
+          {language === 'hi'
+            ? '"पधारो सा, हमारे यहाँ आयोजित इस पावन एवं शाही विवाह उत्सव में आपका सपरिवार हार्दिक स्वागत एवं अभिनंदन है।"'
+            : '"Padharo Sa, we warmly welcome you and your family to grace and celebrate this auspicious royal wedding."'}
         </motion.p>
 
         {/* LIVE WEDDING COUNTDOWN TIMER */}
@@ -167,16 +177,16 @@ export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection }) => {
             <div className="flex items-center justify-center space-x-2 mb-3 text-[#FCE8B2]">
               <Clock className="w-4 h-4 animate-spin" style={{ animationDuration: '12s' }} />
               <span className="font-royal text-xs sm:text-sm tracking-widest uppercase font-bold">
-                शुभ विवाह मुहुर्त की उल्टी गिनती
+                {language === 'hi' ? 'शुभ विवाह मुहुर्त की उल्टी गिनती' : 'Countdown to Sacred Wedding Muhurta'}
               </span>
             </div>
 
             <div className="grid grid-cols-4 gap-2 sm:gap-4 max-w-sm mx-auto text-center">
               {[
-                { label: 'दिन', value: timeLeft.days },
-                { label: 'घंटे', value: timeLeft.hours },
-                { label: 'मिनट', value: timeLeft.minutes },
-                { label: 'सेकंड', value: timeLeft.seconds },
+                { label: language === 'hi' ? 'दिन' : 'Days', value: timeLeft.days },
+                { label: language === 'hi' ? 'घंटे' : 'Hours', value: timeLeft.hours },
+                { label: language === 'hi' ? 'मिनट' : 'Mins', value: timeLeft.minutes },
+                { label: language === 'hi' ? 'सेकंड' : 'Secs', value: timeLeft.seconds },
               ].map((item, idx) => (
                 <div
                   key={idx}
@@ -219,7 +229,7 @@ export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection }) => {
             className="flex-1 min-w-[130px] flex items-center justify-center space-x-2 py-2.5 px-3 rounded-full border border-antique-gold/70 bg-royal-maroon/90 hover:bg-royal-maroon text-[#FFF4D0] text-xs font-hindi font-semibold active:scale-95 transition-all shadow-md"
           >
             <Calendar className="w-3.5 h-3.5 text-[#FCE8B2]" />
-            <span>कार्यक्रम सूची</span>
+            <span>{language === 'hi' ? 'कार्यक्रम सूची' : 'Ceremonies'}</span>
           </button>
 
           <button
@@ -227,7 +237,7 @@ export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection }) => {
             className="flex-1 min-w-[130px] flex items-center justify-center space-x-2 py-2.5 px-3 rounded-full border border-antique-gold/70 bg-royal-maroon/90 hover:bg-royal-maroon text-[#FFF4D0] text-xs font-hindi font-semibold active:scale-95 transition-all shadow-md"
           >
             <MapPin className="w-3.5 h-3.5 text-[#FCE8B2]" />
-            <span>शुभ स्थल व मार्ग</span>
+            <span>{language === 'hi' ? 'शुभ स्थल व मार्ग' : 'Venue & Map'}</span>
           </button>
 
           <button
@@ -235,17 +245,17 @@ export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection }) => {
             className="flex-1 min-w-[130px] flex items-center justify-center space-x-2 py-2.5 px-3 rounded-full border border-antique-gold/70 bg-royal-maroon/90 hover:bg-royal-maroon text-[#FFF4D0] text-xs font-hindi font-semibold active:scale-95 transition-all shadow-md"
           >
             <Heart className="w-3.5 h-3.5 text-[#FCE8B2]" />
-            <span>आदर सहित RSVP</span>
+            <span>{language === 'hi' ? 'आदर सहित RSVP' : 'Send RSVP'}</span>
           </button>
 
           <a
-            href={WEDDING_DATA.meta.pdfDownloadUrl}
+            href={data.meta.pdfDownloadUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="flex-1 min-w-[130px] flex items-center justify-center space-x-2 py-2.5 px-3 rounded-full border border-antique-gold/50 bg-black/60 hover:bg-black/80 text-[#EAD7BE] text-xs font-hindi font-semibold active:scale-95 transition-all shadow-md"
           >
             <FileText className="w-3.5 h-3.5 text-[#FCE8B2]" />
-            <span>मूल पत्रिका (PDF)</span>
+            <span>{language === 'hi' ? 'मूल पत्रिका (PDF)' : 'Download Card'}</span>
           </a>
         </motion.div>
       </div>

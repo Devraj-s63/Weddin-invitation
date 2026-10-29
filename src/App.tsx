@@ -10,13 +10,17 @@ import { Scene7RSVP } from './scenes/Scene7RSVP';
 import { Scene8Farewell } from './scenes/Scene8Farewell';
 import { MusicController } from './components/common/MusicController';
 import { QuickNav } from './components/common/QuickNav';
+import { LanguageToggle } from './components/common/LanguageToggle';
+import { LanguageSelectorModal } from './components/common/LanguageSelectorModal';
+import { LanguageProvider } from './context/LanguageContext';
 import { useVisitorCounter } from './hooks/useVisitorCounter';
 
 type WeddingStage = 'curtain' | 'card' | 'experience';
 
-export function App() {
+function WeddingAppContent() {
   const [stage, setStage] = useState<WeddingStage>('curtain');
-  // Initialize and register auspicious visitor count on first site entry
+
+  // Initialize and register unique real visitor count on first site entry
   useVisitorCounter();
 
   const handleCurtainComplete = () => {
@@ -42,6 +46,12 @@ export function App() {
 
   return (
     <div className="relative min-h-screen bg-charcoal text-ivory selection:bg-antique-gold selection:text-royal-maroon-dark">
+      {/* First-time Entry Royal Language Selector Dialog */}
+      <LanguageSelectorModal />
+
+      {/* Floating Global Language Switcher */}
+      <LanguageToggle />
+
       {/* Floating Global Music Controller */}
       <MusicController />
 
@@ -109,6 +119,14 @@ export function App() {
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+export function App() {
+  return (
+    <LanguageProvider>
+      <WeddingAppContent />
+    </LanguageProvider>
   );
 }
 
