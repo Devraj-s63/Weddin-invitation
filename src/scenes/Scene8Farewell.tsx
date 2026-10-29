@@ -3,6 +3,7 @@ import { RotateCcw, MapPin, MessageCircle, FileDown } from 'lucide-react';
 import { RoyalDivider, JharokhaCrown, GaneshaMotif } from '../components/common/OrnateMotif';
 import { ChauhanCrest } from '../components/common/ChauhanCrest';
 import { triggerPetalShower } from '../components/common/PetalShower';
+import { VisitorCounter } from '../components/common/VisitorCounter';
 import { WEDDING_DATA } from '../data/weddingData';
 
 interface Scene8Props {
@@ -58,6 +59,9 @@ export const Scene8Farewell: React.FC<Scene8Props> = ({
         </div>
 
         <RoyalDivider className="my-6" />
+
+        {/* Grand Royal Visitor Counter Plaque */}
+        <VisitorCounter variant="plaque" />
 
         {/* ACTION BUTTONS ROW */}
         <div className="flex flex-wrap items-center justify-center gap-3 w-full max-w-md mb-8">

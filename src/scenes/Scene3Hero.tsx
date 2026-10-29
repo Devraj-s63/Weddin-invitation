@@ -4,6 +4,7 @@ import { Calendar, MapPin, Heart, FileText, Clock } from 'lucide-react';
 import { RoyalDivider, GaneshaMotif, JharokhaCrown } from '../components/common/OrnateMotif';
 import { ChauhanCrest } from '../components/common/ChauhanCrest';
 import { PetalShowerButton } from '../components/common/PetalShower';
+import { VisitorCounter } from '../components/common/VisitorCounter';
 import { WEDDING_DATA } from '../data/weddingData';
 
 interface Scene3Props {
@@ -191,6 +192,19 @@ export const Scene3Hero: React.FC<Scene3Props> = ({ onNavigateSection }) => {
               ))}
             </div>
           </div>
+        </motion.div>
+
+        {/* Real-time Auspicious Visitor Counter Pill */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.75, duration: 0.8 }}
+          className="mb-5"
+        >
+          <VisitorCounter
+            variant="pill"
+            onNavigateToLedger={() => onNavigateSection('visitor-ledger')}
+          />
         </motion.div>
 
         {/* QUICK NAVIGATION ACTION PILLS */}

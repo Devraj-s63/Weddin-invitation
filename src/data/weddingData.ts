@@ -33,6 +33,15 @@ export const WEDDING_DATA = {
     pdfDownloadUrl: "/wedding-invitation-card.pdf"
   },
 
+  visitorCounter: {
+    apiKey: "devraj_madhu_royal_wedding_2026",
+    baseAuspiciousCount: 1008,
+    enableOffset: true,
+    titleHindi: "शुभ आगंतुक पंजिका",
+    subtitleHindi: "शाही विवाह आमंत्रण दर्शनार्थी संख्या",
+    descriptionHindi: "इस पावन मांगलिक अवसर पर अब तक पधारे एवं पत्रिका का दर्शन करने वाले आदरणीय अतिथियों की संख्या।",
+  },
+
   invocations: [
     "|| श्री वराई माताजी नमः ||",
     "|| श्री गणेशाय नमः ||",

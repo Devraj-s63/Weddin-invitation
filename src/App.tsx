@@ -10,11 +10,14 @@ import { Scene7RSVP } from './scenes/Scene7RSVP';
 import { Scene8Farewell } from './scenes/Scene8Farewell';
 import { MusicController } from './components/common/MusicController';
 import { QuickNav } from './components/common/QuickNav';
+import { useVisitorCounter } from './hooks/useVisitorCounter';
 
 type WeddingStage = 'curtain' | 'card' | 'experience';
 
 export function App() {
   const [stage, setStage] = useState<WeddingStage>('curtain');
+  // Initialize and register auspicious visitor count on first site entry
+  useVisitorCounter();
 
   const handleCurtainComplete = () => {
     setStage('card');
