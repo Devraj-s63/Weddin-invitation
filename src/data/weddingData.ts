@@ -54,99 +54,99 @@ export interface WeddingDataStructure {
       father: string;
       mother: string;
       grandparents: string;
-      thikana: string;
-      presentAddress: string;
+      Thi.: string;
+presentAddress: string;
     };
-    bride: {
-      name: string;
-      nickname: string;
-      father: string;
-      mother: string;
-      grandparents: string;
-      thikana: string;
+bride: {
+  name: string;
+  nickname: string;
+  father: string;
+  mother: string;
+  grandparents: string;
+  Thi.: string;
+};
+  };
+
+curtainIntro: {
+  om: string;
+  welcome: string;
+  subtext: string;
+  buttonText: string;
+  touchHint: string;
+};
+
+cardReveal: {
+  kuldeviBlessing: string;
+  invitationNote: string;
+  buttonText: string;
+  groomLabel: string;
+  brideLabel: string;
+  sangText: string;
+  sonOf: string;
+  daughterOf: string;
+  tapToOpen: string;
+};
+
+events: WeddingEvent[];
+
+reception: {
+  title: string;
+  day: string;
+  date: string;
+  time: string;
+  venue: string;
+  address: string;
+};
+
+baratNotes: {
+  time: string;
+  destination: string;
+};
+
+family: {
+  preshakTitle: string;
+  preshak: string[];
+  swagatakankshiTitle: string;
+  swagatakankshi: string;
+  darshanabhilashiTitle: string;
+  darshanabhilashi: string[];
+  meethiManuhar: {
+    dadosa: {
+      quote: string;
+      names: string[];
+    };
+    choteBhai: {
+      quote: string;
+      names: string[];
     };
   };
+  nanihalTitle: string;
+  nanihal: {
+    line: string;
+    Thi.: string;
+  } [];
+  saduJiTitle: string;
+  saduJi: {
+    line: string;
+    subline: string;
+  } [];
+  javaiPakshTitle: string;
+  javaiPaksh: string[];
+  visheshAagrahTitle: string;
+  visheshAagrah: string[];
+};
 
-  curtainIntro: {
-    om: string;
-    welcome: string;
-    subtext: string;
-    buttonText: string;
-    touchHint: string;
-  };
-
-  cardReveal: {
-    kuldeviBlessing: string;
-    invitationNote: string;
-    buttonText: string;
-    groomLabel: string;
-    brideLabel: string;
-    sangText: string;
-    sonOf: string;
-    daughterOf: string;
-    tapToOpen: string;
-  };
-
-  events: WeddingEvent[];
-
-  reception: {
-    title: string;
-    day: string;
-    date: string;
-    time: string;
-    venue: string;
-    address: string;
-  };
-
-  baratNotes: {
-    time: string;
-    destination: string;
-  };
-
-  family: {
-    preshakTitle: string;
-    preshak: string[];
-    swagatakankshiTitle: string;
-    swagatakankshi: string;
-    darshanabhilashiTitle: string;
-    darshanabhilashi: string[];
-    meethiManuhar: {
-      dadosa: {
-        quote: string;
-        names: string[];
-      };
-      choteBhai: {
-        quote: string;
-        names: string[];
-      };
-    };
-    nanihalTitle: string;
-    nanihal: {
-      line: string;
-      thikana: string;
-    }[];
-    saduJiTitle: string;
-    saduJi: {
-      line: string;
-      subline: string;
-    }[];
-    javaiPakshTitle: string;
-    javaiPaksh: string[];
-    visheshAagrahTitle: string;
-    visheshAagrah: string[];
-  };
-
-  farewell: {
-    blessingQuote: string;
-    familyTitle: string;
-    thikanaSubline: string;
-    padharoSa: string;
-    replayButton: string;
-    downloadPdfButton: string;
-    directionsButton: string;
-    rsvpButton: string;
-    copyright: string;
-  };
+farewell: {
+  blessingQuote: string;
+  familyTitle: string;
+  Thi.Subline: string;
+  padharoSa: string;
+  replayButton: string;
+  downloadPdfButton: string;
+  directionsButton: string;
+  rsvpButton: string;
+  copyright: string;
+};
 }
 
 // 1. AUTHENTIC HINDI (DEVANAGARI) DATASET
@@ -194,7 +194,7 @@ export const WEDDING_DATA_HI: WeddingDataStructure = {
       father: "कुं. गजेन्द्र सिंह चौहान",
       mother: "श्रीमती",
       grandparents: "श्रीमती एवं ठा. राम सिंह चौहान",
-      thikana: "ठि. फलीचड़ा, मेवाड़",
+      Thi.: "ठि. फलीचड़ा, मेवाड़",
       presentAddress: "हाल मु. भीलवाड़ा"
     },
     bride: {
@@ -203,7 +203,7 @@ export const WEDDING_DATA_HI: WeddingDataStructure = {
       father: "ठा. सा. हिम्मत सिंह जी राणावत",
       mother: "श्रीमती",
       grandparents: "श्रीमती एवं कीर्तिशेष ठा. सा. नवल सिंह जी राणावत की सुपौत्री",
-      thikana: "ठि. लागच, हाल मु. चन्देरिया"
+      Thi.: "ठि. लागच, हाल मु. चन्देरिया"
     }
   },
 
@@ -377,11 +377,11 @@ export const WEDDING_DATA_HI: WeddingDataStructure = {
     nanihal: [
       {
         line: "ठा. सा. कैलाश सिंह जी राठौड़, ठा. सा. सत्येन्द्र सिंह जी राठौड़, कुं. कमल सिंह जी राठौड़",
-        thikana: "ठि. सनोदिया"
+        Thi.: "ठि. सनोदिया"
       },
       {
         line: "ठा. सा. एकलिंग नाथ जी चौहान, कुं. सा. त्रिलोक नाथ जी चौहान, कुं. सा. भूपेन्द्र नाथ जी चौहान",
-        thikana: "ठि. फलीचड़ा, मेवाड़"
+        Thi.: "ठि. फलीचड़ा, मेवाड़"
       }
     ],
     saduJiTitle: "साढ़ू जी",
@@ -413,7 +413,7 @@ export const WEDDING_DATA_HI: WeddingDataStructure = {
   farewell: {
     blessingQuote: "आपकी गरिमामयी उपस्थिति एवं शुभाशीर्वाद की अभिलाषा में",
     familyTitle: "समस्त चौहान परिवार",
-    thikanaSubline: "(ठि. फलीचड़ा, मेवाड़ — हाल मु. भीलवाड़ा)",
+    Thi.Subline: "(ठि. फलीचड़ा, मेवाड़ — हाल मु. भीलवाड़ा)",
     padharoSa: "पधारो सा...",
     replayButton: "पुनः निमंत्रण देखें",
     downloadPdfButton: "मूल पत्रिका डाउनलोड",
@@ -468,7 +468,7 @@ export const WEDDING_DATA_EN: WeddingDataStructure = {
       father: "Kunwar Gajendra Singh Chauhan",
       mother: "Smt.",
       grandparents: "Smt. & Thakur Ram Singh Chauhan",
-      thikana: "Thikana Faleechada, Mewar",
+      Thi.: "Thi. Falichada, Mewar",
       presentAddress: "Presently: Bhilwara, Rajasthan"
     },
     bride: {
@@ -477,7 +477,7 @@ export const WEDDING_DATA_EN: WeddingDataStructure = {
       father: "Thakur Saheb Himmat Singh Ji Ranawat",
       mother: "Smt.",
       grandparents: "Granddaughter of Late Thakur Saheb Nawal Singh Ji Ranawat",
-      thikana: "Thikana Lagach (Presently Chanderiya)"
+      Thi.: "Thi. Lagach (Presently Chanderiya)"
     }
   },
 
@@ -611,7 +611,7 @@ export const WEDDING_DATA_EN: WeddingDataStructure = {
 
   baratNotes: {
     time: "Saturday, 21 November 2026 at 5:00 AM",
-    destination: "The Baraat departs towards the residence of Thakur Saheb Himmat Singh Ji Ranawat, Thikana Chanderiya."
+    destination: "The Baraat departs towards the residence of Thakur Saheb Himmat Singh Ji Ranawat, Thi. Chanderiya."
   },
 
   family: {
@@ -621,7 +621,7 @@ export const WEDDING_DATA_EN: WeddingDataStructure = {
       "Kunwar Gajendra Singh Chauhan",
       "Kunwar Pooran Singh Chauhan",
       "Bhanwar Digpal Singh Chauhan",
-      "Thikana Faleechada, Mewar (Presently Bhilwara)"
+      "Thi. Falichada, Mewar (Presently Bhilwara)"
     ],
     swagatakankshiTitle: "Welcoming Host",
     swagatakankshi: "Renuka Kanwar",
@@ -635,7 +635,7 @@ export const WEDDING_DATA_EN: WeddingDataStructure = {
       "Bhanwar Rishiraj Singh",
       "Yuvraj Singh",
       "Mahivardhan Singh",
-      "And all members of the Chauhan Family (Thikana Faleechada)"
+      "And all members of the Chauhan Family (Thi. Falichada)"
     ],
     meethiManuhar: {
       dadosa: {
@@ -651,43 +651,43 @@ export const WEDDING_DATA_EN: WeddingDataStructure = {
     nanihal: [
       {
         line: "Thakur Saheb Kailash Singh Ji Rathore, Thakur Saheb Satyendra Singh Ji Rathore, Kunwar Kamal Singh Ji Rathore",
-        thikana: "Thikana Sanodiya"
+        Thi.: "Thi. Sanodiya"
       },
       {
         line: "Thakur Saheb Ekling Nath Ji Chauhan, Kunwar Saheb Trilok Nath Ji Chauhan, Kunwar Saheb Bhupendra Nath Ji Chauhan",
-        thikana: "Thikana Faleechada, Mewar"
+        Thi.: "Thi. Falichada, Mewar"
       }
     ],
     saduJiTitle: "Sadu Ji",
     saduJi: [
       {
-        line: "Thakur Saheb Lokendra Singh Ji Bhati (Thikana Muroli)",
+        line: "Thakur Saheb Lokendra Singh Ji Bhati (Thi. Muroli)",
         subline: "Bhanej Harshvardhan Singh Ji Bhati"
       }
     ],
     javaiPakshTitle: "In-Laws & Sons-in-Law (Javai Paksh)",
     javaiPaksh: [
-      "Thakur Saheb Dhan Singh Ji Jhala (Thikana Dabiyon Ka Guda)",
-      "Kunwar Saheb Ganpat Singh Ji Jhala (Thikana Mandak Ka Guda)",
-      "Thakur Saheb Bhagwat Singh Ji Sarangdevot (Thikana Shishwi)",
-      "Thakur Saheb Mahipal Singh Ji Ranawat (Thikana Malpura)",
-      "Kunwar Saheb Bhanupratap Singh Ji Rathore (Thikana Dadiya)"
+      "Thakur Saheb Dhan Singh Ji Jhala (Thi. Dabiyon Ka Guda)",
+      "Kunwar Saheb Ganpat Singh Ji Jhala (Thi. Mandak Ka Guda)",
+      "Thakur Saheb Bhagwat Singh Ji Sarangdevot (Thi. Shishwi)",
+      "Thakur Saheb Mahipal Singh Ji Ranawat (Thi. Malpura)",
+      "Kunwar Saheb Bhanupratap Singh Ji Rathore (Thi. Dadiya)"
     ],
     visheshAagrahTitle: "Special Solicitations",
     visheshAagrah: [
-      "Thakur Saheb Parvat Singh Ji Chundawat (Thikana Javaliya)",
-      "Thakur Saheb Moti Singh Ji Chundawat (Thikana Javaliya)",
-      "Kunwar Devpal Singh Jhala (Thikana Dabiyon Ka Guda)",
-      "Kunwar Govind Singh Ji Jhala (Thikana Dabiyon Ka Guda)",
-      "Bhanwar Ravindra Singh Ji Jhala (Thikana Mandak Ka Guda)",
-      "Kunwar Suryabhan Singh Ji Ranawat (Thikana Malpura)"
+      "Thakur Saheb Parvat Singh Ji Chundawat (Thi. Javaliya)",
+      "Thakur Saheb Moti Singh Ji Chundawat (Thi. Javaliya)",
+      "Kunwar Devpal Singh Jhala (Thi. Dabiyon Ka Guda)",
+      "Kunwar Govind Singh Ji Jhala (Thi. Dabiyon Ka Guda)",
+      "Bhanwar Ravindra Singh Ji Jhala (Thi. Mandak Ka Guda)",
+      "Kunwar Suryabhan Singh Ji Ranawat (Thi. Malpura)"
     ]
   },
 
   farewell: {
     blessingQuote: "Seeking your gracious presence and heartfelt blessings",
     familyTitle: "The Entire Chauhan Family",
-    thikanaSubline: "(Thikana Faleechada, Mewar — Presently Bhilwara)",
+    Thi.Subline: "(Thi. Falichada, Mewar — Presently Bhilwara)",
     padharoSa: "Padharo Sa...",
     replayButton: "Replay Invitation",
     downloadPdfButton: "Download Original Card (PDF)",

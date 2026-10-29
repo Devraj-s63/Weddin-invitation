@@ -23,7 +23,7 @@ export const Scene2InvitationCard: React.FC<Scene2Props> = ({ onEnterFestivities
     <section className="relative min-h-screen min-h-[100dvh] w-full flex flex-col items-center justify-center px-4 py-8 overflow-hidden bg-gradient-to-b from-[#1C060A] via-royal-maroon-deep to-charcoal">
       {/* Background Palace Courtyard Atmosphere */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(199,161,90,0.15)_0%,_transparent_70%)] pointer-events-none" />
-      
+
       {/* Subtle Palace Arch watermark */}
       <div className="absolute inset-x-0 top-0 h-40 opacity-20 pointer-events-none">
         <JharokhaCrown className="w-full text-antique-gold" />
@@ -135,7 +135,7 @@ export const Scene2InvitationCard: React.FC<Scene2Props> = ({ onEnterFestivities
                 >
                   {/* Inner hairline border */}
                   <div className="absolute inset-3 rounded-xl border border-royal-maroon/25 pointer-events-none" />
-                  
+
                   {/* Inner gold corner motifs */}
                   <div className="absolute top-2 left-2 text-antique-gold text-xs">❖</div>
                   <div className="absolute top-2 right-2 text-antique-gold text-xs">❖</div>
@@ -180,7 +180,7 @@ export const Scene2InvitationCard: React.FC<Scene2Props> = ({ onEnterFestivities
                         {data.cardReveal.sonOf} {data.couple.groom.father}
                       </p>
                       <p className="text-[11px] text-charcoal/80 font-hindi mt-0.5">
-                        {data.couple.groom.grandparents} ({data.couple.groom.thikana})
+                        {data.couple.groom.grandparents} ({data.couple.groom.Thi.})
                       </p>
                     </div>
 
@@ -205,7 +205,7 @@ export const Scene2InvitationCard: React.FC<Scene2Props> = ({ onEnterFestivities
                         {data.cardReveal.daughterOf} {data.couple.bride.father}
                       </p>
                       <p className="text-[11px] text-charcoal/80 font-hindi mt-0.5">
-                        {data.couple.bride.grandparents} ({data.couple.bride.thikana})
+                        {data.couple.bride.grandparents} ({data.couple.bride.Thi.})
                       </p>
                     </div>
                   </div>

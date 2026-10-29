@@ -102,7 +102,7 @@ export const Scene6Venue: React.FC = () => {
               <div className="flex items-center space-x-2 text-royal-maroon mb-1">
                 <Compass className="w-4 h-4 text-royal-maroon" />
                 <span className="font-royal text-xs font-bold uppercase tracking-wider">
-                  {language === 'hi' ? 'बारात प्रस्थान (ठि. चन्देरिया की ओर)' : 'Baraat Departure (Towards Thikana Chanderiya)'}
+                  {language === 'hi' ? 'बारात प्रस्थान (ठि. चन्देरिया की ओर)' : 'Baraat Departure (Towards Thi. Chanderiya)'}
                 </span>
               </div>
               <p className="font-hindi text-sm font-semibold text-charcoal">
