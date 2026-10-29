@@ -34,12 +34,10 @@ export const WEDDING_DATA = {
   },
 
   visitorCounter: {
-    apiKey: "devraj_madhu_royal_wedding_2026",
-    baseAuspiciousCount: 1008,
-    enableOffset: true,
-    titleHindi: "शुभ आगंतुक पंजिका",
-    subtitleHindi: "शाही विवाह आमंत्रण दर्शनार्थी संख्या",
-    descriptionHindi: "इस पावन मांगलिक अवसर पर अब तक पधारे एवं पत्रिका का दर्शन करने वाले आदरणीय अतिथियों की संख्या।",
+    namespace: "devraj-madhu-wedding-2026-v2",
+    key: "visitors",
+    titleHindi: "शाही अतिथि दर्शन पंजिका",
+    subtitleHindi: "इस विवाह उत्सव पर पधारे वास्तविक अतिथि",
   },
 
   invocations: [

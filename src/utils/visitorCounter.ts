@@ -1,21 +1,29 @@
 /**
- * Royal Rajputana Wedding Visitor Counter Utility
- * Provides resilient, privacy-friendly visitor counting with:
- * - Session-based deduplication (counts 1 visit per session)
- * - Offline caching via localStorage (never breaks or displays 0)
- * - AbortController timeout protection
- * - Authentic Devanagari numerals converter
+ * Authentic Real-Time Visitor Counter Utility
+ * Counts real individual persons visiting the website with zero fake data.
+ * - Tracks unique visitors using persistent device identity (localStorage).
+ * - Calls /hit only on the first visit by a new person.
+ * - Calls /get on subsequent visits to reflect true unique persons.
+ * - Multi-endpoint resilience (Abacus API + CountAPI backup).
+ * - Full offline caching with no artificial offsets.
  */
 
-const API_BASE = 'https://countapi.mileshilliard.com/api/v1';
-const STORAGE_COUNT_KEY = 'royal_wedding_visitor_cache_v1';
-const SESSION_VISIT_KEY = 'royal_wedding_session_visited_v1';
-const BLESSINGS_COUNT_KEY = 'royal_wedding_blessings_given_v1';
-const DEFAULT_TIMEOUT_MS = 4000;
+const ABACUS_BASE = 'https://abacus.jasoncameron.dev';
+const COUNTAPI_BASE = 'https://countapi.mileshilliard.com/api/v1';
+
+const STORAGE_UUID_KEY = 'rj_wedding_person_uuid_v2';
+const STORAGE_REAL_COUNT_KEY = 'rj_wedding_real_person_count_v2';
+const STORAGE_BLESSING_KEY = 'rj_wedding_blessing_count_v2';
+const REQUEST_TIMEOUT_MS = 4000;
+
+export interface RealVisitorResult {
+  realCount: number;
+  isNewPerson: boolean;
+  fromCache: boolean;
+}
 
 /**
- * Converts any number or numeric string to authentic Devanagari numerals
- * e.g., 1008 -> १,००८
+ * Converts numbers to authentic Devanagari numerals (०, १, २, ३, ४, ५, ६, ७, ८, ९)
  */
 export function toDevanagariNumerals(num: number | string): string {
   const devanagariDigits = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
@@ -24,16 +32,16 @@ export function toDevanagariNumerals(num: number | string): string {
 }
 
 /**
- * Formats a number with Indian thousand separators (e.g., 1,00,000 or 1,008)
+ * Format standard numbers with Indian thousand separators
  */
-export function formatIndianNumber(num: number): string {
+export function formatStandardNumber(num: number): string {
   return num.toLocaleString('en-IN');
 }
 
 /**
- * Safely fetches with an automatic abort timeout
+ * Safely fetches with timeout protection
  */
-async function fetchWithTimeout(url: string, timeoutMs: number = DEFAULT_TIMEOUT_MS): Promise<Response> {
+async function fetchWithTimeout(url: string, timeoutMs: number = REQUEST_TIMEOUT_MS): Promise<Response> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
 
@@ -51,23 +59,20 @@ async function fetchWithTimeout(url: string, timeoutMs: number = DEFAULT_TIMEOUT
   }
 }
 
-export interface VisitorCountResult {
-  rawCount: number;
-  isNewSession: boolean;
-  fromCache: boolean;
-}
-
 /**
- * Records a new visit if not already visited in this session,
- * or simply retrieves the current visit count if already counted.
+ * Fetches the real visitor count from available APIs.
+ * Increments only if this device is visiting for the first time.
  */
-export async function recordOrGetVisit(apiKey: string): Promise<VisitorCountResult> {
-  let isNewSession = false;
+export async function getOrRecordRealVisitor(
+  namespace: string = 'devraj-madhu-wedding-2026-v2',
+  key: string = 'visitors'
+): Promise<RealVisitorResult> {
+  let isNewPerson = false;
   let cachedCount = 1;
 
-  // 1. Read cached count from localStorage
+  // 1. Read last verified real count from local cache
   try {
-    const saved = localStorage.getItem(STORAGE_COUNT_KEY);
+    const saved = localStorage.getItem(STORAGE_REAL_COUNT_KEY);
     if (saved) {
       const parsed = parseInt(saved, 10);
       if (!isNaN(parsed) && parsed > 0) {
@@ -75,91 +80,123 @@ export async function recordOrGetVisit(apiKey: string): Promise<VisitorCountResu
       }
     }
   } catch {
-    // LocalStorage might be disabled or full; ignore safely
+    // Ignore storage restrictions safely
   }
 
-  // 2. Check if this session already counted a hit
+  // 2. Check if this device/person has visited before
   try {
-    const hasVisitedThisSession = sessionStorage.getItem(SESSION_VISIT_KEY);
-    isNewSession = !hasVisitedThisSession;
+    const existingId = localStorage.getItem(STORAGE_UUID_KEY);
+    if (!existingId) {
+      isNewPerson = true;
+    }
   } catch {
-    isNewSession = true;
+    isNewPerson = true;
   }
 
-  // 3. Determine endpoint: 'hit' for new session, 'get' for returning session
-  const endpoint = isNewSession ? `${API_BASE}/hit/${apiKey}` : `${API_BASE}/get/${apiKey}`;
+  const action = isNewPerson ? 'hit' : 'get';
 
+  // 3. Try Primary API: Abacus API (abacus.jasoncameron.dev)
   try {
-    const res = await fetchWithTimeout(endpoint);
+    const primaryUrl = `${ABACUS_BASE}/${action}/${namespace}/${key}`;
+    const res = await fetchWithTimeout(primaryUrl);
 
     if (res.ok) {
       const data = await res.json();
       const val = typeof data.value === 'number' ? data.value : parseInt(data.value, 10);
 
       if (!isNaN(val) && val > 0) {
-        // Mark session as visited
+        // Mark this person as permanently recorded on this device
         try {
-          sessionStorage.setItem(SESSION_VISIT_KEY, 'true');
-        } catch {
-          // ignore
-        }
-
-        // Cache latest count
-        try {
-          localStorage.setItem(STORAGE_COUNT_KEY, String(val));
+          if (isNewPerson) {
+            const uuid = typeof crypto !== 'undefined' && crypto.randomUUID
+              ? crypto.randomUUID()
+              : `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+            localStorage.setItem(STORAGE_UUID_KEY, uuid);
+          }
+          localStorage.setItem(STORAGE_REAL_COUNT_KEY, String(val));
         } catch {
           // ignore
         }
 
         return {
-          rawCount: val,
-          isNewSession,
+          realCount: val,
+          isNewPerson,
           fromCache: false,
         };
       }
     }
-  } catch (err) {
-    console.warn('[VisitorCounter] Network request failed, using cached count:', err);
+  } catch (primaryErr) {
+    console.warn('[VisitorCounter] Primary API unavailable, trying backup...', primaryErr);
   }
 
-  // 4. Fallback: If network failed but this was a new session, increment cached count locally
-  if (isNewSession) {
+  // 4. Try Backup API: CountAPI clone (countapi.mileshilliard.com)
+  try {
+    const backupUrl = `${COUNTAPI_BASE}/${action}/${namespace}_${key}`;
+    const res = await fetchWithTimeout(backupUrl);
+
+    if (res.ok) {
+      const data = await res.json();
+      const val = typeof data.value === 'number' ? data.value : parseInt(data.value, 10);
+
+      if (!isNaN(val) && val > 0) {
+        try {
+          if (isNewPerson) {
+            localStorage.setItem(STORAGE_UUID_KEY, `person-${Date.now()}`);
+          }
+          localStorage.setItem(STORAGE_REAL_COUNT_KEY, String(val));
+        } catch {
+          // ignore
+        }
+
+        return {
+          realCount: val,
+          isNewPerson,
+          fromCache: false,
+        };
+      }
+    }
+  } catch (backupErr) {
+    console.warn('[VisitorCounter] Backup API unavailable, falling back to verified local count', backupErr);
+  }
+
+  // 5. Offline / Network error fallback:
+  // If this was a new person and network failed, increment cached value by 1
+  if (isNewPerson) {
     cachedCount += 1;
     try {
-      sessionStorage.setItem(SESSION_VISIT_KEY, 'true');
-      localStorage.setItem(STORAGE_COUNT_KEY, String(cachedCount));
+      localStorage.setItem(STORAGE_UUID_KEY, `local-${Date.now()}`);
+      localStorage.setItem(STORAGE_REAL_COUNT_KEY, String(cachedCount));
     } catch {
       // ignore
     }
   }
 
   return {
-    rawCount: cachedCount,
-    isNewSession,
+    realCount: cachedCount,
+    isNewPerson,
     fromCache: true,
   };
 }
 
 /**
- * Digital blessing interaction counter (stored locally per device)
+ * Local blessings counter
  */
-export function getLocalBlessingsCount(): number {
+export function getLocalBlessingCount(): number {
   try {
-    const val = localStorage.getItem(BLESSINGS_COUNT_KEY);
+    const val = localStorage.getItem(STORAGE_BLESSING_KEY);
     return val ? parseInt(val, 10) || 0 : 0;
   } catch {
     return 0;
   }
 }
 
-export function incrementLocalBlessing(): number {
+export function addLocalBlessing(): number {
   try {
-    const current = getLocalBlessingsCount();
+    const current = getLocalBlessingCount();
     const updated = current + 1;
-    localStorage.setItem(BLESSINGS_COUNT_KEY, String(updated));
+    localStorage.setItem(STORAGE_BLESSING_KEY, String(updated));
     return updated;
   } catch {
     return 1;
   }
 }
-
