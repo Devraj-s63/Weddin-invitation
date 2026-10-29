@@ -53,7 +53,7 @@ export const Scene8Farewell: React.FC<Scene8Props> = ({
             {data.farewell.familyTitle}
           </h3>
           <p className="font-hindi text-xs sm:text-sm text-sandstone-dark font-medium">
-            {data.farewell.Thi.Subline}
+            {data.farewell.thikanaSubline}
           </p>
         </div>
 

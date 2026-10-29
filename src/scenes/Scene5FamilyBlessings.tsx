@@ -50,7 +50,7 @@ export const Scene5FamilyBlessings: React.FC = () => {
                   {language === 'hi' ? 'परिवार:' : 'Family:'}{' '}
                   <span className="font-semibold">{data.couple.groom.grandparents}</span>
                 </p>
-                <p className="text-sandstone-dark font-medium">{data.couple.groom.Thi.}</p>
+                <p className="text-sandstone-dark font-medium">{data.couple.groom.thikana}</p>
                 <p className="text-[11px] text-charcoal/60">({data.couple.groom.presentAddress})</p>
               </div>
             </div>
@@ -74,7 +74,7 @@ export const Scene5FamilyBlessings: React.FC = () => {
               <div className="h-[1px] w-20 bg-royal-maroon/20 my-3" />
               <div className="text-xs font-hindi text-charcoal/80 space-y-1">
                 <p>{data.couple.bride.grandparents}</p>
-                <p className="text-sandstone-dark font-medium">{data.couple.bride.Thi.}</p>
+                <p className="text-sandstone-dark font-medium">{data.couple.bride.thikana}</p>
               </div>
             </div>
           </RoyalBorder>
@@ -206,7 +206,7 @@ export const Scene5FamilyBlessings: React.FC = () => {
                       {item.line}
                     </p>
                     <p className="font-hindi text-xs text-antique-gold mt-0.5">
-                      {item.Thi.}
+                      {item.thikana}
                     </p>
                   </div>
                 ))}

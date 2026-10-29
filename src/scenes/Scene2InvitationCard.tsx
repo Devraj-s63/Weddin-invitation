@@ -180,7 +180,7 @@ export const Scene2InvitationCard: React.FC<Scene2Props> = ({ onEnterFestivities
                         {data.cardReveal.sonOf} {data.couple.groom.father}
                       </p>
                       <p className="text-[11px] text-charcoal/80 font-hindi mt-0.5">
-                        {data.couple.groom.grandparents} ({data.couple.groom.Thi.})
+                        {data.couple.groom.grandparents} ({data.couple.groom.thikana})
                       </p>
                     </div>
 
@@ -205,7 +205,7 @@ export const Scene2InvitationCard: React.FC<Scene2Props> = ({ onEnterFestivities
                         {data.cardReveal.daughterOf} {data.couple.bride.father}
                       </p>
                       <p className="text-[11px] text-charcoal/80 font-hindi mt-0.5">
-                        {data.couple.bride.grandparents} ({data.couple.bride.Thi.})
+                        {data.couple.bride.grandparents} ({data.couple.bride.thikana})
                       </p>
                     </div>
                   </div>
