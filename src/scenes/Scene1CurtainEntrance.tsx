@@ -32,12 +32,17 @@ export const Scene1CurtainEntrance: React.FC<Scene1Props> = ({ onOpenComplete })
   return (
     <div className="fixed inset-0 z-50 overflow-hidden bg-charcoal-dark select-none flex items-center justify-center">
       {/* Background Palace Environment revealed behind curtains */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1E050A] via-[#340A13] to-[#120306] flex items-center justify-center">
-        {/* Warm Golden Spotlight */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[90vw] max-w-2xl h-[80vh] bg-gradient-to-b from-antique-gold/30 via-antique-gold/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#180407] via-[#2F0811] to-[#140205] flex items-center justify-center overflow-hidden">
+        {/* Warm Golden Spotlight from center */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-3xl h-[70vh] bg-gradient-to-b from-antique-gold/35 via-antique-gold/15 to-transparent rounded-full blur-3xl pointer-events-none" />
+
+        {/* Ambient Palace Arch Silhouette */}
+        <div className="absolute inset-0 opacity-15 pointer-events-none flex items-center justify-center">
+          <div className="w-[85vw] max-w-xl h-[80vh] border-2 border-antique-gold rounded-t-full" />
+        </div>
 
         {/* Ambient floating golden particles */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-50">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-60">
           <div className="absolute top-1/4 left-1/4 w-2 h-2 rounded-full bg-antique-gold-light animate-float" />
           <div className="absolute top-1/3 right-1/4 w-1.5 h-1.5 rounded-full bg-antique-gold animate-float" style={{ animationDelay: '1s' }} />
           <div className="absolute bottom-1/3 left-1/3 w-2.5 h-2.5 rounded-full bg-antique-gold-lighter animate-float" style={{ animationDelay: '2s' }} />
@@ -52,7 +57,7 @@ export const Scene1CurtainEntrance: React.FC<Scene1Props> = ({ onOpenComplete })
           <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-antique-gold-dark via-antique-gold-light to-antique-gold-dark opacity-95 shadow-md" />
           {/* Golden ornamental tassels hanging from valance */}
           <div className="absolute bottom-[-14px] left-0 right-0 flex justify-around px-2">
-            {[...Array(12)].map((_, i) => (
+            {[...Array(14)].map((_, i) => (
               <div key={i} className="flex flex-col items-center">
                 <div className="w-1.5 h-1.5 rounded-full bg-antique-gold shadow-md" />
                 <div className="w-0.5 h-3 bg-antique-gold/80" />
@@ -63,34 +68,34 @@ export const Scene1CurtainEntrance: React.FC<Scene1Props> = ({ onOpenComplete })
         </div>
       </div>
 
-      {/* LEFT CURTAIN PANEL */}
+      {/* LEFT CURTAIN PANEL with natural fabric gathering */}
       <motion.div
         className="absolute top-0 left-0 bottom-0 w-1/2 z-20 velvet-left origin-left flex flex-col justify-between"
         initial={{ x: 0, scaleX: 1 }}
-        animate={isOpening ? { x: '-92%', scaleX: 0.88, skewY: -1 } : { x: 0, scaleX: 1 }}
-        transition={{ duration: 2.3, ease: [0.65, 0, 0.35, 1] }}
+        animate={isOpening ? { x: '-94%', scaleX: 0.82, skewY: -1.5 } : { x: 0, scaleX: 1, skewY: 0 }}
+        transition={{ duration: 2.35, ease: [0.65, 0, 0.25, 1] }}
       >
         {/* Right edge golden embroidery band */}
-        <div className="absolute top-0 right-0 bottom-0 w-3.5 sm:w-5 bg-gradient-to-b from-antique-gold via-antique-gold-light to-muted-gold shadow-xl flex flex-col items-center justify-around py-4 opacity-95">
+        <div className="absolute top-0 right-0 bottom-0 w-4 sm:w-6 bg-gradient-to-b from-antique-gold via-antique-gold-light to-muted-gold shadow-2xl flex flex-col items-center justify-around py-4 opacity-95">
           <div className="w-full h-full border-r border-l border-royal-maroon/50" />
         </div>
-        {/* Outer Shadow on center parting */}
-        <div className="absolute top-0 right-0 bottom-0 w-16 bg-gradient-to-l from-black/85 to-transparent pointer-events-none" />
+        {/* Deep fabric shadow along center parting */}
+        <div className="absolute top-0 right-0 bottom-0 w-20 bg-gradient-to-l from-black/90 to-transparent pointer-events-none" />
       </motion.div>
 
-      {/* RIGHT CURTAIN PANEL */}
+      {/* RIGHT CURTAIN PANEL with natural fabric gathering */}
       <motion.div
         className="absolute top-0 right-0 bottom-0 w-1/2 z-20 velvet-right origin-right flex flex-col justify-between"
         initial={{ x: 0, scaleX: 1 }}
-        animate={isOpening ? { x: '92%', scaleX: 0.88, skewY: 1 } : { x: 0, scaleX: 1 }}
-        transition={{ duration: 2.3, ease: [0.65, 0, 0.35, 1] }}
+        animate={isOpening ? { x: '94%', scaleX: 0.82, skewY: 1.5 } : { x: 0, scaleX: 1, skewY: 0 }}
+        transition={{ duration: 2.35, ease: [0.65, 0, 0.25, 1] }}
       >
         {/* Left edge golden embroidery band */}
-        <div className="absolute top-0 left-0 bottom-0 w-3.5 sm:w-5 bg-gradient-to-b from-antique-gold via-antique-gold-light to-muted-gold shadow-xl flex flex-col items-center justify-around py-4 opacity-95">
+        <div className="absolute top-0 left-0 bottom-0 w-4 sm:w-6 bg-gradient-to-b from-antique-gold via-antique-gold-light to-muted-gold shadow-2xl flex flex-col items-center justify-around py-4 opacity-95">
           <div className="w-full h-full border-r border-l border-royal-maroon/50" />
         </div>
-        {/* Outer Shadow on center parting */}
-        <div className="absolute top-0 left-0 bottom-0 w-16 bg-gradient-to-r from-black/85 to-transparent pointer-events-none" />
+        {/* Deep fabric shadow along center parting */}
+        <div className="absolute top-0 left-0 bottom-0 w-20 bg-gradient-to-r from-black/90 to-transparent pointer-events-none" />
       </motion.div>
 
       {/* CENTER MEDALLION & INVITATION CALL TO ACTION */}

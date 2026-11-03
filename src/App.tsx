@@ -1,21 +1,18 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Scene1CurtainEntrance } from './scenes/Scene1CurtainEntrance';
-import { Scene2InvitationCard } from './scenes/Scene2InvitationCard';
-import { Scene3Hero } from './scenes/Scene3Hero';
-import { Scene4Events } from './scenes/Scene4Events';
-import { Scene5FamilyBlessings } from './scenes/Scene5FamilyBlessings';
-import { Scene6Venue } from './scenes/Scene6Venue';
-import { Scene7RSVP } from './scenes/Scene7RSVP';
-import { Scene8Farewell } from './scenes/Scene8Farewell';
+import { SceneGroomIntro } from './scenes/SceneGroomIntro';
+import { SceneBrideIntro } from './scenes/SceneBrideIntro';
+import { SceneCoupleReveal } from './scenes/SceneCoupleReveal';
+import { SceneRoyalCardOpening } from './scenes/SceneRoyalCardOpening';
+import { SceneRoyalBook } from './scenes/SceneRoyalBook';
 import { MusicController } from './components/common/MusicController';
-import { QuickNav } from './components/common/QuickNav';
 import { LanguageToggle } from './components/common/LanguageToggle';
 import { LanguageSelectorModal } from './components/common/LanguageSelectorModal';
 import { LanguageProvider } from './context/LanguageContext';
 import { useVisitorCounter } from './hooks/useVisitorCounter';
 
-type WeddingStage = 'curtain' | 'card' | 'experience';
+export type WeddingStage = 'curtain' | 'groom' | 'bride' | 'couple' | 'card' | 'book';
 
 function WeddingAppContent() {
   const [stage, setStage] = useState<WeddingStage>('curtain');
@@ -24,28 +21,35 @@ function WeddingAppContent() {
   useVisitorCounter();
 
   const handleCurtainComplete = () => {
+    setStage('groom');
+  };
+
+  const handleGroomNext = () => {
+    setStage('bride');
+  };
+
+  const handleBrideNext = () => {
+    setStage('couple');
+  };
+
+  const handleCoupleNext = () => {
     setStage('card');
   };
 
-  const handleEnterFestivities = () => {
-    setStage('experience');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const handleCardOpenBook = () => {
+    setStage('book');
+  };
+
+  const handleSkipToBook = () => {
+    setStage('book');
   };
 
   const handleReplay = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
     setStage('curtain');
   };
 
-  const scrollToSection = (sectionId: string) => {
-    const el = document.getElementById(sectionId);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
   return (
-    <div className="relative min-h-screen bg-charcoal text-ivory selection:bg-antique-gold selection:text-royal-maroon-dark">
+    <div className="relative min-h-screen bg-charcoal text-ivory selection:bg-antique-gold selection:text-royal-maroon-dark overflow-hidden">
       {/* First-time Entry Royal Language Selector Dialog */}
       <LanguageSelectorModal />
 
@@ -56,7 +60,7 @@ function WeddingAppContent() {
       <MusicController />
 
       <AnimatePresence mode="wait">
-        {/* SCENE 1: THE ROYAL CURTAIN ENTRANCE */}
+        {/* SCENE 1: ROYAL RED CURTAIN OPENING */}
         {stage === 'curtain' && (
           <motion.div
             key="curtain-stage"
@@ -69,52 +73,72 @@ function WeddingAppContent() {
           </motion.div>
         )}
 
-        {/* SCENE 2: THE ROYAL INVITATION CARD REVEAL */}
-        {stage === 'card' && (
+        {/* SCENE 2: GROOM INTRODUCTION (ACTUAL CUTOUT) */}
+        {stage === 'groom' && (
           <motion.div
-            key="card-stage"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            key="groom-stage"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.02 }}
             transition={{ duration: 0.8 }}
-            className="w-full"
+            className="w-full min-h-screen"
           >
-            <Scene2InvitationCard onEnterFestivities={handleEnterFestivities} />
+            <SceneGroomIntro onNext={handleGroomNext} onSkip={handleSkipToBook} />
           </motion.div>
         )}
 
-        {/* SCENES 3 TO 8: THE CINEMATIC ROYAL WEDDING HOMEPAGE */}
-        {stage === 'experience' && (
+        {/* SCENE 3: BRIDE INTRODUCTION (ACTUAL CUTOUT) */}
+        {stage === 'bride' && (
           <motion.div
-            key="experience-stage"
+            key="bride-stage"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.02 }}
+            transition={{ duration: 0.8 }}
+            className="w-full min-h-screen"
+          >
+            <SceneBrideIntro onNext={handleBrideNext} onSkip={handleSkipToBook} />
+          </motion.div>
+        )}
+
+        {/* SCENE 4: COMBINED COUPLE REVEAL */}
+        {stage === 'couple' && (
+          <motion.div
+            key="couple-stage"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.02 }}
+            transition={{ duration: 0.8 }}
+            className="w-full min-h-screen"
+          >
+            <SceneCoupleReveal onOpenCard={handleCoupleNext} />
+          </motion.div>
+        )}
+
+        {/* SCENE 5: ROYAL INVITATION CARD REVEAL & OPENING */}
+        {stage === 'card' && (
+          <motion.div
+            key="card-stage"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.05 }}
+            transition={{ duration: 0.8 }}
+            className="w-full min-h-screen"
+          >
+            <SceneRoyalCardOpening onOpenBook={handleCardOpenBook} />
+          </motion.div>
+        )}
+
+        {/* SCENE 6: FULL-SCREEN 3D ROYAL WEDDING BOOK */}
+        {stage === 'book' && (
+          <motion.div
+            key="book-stage"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
-            className="w-full flex flex-col"
+            className="w-full min-h-screen"
           >
-            {/* Scene 3: Royal Hero & Live Countdown */}
-            <Scene3Hero onNavigateSection={scrollToSection} />
-
-            {/* Scene 4: Interactive Wedding Events Timeline (8 Ceremonies) */}
-            <Scene4Events />
-
-            {/* Scene 5: Royal Family Heritage & Blessings */}
-            <Scene5FamilyBlessings />
-
-            {/* Scene 6: Venue & Native Directions */}
-            <Scene6Venue />
-
-            {/* Scene 7: Interactive WhatsApp RSVP */}
-            <Scene7RSVP />
-
-            {/* Scene 8: Royal Farewell & Colophon */}
-            <Scene8Farewell
-              onReplayInvitation={handleReplay}
-              onNavigateSection={scrollToSection}
-            />
-
-            {/* Thumb-friendly mobile navigation bar */}
-            <QuickNav onNavigate={scrollToSection} />
+            <SceneRoyalBook onReplay={handleReplay} />
           </motion.div>
         )}
       </AnimatePresence>
