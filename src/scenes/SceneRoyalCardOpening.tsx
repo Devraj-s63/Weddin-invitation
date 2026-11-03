@@ -5,10 +5,14 @@ import { JharokhaCrown } from '../components/common/OrnateMotif';
 import { triggerPetalShower } from '../components/common/PetalShower';
 
 interface SceneRoyalCardOpeningProps {
-  onOpenBook: () => void;
+  onOpenInvitation: () => void;
+  onSkipToBook?: () => void;
 }
 
-export const SceneRoyalCardOpening: React.FC<SceneRoyalCardOpeningProps> = ({ onOpenBook }) => {
+export const SceneRoyalCardOpening: React.FC<SceneRoyalCardOpeningProps> = ({
+  onOpenInvitation,
+  onSkipToBook
+}) => {
   const [isOpeningCard, setIsOpeningCard] = useState(false);
   const { data, language } = useLanguage();
 
@@ -17,8 +21,8 @@ export const SceneRoyalCardOpening: React.FC<SceneRoyalCardOpeningProps> = ({ on
     setIsOpeningCard(true);
     triggerPetalShower();
     setTimeout(() => {
-      onOpenBook();
-    }, 1200);
+      onOpenInvitation();
+    }, 1100);
   };
 
   return (
@@ -37,7 +41,7 @@ export const SceneRoyalCardOpening: React.FC<SceneRoyalCardOpeningProps> = ({ on
           initial={{ scale: 0.9, opacity: 0, y: 30 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: 'easeOut' }}
-          className="relative w-full max-w-[390px] h-[550px] sm:h-[580px] rounded-2xl preserve-3d cursor-pointer"
+          className="relative w-full max-w-[390px] h-[550px] sm:h-[580px] rounded-2xl preserve-3d cursor-pointer shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)]"
           onClick={handleOpen}
         >
           {/* Card Base Layer (Parchment Interior Inside Book) */}
@@ -146,17 +150,38 @@ export const SceneRoyalCardOpening: React.FC<SceneRoyalCardOpeningProps> = ({ on
 
             {/* Tap to Open Cue */}
             <div className="relative z-10 pb-2">
-              <div className="px-6 py-2 rounded-full border border-antique-gold bg-gradient-to-r from-royal-maroon-dark via-royal-maroon to-royal-maroon-dark text-white text-xs font-hindi font-bold shadow-royal-glow hover:border-white active:scale-95 transition-all">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleOpen();
+                }}
+                className="px-6 py-2 rounded-full border border-antique-gold bg-gradient-to-r from-royal-maroon-dark via-royal-maroon to-royal-maroon-dark text-white text-xs font-hindi font-bold shadow-royal-glow hover:border-white active:scale-95 transition-all cursor-pointer"
+              >
                 {data.cardReveal.tapToOpen}
-              </div>
+              </button>
             </div>
           </motion.div>
         </motion.div>
 
-        {/* Supporting Hint */}
+        {/* Supporting Hint & Skip Options */}
         <p className="mt-4 text-xs text-sandstone/80 font-hindi text-center">
-          {language === 'hi' ? 'निमंत्रण पत्र को स्पर्श कर 3D पुस्तक रूप में खोलें' : 'Tap the card to open the 3D wedding book'}
+          {language === 'hi'
+            ? 'निमंत्रण पत्र को स्पर्श कर 3D पुस्तक रूप में खोलें'
+            : 'Tap the card to open the 3D wedding book'}
         </p>
+
+        {onSkipToBook && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onSkipToBook();
+            }}
+            className="mt-2 text-[11px] text-antique-gold/75 hover:text-antique-gold transition-colors underline font-hindi"
+          >
+            {language === 'hi' ? 'सीधे 3D पत्रिका पर जाएँ' : 'Skip directly to 3D book'}
+          </button>
+        )}
       </div>
     </section>
   );

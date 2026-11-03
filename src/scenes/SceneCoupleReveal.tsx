@@ -6,15 +6,15 @@ import { JharokhaCrown } from '../components/common/OrnateMotif';
 import { triggerPetalShower } from '../components/common/PetalShower';
 
 interface SceneCoupleRevealProps {
-  onOpenCard: () => void;
+  onOpenBook: () => void;
 }
 
-export const SceneCoupleReveal: React.FC<SceneCoupleRevealProps> = ({ onOpenCard }) => {
+export const SceneCoupleReveal: React.FC<SceneCoupleRevealProps> = ({ onOpenBook }) => {
   const { data, language } = useLanguage();
 
   const handleOpen = () => {
     triggerPetalShower();
-    onOpenCard();
+    onOpenBook();
   };
 
   return (
@@ -24,7 +24,7 @@ export const SceneCoupleReveal: React.FC<SceneCoupleRevealProps> = ({ onOpenCard
 
       {/* Top Auspicious Header */}
       <div className="w-full max-w-sm sm:max-w-md mx-auto flex flex-col items-center z-20 text-center">
-        <p className="font-royal text-[10px] sm:text-xs text-antique-gold tracking-widest uppercase font-semibold">
+        <p className="font-royal text-[10px] sm:text-xs text-antique-gold-lighter tracking-widest uppercase font-semibold">
           {data.curtainIntro.om}
         </p>
         <h2 className="font-royal text-lg sm:text-xl text-antique-gold-lighter font-bold tracking-wider mt-0.5 drop-shadow">
@@ -32,36 +32,30 @@ export const SceneCoupleReveal: React.FC<SceneCoupleRevealProps> = ({ onOpenCard
         </h2>
       </div>
 
-      {/* Center Grand Royal Arch with Royal Couple Portrait */}
+      {/* Center Grand Royal Arch with Couple Portrait */}
       <div className="relative w-full max-w-sm flex-1 flex flex-col items-center justify-center my-1 z-10">
-        {/* Ornate Rajputana Arch Frame */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="absolute inset-x-3 top-1 bottom-2 rounded-t-full border-2 border-antique-gold/60 bg-gradient-to-b from-royal-maroon-deep/80 via-royal-maroon/40 to-transparent shadow-[0_0_50px_rgba(199,161,90,0.25)] pointer-events-none"
-        >
-          <div className="absolute inset-2 rounded-t-full border border-dashed border-antique-gold/30" />
-          <div className="absolute top-0 inset-x-0 flex justify-center -translate-y-1/2">
-            <JharokhaCrown className="w-44 text-antique-gold opacity-90 drop-shadow" />
-          </div>
-        </motion.div>
+        {/* Mewari Arch Accent behind portrait */}
+        <div className="absolute top-0 inset-x-0 flex justify-center -translate-y-1/2 pointer-events-none opacity-80">
+          <JharokhaCrown className="w-44 text-antique-gold drop-shadow" />
+        </div>
 
-        {/* Royal Couple Cutout in Authentic Rajput Wedding Attire */}
+        {/* Royal Couple Portrait in Authentic Rajput Wedding Attire */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.92, y: 25 }}
+          initial={{ opacity: 0, scale: 0.94, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.15, ease: [0.25, 1, 0.5, 1] }}
-          className="relative z-10 w-full max-h-[46vh] sm:max-h-[50vh] flex items-end justify-center"
+          transition={{ duration: 0.85, delay: 0.1, ease: [0.25, 1, 0.5, 1] }}
+          className="relative z-10 max-h-[46vh] sm:max-h-[50vh] flex items-center justify-center"
         >
-          <img
-            src="/images/couple-cutout.png"
-            alt="देवराज सिंह चौहान एवं मधु कंवर"
-            className="max-h-[44vh] sm:max-h-[48vh] w-auto object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.9)]"
-          />
+          <div className="relative rounded-2xl overflow-hidden border-2 border-antique-gold/80 shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_35px_rgba(199,161,90,0.35)] bg-black/40">
+            <img
+              src="/images/couple-royal.jpg"
+              alt="देवराज सिंह चौहान एवं मधु कंवर"
+              className="max-h-[44vh] sm:max-h-[48vh] w-auto aspect-[3/4] object-contain"
+            />
+          </div>
 
           {/* Golden base spotlight aura */}
-          <div className="absolute bottom-0 w-4/5 h-14 bg-gradient-to-t from-antique-gold/30 to-transparent rounded-full blur-2xl pointer-events-none" />
+          <div className="absolute -bottom-3 w-4/5 h-14 bg-gradient-to-t from-antique-gold/30 to-transparent rounded-full blur-2xl pointer-events-none" />
         </motion.div>
       </div>
 
@@ -69,10 +63,10 @@ export const SceneCoupleReveal: React.FC<SceneCoupleRevealProps> = ({ onOpenCard
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, delay: 0.2 }}
+        transition={{ duration: 0.7, delay: 0.15 }}
         className="w-full max-w-sm mx-auto text-center z-20 pb-safe"
       >
-        <div className="p-3 sm:p-3.5 rounded-xl border border-antique-gold/50 bg-gradient-to-b from-[#2B070F]/95 via-[#1F040A]/95 to-[#140205]/95 shadow-royal-glow backdrop-blur-md">
+        <div className="p-3 sm:p-3.5 rounded-xl border-2 border-antique-gold/60 bg-gradient-to-b from-[#2B070F]/95 via-[#1F040A]/95 to-[#140205]/95 shadow-royal-glow backdrop-blur-md">
           {/* Couple Names */}
           <div className="space-y-0.5">
             <h3 className="font-royal text-lg sm:text-xl text-antique-gold-lighter font-bold tracking-wide">
@@ -107,12 +101,14 @@ export const SceneCoupleReveal: React.FC<SceneCoupleRevealProps> = ({ onOpenCard
             className="group inline-flex items-center space-x-2 px-6 py-2.5 rounded-full border-2 border-antique-gold bg-gradient-to-r from-royal-maroon-dark via-royal-maroon to-royal-maroon-dark text-[#FFF4D0] font-hindi text-xs sm:text-sm font-bold shadow-royal-glow hover:border-white active:scale-95 transition-all duration-300"
           >
             <BookOpen className="w-4 h-4 text-antique-gold group-hover:scale-110 transition-transform" />
-            <span>{language === 'hi' ? 'शुभ निमंत्रण पत्रिका खोलें' : 'Open Royal Invitation Card'}</span>
+            <span>{language === 'hi' ? 'शुभ निमंत्रण पत्रिका खोलें' : 'Open Royal Invitation Book'}</span>
             <span className="text-antique-gold">❖</span>
           </button>
 
           <p className="mt-1.5 text-[10px] text-sandstone/80 font-hindi">
-            {language === 'hi' ? '(स्पर्श करें एवं शाही पत्रिका का अवलोकन करें)' : '(Tap to open and turn pages in the royal book)'}
+            {language === 'hi'
+              ? '(स्पर्श करें एवं शाही 3D पत्रिका के पन्ने पलटें)'
+              : '(Tap to open and flip pages in the royal 3D book)'}
           </p>
         </div>
       </motion.div>

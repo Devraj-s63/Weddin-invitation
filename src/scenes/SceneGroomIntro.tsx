@@ -13,9 +13,9 @@ export const SceneGroomIntro: React.FC<SceneGroomIntroProps> = ({ onNext, onSkip
   const { data, language } = useLanguage();
   const [progress, setProgress] = useState(0);
 
-  // Auto-advance after 5 seconds
+  // Auto-advance after 5.5 seconds
   useEffect(() => {
-    const duration = 5000;
+    const duration = 5500;
     const interval = 50;
     const step = (interval / duration) * 100;
 
@@ -40,49 +40,43 @@ export const SceneGroomIntro: React.FC<SceneGroomIntroProps> = ({ onNext, onSkip
 
       {/* Top Header with Skip Button (Safe from Language & Audio controls) */}
       <div className="w-full max-w-sm sm:max-w-md mx-auto flex items-center justify-between z-20 px-2">
-        <span className="px-3 py-1 rounded-full border border-antique-gold/40 bg-royal-maroon-dark/80 text-[10px] sm:text-xs font-royal tracking-widest text-antique-gold uppercase backdrop-blur-sm shadow-sm">
+        <span className="px-3.5 py-1 rounded-full border border-antique-gold/50 bg-royal-maroon-dark/90 text-[10px] sm:text-xs font-royal tracking-widest text-antique-gold-lighter uppercase backdrop-blur-sm shadow-md">
           {language === 'hi' ? 'राजपूत वर परिचय' : 'Royal Groom'}
         </span>
 
         <button
           onClick={onSkip}
-          className="flex items-center space-x-1 px-3 py-1 rounded-full border border-antique-gold/40 bg-charcoal-dark/70 text-sandstone text-[11px] font-hindi hover:text-antique-gold hover:border-antique-gold transition-all active:scale-95 backdrop-blur-sm"
+          className="flex items-center space-x-1 px-3 py-1 rounded-full border border-antique-gold/40 bg-charcoal-dark/75 text-sandstone text-[11px] font-hindi hover:text-antique-gold hover:border-antique-gold transition-all active:scale-95 backdrop-blur-sm"
         >
           <span>{language === 'hi' ? 'छोड़ें' : 'Skip'}</span>
           <SkipForward className="w-3 h-3" />
         </button>
       </div>
 
-      {/* Center Palace Jharokha Frame & Groom Cutout */}
+      {/* Center Palace Frame & Groom Portrait */}
       <div className="relative w-full max-w-sm flex-1 flex flex-col items-center justify-center my-1 z-10">
-        {/* Mewari Carved Jharokha Arch Silhouette behind groom */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="absolute inset-x-4 top-1 bottom-2 rounded-t-full border-2 border-antique-gold/50 bg-gradient-to-b from-royal-maroon-deep/70 via-royal-maroon/40 to-transparent shadow-[0_0_40px_rgba(199,161,90,0.2)] pointer-events-none"
-        >
-          <div className="absolute inset-2 rounded-t-full border border-dashed border-antique-gold/30" />
-          <div className="absolute top-0 inset-x-0 flex justify-center -translate-y-1/2">
-            <JharokhaCrown className="w-36 sm:w-44 text-antique-gold opacity-90 drop-shadow" />
-          </div>
-        </motion.div>
+        {/* Mewari Arch Accent behind portrait */}
+        <div className="absolute top-0 inset-x-0 flex justify-center -translate-y-1/2 pointer-events-none opacity-80">
+          <JharokhaCrown className="w-36 sm:w-44 text-antique-gold drop-shadow" />
+        </div>
 
-        {/* Groom Transparent Cutout Image */}
+        {/* Groom Royal Portrait Image */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.92, y: 30 }}
+          initial={{ opacity: 0, scale: 0.94, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.25, 1, 0.5, 1] }}
-          className="relative z-10 w-full max-h-[46vh] sm:max-h-[50vh] flex items-end justify-center"
+          transition={{ duration: 0.85, ease: [0.25, 1, 0.5, 1] }}
+          className="relative z-10 max-h-[46vh] sm:max-h-[50vh] flex items-center justify-center"
         >
-          <img
-            src="/images/groom-cutout.png"
-            alt="आयुष्मान देवराज सिंह चौहान"
-            className="max-h-[44vh] sm:max-h-[48vh] w-auto object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.85)]"
-          />
+          <div className="relative rounded-2xl overflow-hidden border-2 border-antique-gold/80 shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_35px_rgba(199,161,90,0.35)] bg-black/40">
+            <img
+              src="/images/groom-royal.jpg"
+              alt="आयुष्मान देवराज सिंह चौहान"
+              className="max-h-[44vh] sm:max-h-[48vh] w-auto aspect-[3/4] object-contain"
+            />
+          </div>
 
           {/* Golden base spotlight aura */}
-          <div className="absolute bottom-0 w-3/4 h-12 bg-gradient-to-t from-antique-gold/25 to-transparent rounded-full blur-xl pointer-events-none" />
+          <div className="absolute -bottom-3 w-3/4 h-12 bg-gradient-to-t from-antique-gold/30 to-transparent rounded-full blur-xl pointer-events-none" />
         </motion.div>
       </div>
 
@@ -90,11 +84,11 @@ export const SceneGroomIntro: React.FC<SceneGroomIntroProps> = ({ onNext, onSkip
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, delay: 0.2 }}
+        transition={{ duration: 0.7, delay: 0.15 }}
         className="w-full max-w-sm mx-auto text-center z-20 pb-safe"
       >
-        <div className="p-3 sm:p-3.5 rounded-xl border border-antique-gold/50 bg-gradient-to-b from-[#2B070F]/95 via-[#1F040A]/95 to-[#140205]/95 shadow-royal-glow backdrop-blur-md">
-          <p className="font-royal text-[10px] sm:text-xs text-antique-gold tracking-widest uppercase font-semibold">
+        <div className="p-3 sm:p-3.5 rounded-xl border-2 border-antique-gold/60 bg-gradient-to-b from-[#2B070F]/95 via-[#1F040A]/95 to-[#140205]/95 shadow-royal-glow backdrop-blur-md">
+          <p className="font-royal text-[10px] sm:text-xs text-antique-gold-lighter tracking-widest uppercase font-semibold">
             {language === 'hi' ? '॥ श्री कुलदेवी आशापुरा नमः ॥' : 'With Divine Grace of Maa Ashapura'}
           </p>
 
