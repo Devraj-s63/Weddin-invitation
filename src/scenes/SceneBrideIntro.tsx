@@ -38,12 +38,8 @@ export const SceneBrideIntro: React.FC<SceneBrideIntroProps> = ({ onNext, onSkip
       {/* Background Palace Architecture Atmosphere */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center_top,_rgba(199,161,90,0.22)_0%,_transparent_75%)] pointer-events-none" />
 
-      {/* Top Header with Skip Button */}
-      <div className="w-full max-w-sm sm:max-w-md mx-auto flex items-center justify-between z-20 px-2">
-        <span className="px-3.5 py-1 rounded-full border border-antique-gold/50 bg-royal-maroon-dark/90 text-[10px] sm:text-xs font-royal tracking-widest text-antique-gold-lighter uppercase backdrop-blur-sm shadow-md">
-          {language === 'hi' ? 'राजपूत वधू परिचय' : 'Royal Bride'}
-        </span>
-
+      {/* Top Header with Skip Button (Clean Layout without tag) */}
+      <div className="w-full max-w-sm sm:max-w-md mx-auto flex items-center justify-end z-20 px-2">
         <button
           onClick={onSkip}
           className="flex items-center space-x-1 px-3 py-1 rounded-full border border-antique-gold/40 bg-charcoal-dark/75 text-sandstone text-[11px] font-hindi hover:text-antique-gold hover:border-antique-gold transition-all active:scale-95 backdrop-blur-sm"

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  MapPin,
   Heart,
   FileText,
   Phone,
@@ -15,17 +14,21 @@ import {
   RotateCcw,
   BookOpen,
   Compass,
-  Shield,
   ExternalLink,
   Sparkles,
   Share2
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { ChauhanCrest } from '../components/common/ChauhanCrest';
-import { PetalShowerButton, triggerPetalShower } from '../components/common/PetalShower';
+import { triggerPetalShower } from '../components/common/PetalShower';
 import { VisitorCounter } from '../components/common/VisitorCounter';
 import { audioManager } from '../utils/audioManager';
 import { PersonalizedGuestModal } from '../components/common/PersonalizedGuestModal';
+import {
+  PalaceTopArch,
+  HeraldicPanel,
+  FortBougainvilleaFooter
+} from '../components/common/HeraldicElements';
 
 interface SceneRoyalBookProps {
   onReplay: () => void;
@@ -138,9 +141,8 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
   // Wheel Gesture Controller (Scroll Down = Next Page, Scroll Up = Prev Page)
   const handleWheel = (e: React.WheelEvent) => {
     const now = Date.now();
-    if (now - lastScrollTime.current < 700) return; // Debounce lock
+    if (now - lastScrollTime.current < 700) return;
 
-    // Check if target is inside an inner scrollable container that hasn't reached bounds
     const target = e.target as HTMLElement;
     const scrollContainer = target.closest('.allow-inner-scroll');
     if (scrollContainer) {
@@ -169,7 +171,6 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
     const diffY = touchStartY.current - e.changedTouches[0].clientY;
     const diffX = touchStartX.current - e.changedTouches[0].clientX;
 
-    // Check inner scroll bounds
     const target = e.target as HTMLElement;
     const scrollContainer = target.closest('.allow-inner-scroll');
     if (scrollContainer) {
@@ -179,7 +180,6 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
       if (diffY < 0 && !isAtTop) return;
     }
 
-    // Vertical swipe or horizontal swipe thresholds
     if (diffY > 50 || diffX > 50) {
       turnNext();
     } else if (diffY < -50 || diffX < -50) {
@@ -258,13 +258,12 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
   ];
 
   /* ========================================================
-     PAGE RENDERING FUNCTIONS (AUTENTIC RAJPUTANA STYLING)
+     AUTHENTIC RAJPUTANA PAGE TEMPLATE (MATCHING USER REFERENCE)
      ======================================================== */
 
   // PAGE 0: FRONT COVER
   const renderPage0Cover = () => (
     <div className="w-full h-full flex flex-col items-center justify-between p-6 sm:p-8 text-center bg-gradient-to-b from-[#2E050D] via-[#4F0B17] to-[#1E0308] text-ivory relative select-none">
-      {/* Ornate Gold Border Frame */}
       <div className="absolute inset-3 rounded-2xl border-2 border-antique-gold/80 shadow-[inset_0_0_20px_rgba(199,161,90,0.3)] pointer-events-none" />
       <div className="absolute inset-5 rounded-xl border border-dashed border-antique-gold/40 pointer-events-none" />
       <div className="absolute top-2 left-2 text-antique-gold text-xs">❖</div>
@@ -282,9 +281,8 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
         </p>
       </div>
 
-      {/* Center Royal Monogram & Chauhan Crest */}
+      {/* Center Royal Monogram & Title */}
       <div className="relative z-10 flex flex-col items-center my-auto py-2">
-        {/* User-provided English DM Monogram */}
         <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full p-1 bg-gradient-to-b from-antique-gold via-antique-gold-dark to-royal-maroon-dark shadow-2xl mb-3 gold-sheen-sweep">
           <img
             src="/images/royal-dm-monogram.webp"
@@ -336,621 +334,573 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
     </div>
   );
 
-  // PAGE 1: MANGALACHARAN
+  // PAGE 1: MANGALACHARAN & GANESH STUTI
   const renderPage1Mangalacharan = () => (
-    <div className="w-full h-full flex flex-col items-center justify-between p-5 sm:p-6 text-center bg-gradient-to-b from-[#FFFDF9] via-[#FAF4E9] to-[#F3E7D3] text-charcoal relative select-none">
-      <div className="absolute inset-3 rounded-2xl border-2 border-antique-gold/70 pointer-events-none" />
-      <div className="absolute inset-4 rounded-xl border border-dashed border-royal-maroon/20 pointer-events-none" />
-      <div className="absolute top-2 left-2 text-antique-gold text-xs">❖</div>
-      <div className="absolute top-2 right-2 text-antique-gold text-xs">❖</div>
+    <div className="w-full h-full flex flex-col justify-between text-center bg-gradient-to-b from-[#FFFDF9] via-[#FAF5EC] to-[#F3E7D3] text-[#2D2D2D] relative select-none overflow-hidden">
+      {/* Top Palace Scalloped Arch */}
+      <PalaceTopArch />
 
-      {/* Sacred Header */}
-      <div className="relative z-10 pt-2">
-        <span className="text-[11px] font-royal tracking-widest text-royal-maroon uppercase font-bold">
-          {language === 'hi' ? '॥ मंगलाचरण ॥' : '॥ INVOCATION ॥'}
+      {/* Page Header */}
+      <div className="relative z-10 px-4 pt-0.5">
+        <span className="font-royal text-[11px] sm:text-xs tracking-widest text-[#5B0D1B] uppercase font-bold">
+          {language === 'hi' ? '॥ मंगलाचरण एवं श्रीगणेश स्तुति ॥' : '॥ SACRED INVOCATIONS ॥'}
         </span>
-        <div className="flex flex-wrap justify-center gap-1.5 mt-1.5">
-          {data.invocations.map((inv, idx) => (
-            <span key={idx} className="font-royal text-[11px] sm:text-xs text-royal-maroon-dark font-bold px-2 py-0.5 rounded bg-royal-maroon/5 border border-royal-maroon/15 shadow-xs">
-              {inv}
-            </span>
-          ))}
+        <h2 className="font-royal text-xl sm:text-2xl font-bold text-[#4A0A14] mt-0.5">
+          {language === 'hi' ? 'मंगलाचरण' : 'Divine Blessings'}
+        </h2>
+        <div className="flex items-center justify-center space-x-2 my-1">
+          <div className="h-[1px] w-12 bg-[#C7A15A]/60" />
+          <span className="text-[#C7A15A] text-xs">❖</span>
+          <div className="h-[1px] w-12 bg-[#C7A15A]/60" />
         </div>
       </div>
 
-      {/* Divine Ganesha Artwork & Shloka */}
-      <div className="relative z-10 my-auto py-1 flex flex-col items-center max-w-sm">
-        <div className="w-16 h-16 sm:w-20 sm:h-20 mb-2">
+      {/* Body Content */}
+      <div className="relative z-10 px-4 my-auto w-full max-w-sm mx-auto space-y-2.5 allow-inner-scroll overflow-y-auto max-h-[calc(78vh-135px)] pr-0.5">
+        {/* Lord Ganesha Image */}
+        <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto drop-shadow-md">
           <img
             src="/images/ganesha-divine-clean.png"
             alt="Shree Ganesha"
-            className="w-full h-full object-contain drop-shadow"
+            className="w-full h-full object-contain"
           />
         </div>
 
-        <div className="p-3.5 rounded-xl border-2 border-antique-gold/60 bg-gradient-to-b from-[#FFFDF8] via-[#FAF3E7] to-[#F5EAD6] shadow-[0_4px_12px_rgba(133,94,36,0.1)] w-full">
-          <p className="font-royal text-sm sm:text-base font-bold text-royal-maroon leading-relaxed">
-            {data.shloka.sanskrit}
-          </p>
-          <div className="h-[1px] w-20 bg-antique-gold/50 mx-auto my-2" />
-          <p className="font-hindi text-[11px] sm:text-xs text-charcoal/80 italic leading-relaxed">
-            "{data.shloka.meaning}"
-          </p>
-        </div>
+        {/* Heraldic Shloka Panel */}
+        <HeraldicPanel
+          sideTitle={language === 'hi' ? 'श्री विघ्नहर्ता वंदना (गणेश स्तुति)' : 'Lord Ganesha Shloka'}
+          badge={language === 'hi' ? 'शुभ आरंभ' : 'Auspicious'}
+          rows={[
+            {
+              label: language === 'hi' ? 'श्लोक' : 'Shloka',
+              value: data.shloka.sanskrit,
+              highlight: true
+            },
+            {
+              label: language === 'hi' ? 'भावार्थ' : 'Meaning',
+              value: data.shloka.meaning
+            },
+            {
+              label: language === 'hi' ? 'आशीर्वाद' : 'Blessing',
+              value: data.cardReveal.kuldeviBlessing
+            }
+          ]}
+        />
 
-        <div className="mt-3 p-3 rounded-xl bg-gradient-to-b from-royal-maroon-dark/95 to-royal-maroon/95 text-[#FFF4D0] border border-antique-gold/50 shadow-md text-center">
-          <p className="font-royal text-xs font-bold text-antique-gold-lighter">
-            {data.cardReveal.kuldeviBlessing}
-          </p>
-          <p className="font-hindi text-xs text-sandstone-light mt-1 leading-relaxed">
-            {data.cardReveal.invitationNote}
+        {/* Traditional Invitation Note Box */}
+        <div className="p-2.5 rounded-xl bg-gradient-to-r from-[#4A0A14] to-[#660C1D] text-[#FFF4D0] border border-[#C7A15A]/60 shadow-sm text-center">
+          <p className="font-hindi text-xs leading-relaxed">
+            "{data.cardReveal.invitationNote}"
           </p>
         </div>
       </div>
 
-      {/* Footer Page Number */}
-      <div className="relative z-10 text-[11px] font-hindi text-charcoal/60">
-        {language === 'hi' ? '— पृष्ठ १ —' : '— Page 1 —'}
-      </div>
+      {/* Fort & Bougainvillea Footer */}
+      <FortBougainvilleaFooter
+        pageNumberText={language === 'hi' ? '— पृष्ठ १ —' : '— Page 1 —'}
+      />
     </div>
   );
 
-  // PAGE 2: SHUBH VIVAH & MUHURAT COUNTDOWN
+  // PAGE 2: SHUBH VIVAH & MUHURAT
   const renderPage2ShubhVivah = () => (
-    <div className="w-full h-full flex flex-col items-center justify-between p-4 sm:p-5 text-center bg-gradient-to-b from-[#FFFDF9] via-[#FAF4E9] to-[#F3E7D3] text-charcoal relative select-none">
-      <div className="absolute inset-3 rounded-2xl border-2 border-antique-gold/70 pointer-events-none" />
-      <div className="absolute inset-4 rounded-xl border border-dashed border-royal-maroon/20 pointer-events-none" />
+    <div className="w-full h-full flex flex-col justify-between text-center bg-gradient-to-b from-[#FFFDF9] via-[#FAF5EC] to-[#F3E7D3] text-[#2D2D2D] relative select-none overflow-hidden">
+      <PalaceTopArch />
 
       {/* Header */}
-      <div className="relative z-10 pt-1">
-        <span className="font-royal text-xs tracking-widest text-royal-maroon uppercase font-bold">
-          {language === 'hi' ? '॥ श्री गणेशाय नमः ॥' : '॥ SHREE GANESHAY NAMAH ॥'}
+      <div className="relative z-10 px-4 pt-0.5">
+        <span className="font-royal text-[11px] sm:text-xs tracking-widest text-[#5B0D1B] uppercase font-bold">
+          {language === 'hi' ? '॥ श्री कुलदेवी आशीर्वाद ॥' : '॥ ROYAL WEDDING ॥'}
         </span>
-        <h2 className="font-royal text-xl sm:text-2xl font-bold tracking-wider mt-0.5 drop-shadow gold-foil-text">
-          {language === 'hi' ? 'शुभ विवाह' : 'Royal Wedding'}
+        <h2 className="font-royal text-xl sm:text-2xl font-bold text-[#4A0A14] mt-0.5 gold-foil-text">
+          {language === 'hi' ? 'शुभ विवाह एवं लग्न मुहूर्त' : 'Auspicious Wedding & Muhurat'}
         </h2>
+        <div className="flex items-center justify-center space-x-2 my-1">
+          <div className="h-[1px] w-12 bg-[#C7A15A]/60" />
+          <span className="text-[#C7A15A] text-xs">❖</span>
+          <div className="h-[1px] w-12 bg-[#C7A15A]/60" />
+        </div>
       </div>
 
-      {/* Couple Formal Details */}
-      <div className="relative z-10 my-auto w-full max-w-sm space-y-2">
-        {/* Groom Box */}
-        <div className="rounded-xl border-2 border-antique-gold/70 bg-gradient-to-b from-[#FFFDF8] via-[#FAF3E7] to-[#F5EAD6] shadow-[0_4px_12px_rgba(133,94,36,0.1)] overflow-hidden text-center">
-          <div className="bg-gradient-to-r from-[#4A0A14] via-[#6B0D1E] to-[#4A0A14] text-[#F9EFCF] py-1 px-3 border-b border-antique-gold/60 flex items-center justify-between">
-            <span className="text-[10px] font-royal font-bold uppercase tracking-wider">
-              {data.cardReveal.groomLabel}
-            </span>
-            <span className="text-[9px] font-royal text-antique-gold tracking-widest">
-              {language === 'hi' ? 'चौहान राजवंश' : 'Chauhan Dynasty'}
-            </span>
-          </div>
-          <div className="p-2.5">
-            <h3 className="font-royal text-base sm:text-lg font-bold text-royal-maroon-dark">
-              {data.couple.groom.name}
-            </h3>
-            <p className="font-hindi text-xs text-charcoal/85 font-medium mt-0.5">
-              {data.cardReveal.sonOf} <span className="font-semibold text-royal-maroon">{data.couple.groom.father}</span>
-            </p>
-            <p className="font-hindi text-[11px] text-charcoal/70">
-              {data.couple.groom.grandparents}
-            </p>
-            <p className="font-hindi text-[11px] text-royal-maroon font-semibold mt-0.5">
-              {data.couple.groom.thikana}
-            </p>
-          </div>
-        </div>
+      {/* Body Content */}
+      <div className="relative z-10 px-4 my-auto w-full max-w-sm mx-auto space-y-2.5 allow-inner-scroll overflow-y-auto max-h-[calc(78vh-135px)] pr-0.5">
+        {/* Groom Panel */}
+        <HeraldicPanel
+          sideTitle={language === 'hi' ? 'वर — आयुष्मान देवराज सिंह चौहान' : 'Groom — Devraj Singh Chauhan'}
+          badge={language === 'hi' ? 'ठि. फलीचड़ा' : 'Thi. Falichada'}
+          rows={[
+            {
+              label: language === 'hi' ? 'वर' : 'Groom',
+              value: `${data.couple.groom.name} (${data.couple.groom.nickname})`,
+              highlight: true
+            },
+            {
+              label: language === 'hi' ? 'पिता' : 'Father',
+              value: data.couple.groom.father
+            },
+            {
+              label: language === 'hi' ? 'माता' : 'Mother',
+              value: data.couple.groom.mother || 'श्रीमती संतोष कंवर चौहान'
+            },
+            {
+              label: language === 'hi' ? 'मूल ठिकाना' : 'Thikana',
+              value: data.couple.groom.thikana,
+              subvalue: `(${data.couple.groom.presentAddress})`
+            }
+          ]}
+        />
 
-        {/* Sang Divider */}
-        <div className="flex items-center justify-center space-x-2 my-0.5">
-          <div className="h-[1px] w-12 bg-antique-gold/60" />
-          <span className="font-royal text-xs font-bold text-royal-maroon italic">
-            — {data.cardReveal.sangText} —
-          </span>
-          <div className="h-[1px] w-12 bg-antique-gold/60" />
-        </div>
+        {/* Bride Panel */}
+        <HeraldicPanel
+          sideTitle={language === 'hi' ? 'वधू — आयुष्मति मधु कंवर' : 'Bride — Madhu Kanwar'}
+          badge={language === 'hi' ? 'ठि. लागच' : 'Thi. Lagach'}
+          rows={[
+            {
+              label: language === 'hi' ? 'वधू' : 'Bride',
+              value: `${data.couple.bride.name} (${data.couple.bride.nickname})`,
+              highlight: true
+            },
+            {
+              label: language === 'hi' ? 'पिता' : 'Father',
+              value: data.couple.bride.father
+            },
+            {
+              label: language === 'hi' ? 'दादाजी' : 'Grandfather',
+              value: data.couple.bride.grandparents
+            },
+            {
+              label: language === 'hi' ? 'मूल ठिकाना' : 'Thikana',
+              value: data.couple.bride.thikana
+            }
+          ]}
+        />
 
-        {/* Bride Box */}
-        <div className="rounded-xl border-2 border-antique-gold/70 bg-gradient-to-b from-[#FFFDF8] via-[#FAF3E7] to-[#F5EAD6] shadow-[0_4px_12px_rgba(133,94,36,0.1)] overflow-hidden text-center">
-          <div className="bg-gradient-to-r from-[#4A0A14] via-[#6B0D1E] to-[#4A0A14] text-[#F9EFCF] py-1 px-3 border-b border-antique-gold/60 flex items-center justify-between">
-            <span className="text-[10px] font-royal font-bold uppercase tracking-wider">
-              {data.cardReveal.brideLabel}
-            </span>
-            <span className="text-[9px] font-royal text-antique-gold tracking-widest">
-              {language === 'hi' ? 'राणावत राजवंश' : 'Ranawat Dynasty'}
-            </span>
-          </div>
-          <div className="p-2.5">
-            <h3 className="font-royal text-base sm:text-lg font-bold text-royal-maroon-dark">
-              {data.couple.bride.name}
-            </h3>
-            <p className="font-hindi text-xs text-charcoal/85 font-medium mt-0.5">
-              {data.cardReveal.daughterOf} <span className="font-semibold text-royal-maroon">{data.couple.bride.father}</span>
-            </p>
-            <p className="font-hindi text-[11px] text-charcoal/70">
-              {data.couple.bride.grandparents}
-            </p>
-            <p className="font-hindi text-[11px] text-royal-maroon font-semibold mt-0.5">
-              {data.couple.bride.thikana}
-            </p>
-          </div>
-        </div>
-
-        {/* Date, Muhurat & Vikram Samvat */}
-        <div className="p-2 rounded-lg bg-royal-maroon/8 border border-royal-maroon/20 text-center">
-          <p className="font-royal text-xs sm:text-sm font-bold text-royal-maroon">
-            {data.meta.dateFormatted}
+        {/* Muhurat & Countdown Panel */}
+        <div className="rounded-xl border border-[#C7A15A]/70 bg-gradient-to-b from-[#FFFDF8] via-[#FAF4EA] to-[#F5EAD7] p-2.5 shadow-sm text-center space-y-1.5">
+          <p className="font-royal text-xs sm:text-sm font-bold text-[#5B0D1B]">
+            {data.meta.dateFormatted} • {data.meta.samvat}
           </p>
-          <p className="font-hindi text-[11px] text-charcoal/80 mt-0.5">
-            {data.meta.samvat}
-          </p>
-        </div>
 
-        {/* Live Countdown Clock */}
-        <div className="flex items-center justify-center space-x-2 pt-0.5">
-          {[
-            { label: language === 'hi' ? 'दिन' : 'Days', val: timeLeft.days },
-            { label: language === 'hi' ? 'घंटे' : 'Hrs', val: timeLeft.hours },
-            { label: language === 'hi' ? 'मिनट' : 'Min', val: timeLeft.minutes },
-            { label: language === 'hi' ? 'सेकंड' : 'Sec', val: timeLeft.seconds },
-          ].map((item, idx) => (
-            <div key={idx} className="flex flex-col items-center px-2 py-1 rounded-lg bg-gradient-to-b from-[#FFFDF8] to-[#FAF3E7] border border-antique-gold/60 shadow-xs min-w-[50px]">
-              <span className="font-royal text-sm font-bold text-royal-maroon">{item.val}</span>
-              <span className="text-[9px] font-hindi text-charcoal/60">{item.label}</span>
-            </div>
-          ))}
+          {/* Live Countdown Box */}
+          <div className="flex items-center justify-center space-x-2 pt-1">
+            {[
+              { label: language === 'hi' ? 'दिन' : 'Days', val: timeLeft.days },
+              { label: language === 'hi' ? 'घंटे' : 'Hrs', val: timeLeft.hours },
+              { label: language === 'hi' ? 'मिनट' : 'Min', val: timeLeft.minutes },
+              { label: language === 'hi' ? 'सेकंड' : 'Sec', val: timeLeft.seconds },
+            ].map((item, idx) => (
+              <div key={idx} className="flex flex-col items-center px-2 py-1 rounded-lg bg-white/90 border border-[#C7A15A]/50 shadow-2xs min-w-[48px]">
+                <span className="font-royal text-sm font-bold text-[#5B0D1B]">{item.val}</span>
+                <span className="text-[9px] font-hindi text-[#666]">{item.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="relative z-10 text-[11px] font-hindi text-charcoal/60">
-        {language === 'hi' ? '— पृष्ठ २ —' : '— Page 2 —'}
-      </div>
+      <FortBougainvilleaFooter
+        pageNumberText={language === 'hi' ? '— पृष्ठ २ —' : '— Page 2 —'}
+      />
     </div>
   );
 
-  // PAGE 3: FAMILY HERITAGE & LINEAGE (CRITICAL REDESIGN: NO EMPTY GAPS, RICH HERALDIC PANELS)
+  // PAGE 3: FAMILY HERITAGE (EXACT USER REFERENCE DESIGN)
   const renderPage3FamilyHeritage = () => (
-    <div className="w-full h-full flex flex-col justify-between p-4 sm:p-5 text-center bg-gradient-to-b from-[#FFFDF9] via-[#FAF4E9] to-[#F3E7D3] text-charcoal relative select-none">
-      <div className="absolute inset-3 rounded-2xl border-2 border-antique-gold/75 pointer-events-none" />
-      <div className="absolute inset-4 rounded-xl border border-dashed border-royal-maroon/20 pointer-events-none" />
-      <div className="absolute top-2 left-2 text-antique-gold text-xs">❖</div>
-      <div className="absolute top-2 right-2 text-antique-gold text-xs">❖</div>
+    <div className="w-full h-full flex flex-col justify-between text-center bg-gradient-to-b from-[#FFFDF9] via-[#FAF5EC] to-[#F3E7D3] text-[#2D2D2D] relative select-none overflow-hidden">
+      {/* Top Sandstone Scalloped Mewari Arch */}
+      <PalaceTopArch />
 
-      {/* Header (Anchored without empty gap) */}
-      <div className="relative z-10 pt-1">
-        <span className="font-royal text-xs tracking-widest text-royal-maroon uppercase font-bold">
+      {/* Header (॥ कुल एवं वंश गौरव ॥ + परिवार परिचय + ❖) */}
+      <div className="relative z-10 px-4 pt-0.5">
+        <span className="font-royal text-[11px] sm:text-xs tracking-widest text-[#5B0D1B] uppercase font-bold">
           {language === 'hi' ? '॥ कुल एवं वंश गौरव ॥' : '॥ ROYAL LINEAGE ॥'}
         </span>
-        <h2 className="font-royal text-xl sm:text-2xl font-bold text-royal-maroon mt-0.5">
+        <h2 className="font-royal text-xl sm:text-2xl font-bold text-[#4A0A14] mt-0.5">
           {language === 'hi' ? 'परिवार परिचय' : 'Family Heritage'}
         </h2>
         <div className="flex items-center justify-center space-x-2 my-1">
-          <div className="h-[1px] w-12 bg-antique-gold/60" />
-          <span className="text-antique-gold text-xs">❖</span>
-          <div className="h-[1px] w-12 bg-antique-gold/60" />
+          <div className="h-[1px] w-12 bg-[#C7A15A]/60" />
+          <span className="text-[#C7A15A] text-xs">❖</span>
+          <div className="h-[1px] w-12 bg-[#C7A15A]/60" />
         </div>
       </div>
 
-      {/* Lineage Details: Rich Rajputana Heraldic Panels */}
-      <div className="relative z-10 my-auto w-full max-w-sm space-y-2.5 text-left allow-inner-scroll overflow-y-auto max-h-[calc(78vh-115px)] pr-0.5">
+      {/* Family Heritage Panels (Var Paksh & Vadhu Paksh) */}
+      <div className="relative z-10 px-4 my-auto w-full max-w-sm mx-auto space-y-2.5 allow-inner-scroll overflow-y-auto max-h-[calc(78vh-135px)] pr-0.5">
         {/* Var Paksh — Chauhan Dynasty */}
-        <div className="rounded-xl border-2 border-antique-gold/75 bg-gradient-to-b from-[#FFFDF8] via-[#FAF3E7] to-[#F5EAD6] shadow-[0_4px_14px_rgba(133,94,36,0.12)] overflow-hidden">
-          <div className="bg-gradient-to-r from-[#420610] via-[#660C1D] to-[#420610] text-[#F9EFCF] px-3.5 py-1.5 border-b border-antique-gold flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Shield className="w-3.5 h-3.5 text-antique-gold" />
-              <span className="font-royal text-xs font-bold tracking-wider uppercase">
-                {language === 'hi' ? 'वर पक्ष — चौहान राजवंश (सूर्यवंशी)' : "Groom's Lineage — Chauhan"}
-              </span>
-            </div>
-            <span className="text-[10px] text-antique-gold font-royal font-semibold tracking-wider px-2 py-0.5 rounded bg-black/25 border border-antique-gold/30">
-              {language === 'hi' ? 'ठि. फलीचड़ा' : 'Thi. Falichada'}
-            </span>
-          </div>
-
-          <div className="p-3 text-xs font-hindi space-y-1.5 text-charcoal/90">
-            <div className="flex items-start justify-between border-b border-royal-maroon/10 pb-1">
-              <span className="font-semibold text-royal-maroon">{language === 'hi' ? 'वर:' : 'Groom:'}</span>
-              <span className="font-bold text-royal-maroon-dark text-right">{data.couple.groom.name} <span className="text-antique-gold-dark font-medium">({data.couple.groom.nickname})</span></span>
-            </div>
-            <div className="flex items-start justify-between border-b border-royal-maroon/10 pb-1">
-              <span className="font-semibold text-charcoal/80">{language === 'hi' ? 'पिता:' : 'Father:'}</span>
-              <span className="font-medium text-charcoal text-right">{data.couple.groom.father}</span>
-            </div>
-            <div className="flex items-start justify-between border-b border-royal-maroon/10 pb-1">
-              <span className="font-semibold text-charcoal/80">{language === 'hi' ? 'माता:' : 'Mother:'}</span>
-              <span className="font-medium text-charcoal text-right">{data.couple.groom.mother || 'श्रीमती संतोष कंवर चौहान'}</span>
-            </div>
-            <div className="flex items-start justify-between border-b border-royal-maroon/10 pb-1">
-              <span className="font-semibold text-charcoal/80">{language === 'hi' ? 'दादाजी:' : 'Grandfather:'}</span>
-              <span className="font-medium text-charcoal text-right">{data.couple.groom.grandparents}</span>
-            </div>
-            <div className="flex items-start justify-between pt-0.5">
-              <span className="font-semibold text-royal-maroon">{language === 'hi' ? 'मूल ठिकाना:' : 'Thikana:'}</span>
-              <span className="font-bold text-royal-maroon text-right">{data.couple.groom.thikana} <span className="block text-[10px] font-normal text-charcoal/60">({data.couple.groom.presentAddress})</span></span>
-            </div>
-          </div>
-        </div>
+        <HeraldicPanel
+          sideTitle={language === 'hi' ? 'वर पक्ष — चौहान राजवंश (सूर्यवंशी)' : "Groom's Lineage — Chauhan Dynasty"}
+          badge={language === 'hi' ? 'ठि. फलीचड़ा' : 'Thi. Falichada'}
+          rows={[
+            {
+              label: language === 'hi' ? 'वर' : 'Groom',
+              value: `${data.couple.groom.name} (${data.couple.groom.nickname})`,
+              highlight: true
+            },
+            {
+              label: language === 'hi' ? 'पिता' : 'Father',
+              value: data.couple.groom.father
+            },
+            {
+              label: language === 'hi' ? 'माता' : 'Mother',
+              value: data.couple.groom.mother || 'श्रीमती संतोष कंवर चौहान'
+            },
+            {
+              label: language === 'hi' ? 'दादाजी' : 'Grandfather',
+              value: data.couple.groom.grandparents
+            },
+            {
+              label: language === 'hi' ? 'मूल ठिकाना' : 'Thikana',
+              value: data.couple.groom.thikana,
+              subvalue: `(${data.couple.groom.presentAddress})`,
+              highlight: true
+            }
+          ]}
+        />
 
         {/* Vadhu Paksh — Ranawat Dynasty */}
-        <div className="rounded-xl border-2 border-antique-gold/75 bg-gradient-to-b from-[#FFFDF8] via-[#FAF3E7] to-[#F5EAD6] shadow-[0_4px_14px_rgba(133,94,36,0.12)] overflow-hidden">
-          <div className="bg-gradient-to-r from-[#420610] via-[#660C1D] to-[#420610] text-[#F9EFCF] px-3.5 py-1.5 border-b border-antique-gold flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Shield className="w-3.5 h-3.5 text-antique-gold" />
-              <span className="font-royal text-xs font-bold tracking-wider uppercase">
-                {language === 'hi' ? 'वधू पक्ष — राणावत राजवंश (मेवाड़)' : "Bride's Lineage — Ranawat"}
-              </span>
-            </div>
-            <span className="text-[10px] text-antique-gold font-royal font-semibold tracking-wider px-2 py-0.5 rounded bg-black/25 border border-antique-gold/30">
-              {language === 'hi' ? 'ठि. लागच' : 'Thi. Lagach'}
-            </span>
-          </div>
-
-          <div className="p-3 text-xs font-hindi space-y-1.5 text-charcoal/90">
-            <div className="flex items-start justify-between border-b border-royal-maroon/10 pb-1">
-              <span className="font-semibold text-royal-maroon">{language === 'hi' ? 'वधू:' : 'Bride:'}</span>
-              <span className="font-bold text-royal-maroon-dark text-right">{data.couple.bride.name} <span className="text-antique-gold-dark font-medium">({data.couple.bride.nickname})</span></span>
-            </div>
-            <div className="flex items-start justify-between border-b border-royal-maroon/10 pb-1">
-              <span className="font-semibold text-charcoal/80">{language === 'hi' ? 'पिता:' : 'Father:'}</span>
-              <span className="font-medium text-charcoal text-right">{data.couple.bride.father}</span>
-            </div>
-            <div className="flex items-start justify-between border-b border-royal-maroon/10 pb-1">
-              <span className="font-semibold text-charcoal/80">{language === 'hi' ? 'दादाजी:' : 'Grandfather:'}</span>
-              <span className="font-medium text-charcoal text-right">{data.couple.bride.grandparents}</span>
-            </div>
-            <div className="flex items-start justify-between pt-0.5">
-              <span className="font-semibold text-royal-maroon">{language === 'hi' ? 'मूल ठिकाना:' : 'Thikana:'}</span>
-              <span className="font-bold text-royal-maroon text-right">{data.couple.bride.thikana}</span>
-            </div>
-          </div>
-        </div>
+        <HeraldicPanel
+          sideTitle={language === 'hi' ? 'वधू पक्ष — राणावत राजवंश (मेवाड़)' : "Bride's Lineage — Ranawat Dynasty"}
+          badge={language === 'hi' ? 'ठि. लागच' : 'Thi. Lagach'}
+          rows={[
+            {
+              label: language === 'hi' ? 'वधू' : 'Bride',
+              value: `${data.couple.bride.name} (${data.couple.bride.nickname})`,
+              highlight: true
+            },
+            {
+              label: language === 'hi' ? 'पिता' : 'Father',
+              value: data.couple.bride.father
+            },
+            {
+              label: language === 'hi' ? 'दादाजी' : 'Grandfather',
+              value: data.couple.bride.grandparents
+            },
+            {
+              label: language === 'hi' ? 'मूल ठिकाना' : 'Thikana',
+              value: data.couple.bride.thikana,
+              highlight: true
+            }
+          ]}
+        />
       </div>
 
-      <div className="relative z-10 text-[11px] font-hindi text-charcoal/60 pt-1">
-        {language === 'hi' ? '— पृष्ठ ३ —' : '— Page 3 —'}
-      </div>
+      {/* Fort & Bougainvillea Page Footer with Page 3 indicator */}
+      <FortBougainvilleaFooter
+        pageNumberText={language === 'hi' ? '— पृष्ठ ३ —' : '— Page 3 —'}
+      />
     </div>
   );
 
-  // PAGE 4: CEREMONIES PART 1 (EVENTS 1 TO 4 WITH FULL TITHI, DRESS CODE, & DESCRIPTIONS)
+  // PAGE 4: CEREMONIES PART 1 (EVENTS 1 TO 4)
   const renderPage4EventsPart1 = () => (
-    <div className="w-full h-full flex flex-col justify-between p-4 sm:p-5 text-center bg-gradient-to-b from-[#FFFDF9] via-[#FAF4E9] to-[#F3E7D3] text-charcoal relative select-none">
-      <div className="absolute inset-3 rounded-2xl border-2 border-antique-gold/75 pointer-events-none" />
-      <div className="absolute inset-4 rounded-xl border border-dashed border-royal-maroon/20 pointer-events-none" />
+    <div className="w-full h-full flex flex-col justify-between text-center bg-gradient-to-b from-[#FFFDF9] via-[#FAF5EC] to-[#F3E7D3] text-[#2D2D2D] relative select-none overflow-hidden">
+      <PalaceTopArch />
 
       {/* Header */}
-      <div className="relative z-10 pt-1">
-        <span className="font-royal text-xs tracking-widest text-royal-maroon uppercase font-bold">
+      <div className="relative z-10 px-4 pt-0.5">
+        <span className="font-royal text-[11px] sm:text-xs tracking-widest text-[#5B0D1B] uppercase font-bold">
           {language === 'hi' ? '॥ मांगलिक कार्यक्रम ॥' : '॥ CEREMONIAL SCHEDULE ॥'}
         </span>
-        <h2 className="font-royal text-lg sm:text-xl font-bold text-royal-maroon mt-0.5">
-          {language === 'hi' ? 'शुभ विवाह कार्यक्रम (प्रथम चरण)' : 'Wedding Ceremonies (Part 1)'}
+        <h2 className="font-royal text-xl sm:text-2xl font-bold text-[#4A0A14] mt-0.5">
+          {language === 'hi' ? 'शुभ विवाह कार्यक्रम (प्रथम चरण)' : 'Ceremonies (Part 1)'}
         </h2>
         <div className="flex items-center justify-center space-x-2 my-1">
-          <div className="h-[1px] w-12 bg-antique-gold/60" />
-          <span className="text-antique-gold text-xs">❖</span>
-          <div className="h-[1px] w-12 bg-antique-gold/60" />
+          <div className="h-[1px] w-12 bg-[#C7A15A]/60" />
+          <span className="text-[#C7A15A] text-xs">❖</span>
+          <div className="h-[1px] w-12 bg-[#C7A15A]/60" />
         </div>
       </div>
 
-      {/* Ceremonies List 1 to 4 with complete restored info */}
-      <div className="relative z-10 my-auto w-full max-w-sm space-y-2.5 text-left allow-inner-scroll overflow-y-auto max-h-[calc(78vh-115px)] pr-0.5">
+      {/* Ceremonies List 1 to 4 */}
+      <div className="relative z-10 px-4 my-auto w-full max-w-sm mx-auto space-y-2 allow-inner-scroll overflow-y-auto max-h-[calc(78vh-135px)] pr-0.5">
         {data.events.slice(0, 4).map((evt, idx) => (
-          <div
+          <HeraldicPanel
             key={evt.id}
-            className="rounded-xl border-2 border-antique-gold/60 bg-gradient-to-b from-[#FFFDF8] via-[#FAF3E7] to-[#F5EAD6] shadow-[0_3px_10px_rgba(133,94,36,0.1)] p-2.5 sm:p-3"
-          >
-            {/* Header: Number, Name, and Badges */}
-            <div className="flex items-start justify-between gap-2 border-b border-royal-maroon/10 pb-1.5">
-              <div className="flex items-center space-x-2">
-                <span className="w-5 h-5 rounded-full bg-royal-maroon text-antique-gold-lighter flex items-center justify-center font-royal text-xs font-bold shrink-0">
-                  {idx + 1}
-                </span>
-                <h4 className="font-royal text-xs sm:text-sm font-bold text-royal-maroon">
-                  {evt.name}
-                </h4>
-              </div>
-              <span className="px-2 py-0.5 rounded-full bg-royal-maroon text-[#FFF4D0] font-royal text-[10px] font-bold shrink-0 shadow-xs">
-                {evt.time}
-              </span>
-            </div>
-
-            {/* Subline: Date, Day & Hindu Lunar Tithi */}
-            <div className="flex items-center justify-between text-[11px] font-hindi text-charcoal/80 mt-1">
-              <span className="font-semibold text-royal-maroon-dark">{evt.day}, {evt.date}</span>
-              <span className="px-1.5 py-0.2 rounded bg-antique-gold/20 text-royal-maroon text-[10px] font-royal font-semibold">
-                {evt.tithi}
-              </span>
-            </div>
-
-            {/* Description */}
-            <p className="font-hindi text-[11px] text-charcoal/80 mt-1 leading-relaxed">
-              {evt.description}
-            </p>
-
-            {/* Dress Code Pill */}
-            {evt.dressCodeSuggestion && (
-              <div className="mt-1.5 pt-1 border-t border-antique-gold/25 flex items-center space-x-1.5 text-[10px] font-hindi text-antique-gold-dark font-medium">
-                <Sparkles className="w-3 h-3 text-antique-gold" />
-                <span>{evt.dressCodeSuggestion}</span>
-              </div>
-            )}
-          </div>
+            sideTitle={`${idx + 1}. ${evt.name}`}
+            badge={evt.time}
+            rows={[
+              {
+                label: language === 'hi' ? 'दिनांक' : 'Date',
+                value: `${evt.day}, ${evt.date}`,
+                subvalue: evt.tithi,
+                highlight: true
+              },
+              {
+                label: language === 'hi' ? 'स्थान' : 'Venue',
+                value: evt.location || (language === 'hi' ? 'निज निवास, भीलवाड़ा' : 'Residence, Bhilwara')
+              },
+              {
+                label: language === 'hi' ? 'विवरण' : 'Details',
+                value: evt.description
+              },
+              ...(evt.dressCodeSuggestion ? [{
+                label: language === 'hi' ? 'पोशाक' : 'Attire',
+                value: evt.dressCodeSuggestion
+              }] : [])
+            ]}
+          />
         ))}
       </div>
 
-      <div className="relative z-10 text-[11px] font-hindi text-charcoal/60 pt-1">
-        {language === 'hi' ? '— पृष्ठ ४ —' : '— Page 4 —'}
-      </div>
+      <FortBougainvilleaFooter
+        pageNumberText={language === 'hi' ? '— पृष्ठ ४ —' : '— Page 4 —'}
+      />
     </div>
   );
 
-  // PAGE 5: CEREMONIES PART 2 & GRAND WEDDING DAY
+  // PAGE 5: CEREMONIES PART 2 & BARAAT
   const renderPage5EventsPart2 = () => (
-    <div className="w-full h-full flex flex-col justify-between p-4 sm:p-5 text-center bg-gradient-to-b from-[#FFFDF9] via-[#FAF4E9] to-[#F3E7D3] text-charcoal relative select-none">
-      <div className="absolute inset-3 rounded-2xl border-2 border-antique-gold/75 pointer-events-none" />
-      <div className="absolute inset-4 rounded-xl border border-dashed border-royal-maroon/20 pointer-events-none" />
+    <div className="w-full h-full flex flex-col justify-between text-center bg-gradient-to-b from-[#FFFDF9] via-[#FAF5EC] to-[#F3E7D3] text-[#2D2D2D] relative select-none overflow-hidden">
+      <PalaceTopArch />
 
       {/* Header */}
-      <div className="relative z-10 pt-1">
-        <span className="font-royal text-xs tracking-widest text-royal-maroon uppercase font-bold">
-          {language === 'hi' ? '॥ मांगलिक कार्यक्रम ॥' : '॥ CEREMONIAL SCHEDULE ॥'}
+      <div className="relative z-10 px-4 pt-0.5">
+        <span className="font-royal text-[11px] sm:text-xs tracking-widest text-[#5B0D1B] uppercase font-bold">
+          {language === 'hi' ? '॥ राजपूताना शाही बारात ॥' : '॥ CEREMONIAL SCHEDULE ॥'}
         </span>
-        <h2 className="font-royal text-lg sm:text-xl font-bold text-royal-maroon mt-0.5">
-          {language === 'hi' ? 'शुभ विवाह कार्यक्रम (द्वितीय चरण)' : 'Wedding Ceremonies (Part 2)'}
+        <h2 className="font-royal text-xl sm:text-2xl font-bold text-[#4A0A14] mt-0.5">
+          {language === 'hi' ? 'शुभ विवाह कार्यक्रम (द्वितीय चरण)' : 'Ceremonies (Part 2 & Baraat)'}
         </h2>
         <div className="flex items-center justify-center space-x-2 my-1">
-          <div className="h-[1px] w-12 bg-antique-gold/60" />
-          <span className="text-antique-gold text-xs">❖</span>
-          <div className="h-[1px] w-12 bg-antique-gold/60" />
+          <div className="h-[1px] w-12 bg-[#C7A15A]/60" />
+          <span className="text-[#C7A15A] text-xs">❖</span>
+          <div className="h-[1px] w-12 bg-[#C7A15A]/60" />
         </div>
       </div>
 
-      {/* Ceremonies List 5 to 8 & Baraat with complete restored info */}
-      <div className="relative z-10 my-auto w-full max-w-sm space-y-2.5 text-left allow-inner-scroll overflow-y-auto max-h-[calc(78vh-115px)] pr-0.5">
+      {/* Ceremonies List 5 to 8 */}
+      <div className="relative z-10 px-4 my-auto w-full max-w-sm mx-auto space-y-2 allow-inner-scroll overflow-y-auto max-h-[calc(78vh-135px)] pr-0.5">
         {data.events.slice(4, 8).map((evt, idx) => (
-          <div
+          <HeraldicPanel
             key={evt.id}
-            className="rounded-xl border-2 border-antique-gold/60 bg-gradient-to-b from-[#FFFDF8] via-[#FAF3E7] to-[#F5EAD6] shadow-[0_3px_10px_rgba(133,94,36,0.1)] p-2.5 sm:p-3"
-          >
-            {/* Header: Number, Name, and Badges */}
-            <div className="flex items-start justify-between gap-2 border-b border-royal-maroon/10 pb-1.5">
-              <div className="flex items-center space-x-2">
-                <span className="w-5 h-5 rounded-full bg-royal-maroon text-antique-gold-lighter flex items-center justify-center font-royal text-xs font-bold shrink-0">
-                  {idx + 5}
-                </span>
-                <h4 className="font-royal text-xs sm:text-sm font-bold text-royal-maroon">
-                  {evt.name}
-                </h4>
-              </div>
-              <span className="px-2 py-0.5 rounded-full bg-royal-maroon text-[#FFF4D0] font-royal text-[10px] font-bold shrink-0 shadow-xs">
-                {evt.time}
-              </span>
-            </div>
-
-            {/* Subline: Date, Day & Hindu Lunar Tithi */}
-            <div className="flex items-center justify-between text-[11px] font-hindi text-charcoal/80 mt-1">
-              <span className="font-semibold text-royal-maroon-dark">{evt.day}, {evt.date}</span>
-              <span className="px-1.5 py-0.2 rounded bg-antique-gold/20 text-royal-maroon text-[10px] font-royal font-semibold">
-                {evt.tithi}
-              </span>
-            </div>
-
-            {/* Description */}
-            <p className="font-hindi text-[11px] text-charcoal/80 mt-1 leading-relaxed">
-              {evt.description}
-            </p>
-
-            {/* Dress Code Pill */}
-            {evt.dressCodeSuggestion && (
-              <div className="mt-1.5 pt-1 border-t border-antique-gold/25 flex items-center space-x-1.5 text-[10px] font-hindi text-antique-gold-dark font-medium">
-                <Sparkles className="w-3 h-3 text-antique-gold" />
-                <span>{evt.dressCodeSuggestion}</span>
-              </div>
-            )}
-          </div>
+            sideTitle={`${idx + 5}. ${evt.name}`}
+            badge={evt.time}
+            rows={[
+              {
+                label: language === 'hi' ? 'दिनांक' : 'Date',
+                value: `${evt.day}, ${evt.date}`,
+                subvalue: evt.tithi,
+                highlight: true
+              },
+              {
+                label: language === 'hi' ? 'स्थान' : 'Venue',
+                value: evt.location || (idx === 0 ? 'पायल रिसोर्ट, भीलवाड़ा' : 'ठि. चन्देरिया (चित्तौड़गढ़)')
+              },
+              {
+                label: language === 'hi' ? 'विवरण' : 'Details',
+                value: evt.description
+              },
+              ...(evt.dressCodeSuggestion ? [{
+                label: language === 'hi' ? 'पोशाक' : 'Attire',
+                value: evt.dressCodeSuggestion
+              }] : [])
+            ]}
+          />
         ))}
 
-        {/* Preeti Bhoj & Baraat Highlight Box */}
-        <div className="rounded-xl border-2 border-antique-gold bg-gradient-to-r from-royal-maroon-dark via-royal-maroon to-royal-maroon-dark text-[#FFF4D0] p-3 shadow-md space-y-1.5 text-center">
-          <div className="flex items-center justify-center space-x-1.5 text-antique-gold text-xs font-royal font-bold">
-            <span>👑</span>
-            <span>{language === 'hi' ? 'शाही बारात प्रस्थान एवं प्रीतिभोज' : 'Royal Baraat & Reception'}</span>
-            <span>👑</span>
-          </div>
-          <p className="font-hindi text-xs font-semibold text-white">
-            {language === 'hi' ? 'बारात प्रस्थान: शनिवार, 21 नवम्बर 2026 • प्रातः 05:30 बजे (ठि. चन्देरिया की ओर)' : 'Baraat Departure: Sat, 21 Nov 2026 • 5:30 AM (Towards Thi. Chanderiya)'}
+        {/* Preeti Bhoj Highlight Banner */}
+        <div className="rounded-xl border border-[#C7A15A] bg-gradient-to-r from-[#4A0A14] via-[#660C1D] to-[#4A0A14] text-[#FFF4D0] p-3 text-center space-y-1 shadow-sm">
+          <p className="font-royal text-xs font-bold text-[#FFF4D4]">
+            👑 {language === 'hi' ? 'प्रीतिभोज (स्नेह भोज): शनिवार, 21 नवम्बर 2026' : 'Preeti Bhoj: Saturday, 21 Nov 2026'}
           </p>
-          <div className="h-[1px] w-24 bg-antique-gold/50 mx-auto" />
-          <p className="font-royal text-xs text-antique-gold-lighter font-bold">
-            {language === 'hi' ? 'प्रीतिभोज:' : 'Preeti Bhoj:'} {data.reception.day}, {data.reception.date} ({data.reception.time})
-          </p>
-          <p className="font-hindi text-[11px] text-sandstone">
-            {data.meta.venueName}, {data.meta.locationCity}
+          <p className="font-hindi text-[11px] text-[#F3E5AB]">
+            {language === 'hi' ? 'प्रातः 11:15 बजे से • पायल रिसोर्ट, हरणी महादेव रोड, भीलवाड़ा' : 'From 11:15 AM • Payal Resort, Bhilwara'}
           </p>
         </div>
       </div>
 
-      <div className="relative z-10 text-[11px] font-hindi text-charcoal/60 pt-1">
-        {language === 'hi' ? '— पृष्ठ ५ —' : '— Page 5 —'}
-      </div>
+      <FortBougainvilleaFooter
+        pageNumberText={language === 'hi' ? '— पृष्ठ ५ —' : '— Page 5 —'}
+      />
     </div>
   );
 
   // PAGE 6: VENUE & DIRECTIONS
   const renderPage6Venue = () => (
-    <div className="w-full h-full flex flex-col justify-between p-4 sm:p-5 text-center bg-gradient-to-b from-[#FFFDF9] via-[#FAF4E9] to-[#F3E7D3] text-charcoal relative select-none">
-      <div className="absolute inset-3 rounded-2xl border-2 border-antique-gold/75 pointer-events-none" />
-      <div className="absolute inset-4 rounded-xl border border-dashed border-royal-maroon/20 pointer-events-none" />
+    <div className="w-full h-full flex flex-col justify-between text-center bg-gradient-to-b from-[#FFFDF9] via-[#FAF5EC] to-[#F3E7D3] text-[#2D2D2D] relative select-none overflow-hidden">
+      <PalaceTopArch />
 
       {/* Header */}
-      <div className="relative z-10 pt-1">
-        <span className="font-royal text-xs tracking-widest text-royal-maroon uppercase font-bold">
-          {language === 'hi' ? '॥ विवाह स्थल ॥' : '॥ WEDDING VENUE ॥'}
+      <div className="relative z-10 px-4 pt-0.5">
+        <span className="font-royal text-[11px] sm:text-xs tracking-widest text-[#5B0D1B] uppercase font-bold">
+          {language === 'hi' ? '॥ विवाह स्थल विवरण ॥' : '॥ WEDDING VENUE ॥'}
         </span>
-        <h2 className="font-royal text-xl sm:text-2xl font-bold text-royal-maroon mt-0.5">
+        <h2 className="font-royal text-xl sm:text-2xl font-bold text-[#4A0A14] mt-0.5">
           {data.meta.venueName}
         </h2>
         <div className="flex items-center justify-center space-x-2 my-1">
-          <div className="h-[1px] w-12 bg-antique-gold/60" />
-          <span className="text-antique-gold text-xs">❖</span>
-          <div className="h-[1px] w-12 bg-antique-gold/60" />
+          <div className="h-[1px] w-12 bg-[#C7A15A]/60" />
+          <span className="text-[#C7A15A] text-xs">❖</span>
+          <div className="h-[1px] w-12 bg-[#C7A15A]/60" />
         </div>
       </div>
 
-      {/* Venue Content & Actions */}
-      <div className="relative z-10 my-auto w-full max-w-sm space-y-3">
-        <div className="rounded-xl border-2 border-antique-gold/70 bg-gradient-to-b from-[#FFFDF8] via-[#FAF3E7] to-[#F5EAD6] shadow-[0_4px_14px_rgba(133,94,36,0.12)] p-4 text-center">
-          <div className="w-12 h-12 rounded-full bg-royal-maroon text-antique-gold flex items-center justify-center mx-auto mb-2.5 shadow-md">
-            <MapPin className="w-6 h-6 text-antique-gold" />
-          </div>
-          <h3 className="font-royal text-base sm:text-lg font-bold text-royal-maroon">
-            {data.meta.venueName}
-          </h3>
-          <p className="font-hindi text-xs sm:text-sm text-charcoal/85 mt-1 leading-relaxed">
-            {data.meta.venueAddress}
-          </p>
-          <div className="mt-2.5 pt-2 border-t border-antique-gold/30">
-            <span className="px-2.5 py-0.5 rounded-full bg-royal-maroon/10 text-royal-maroon font-hindi text-xs font-semibold">
-              {language === 'hi' ? 'भीलवाड़ा, राजस्थान' : 'Bhilwara, Rajasthan'}
-            </span>
-          </div>
-        </div>
+      {/* Venue Panel & Actions */}
+      <div className="relative z-10 px-4 my-auto w-full max-w-sm mx-auto space-y-2.5 allow-inner-scroll overflow-y-auto max-h-[calc(78vh-135px)] pr-0.5">
+        <HeraldicPanel
+          sideTitle={language === 'hi' ? 'मुख्य विवाह स्थल — पायल रिसोर्ट' : 'Main Venue — Payal Resort'}
+          badge={language === 'hi' ? 'भीलवाड़ा' : 'Bhilwara'}
+          rows={[
+            {
+              label: language === 'hi' ? 'स्थल नाम' : 'Venue',
+              value: data.meta.venueName,
+              highlight: true
+            },
+            {
+              label: language === 'hi' ? 'पता' : 'Address',
+              value: data.meta.venueAddress
+            },
+            {
+              label: language === 'hi' ? 'शहर / राज्य' : 'City / State',
+              value: language === 'hi' ? 'भीलवाड़ा, राजस्थान' : 'Bhilwara, Rajasthan'
+            },
+            {
+              label: language === 'hi' ? 'सत्कार' : 'Host',
+              value: language === 'hi' ? 'समस्त चौहान परिवार, फलीचड़ा' : 'Chauhan Family, Falichada'
+            }
+          ]}
+        />
 
         {/* Action Buttons */}
-        <div className="space-y-2">
-          {/* Google Maps Button */}
+        <div className="space-y-2 pt-0.5">
           <a
             href={data.meta.mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-2.5 px-4 rounded-xl border-2 border-antique-gold bg-gradient-to-r from-royal-maroon-dark via-royal-maroon to-royal-maroon-dark text-[#FFF4D0] font-hindi text-xs sm:text-sm font-semibold shadow-md hover:border-white active:scale-95 transition-all flex items-center justify-center space-x-2"
+            className="w-full py-2.5 px-4 rounded-xl border border-[#C7A15A] bg-gradient-to-r from-[#4A0A14] via-[#660C1D] to-[#4A0A14] text-[#FFF4D0] font-hindi text-xs sm:text-sm font-semibold shadow-sm hover:border-white active:scale-95 transition-all flex items-center justify-center space-x-2"
           >
             <Compass className="w-4 h-4 text-antique-gold" />
             <span>{language === 'hi' ? 'Google Maps पर दिशा-निर्देश देखें' : 'Open in Google Maps'}</span>
             <ExternalLink className="w-3.5 h-3.5 opacity-80" />
           </a>
 
-          {/* Copy Address Button */}
           <button
             onClick={handleCopyAddress}
-            className="w-full py-2 px-4 rounded-xl border border-royal-maroon/30 bg-white/95 text-royal-maroon font-hindi text-xs font-semibold hover:bg-white active:scale-95 transition-all flex items-center justify-center space-x-1.5 shadow-xs"
+            className="w-full py-2 px-4 rounded-xl border border-[#C7A15A]/50 bg-white/95 text-[#5B0D1B] font-hindi text-xs font-semibold hover:bg-white active:scale-95 transition-all flex items-center justify-center space-x-1.5 shadow-2xs"
           >
             {copiedAddress ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
             <span>{copiedAddress ? (language === 'hi' ? 'पता कॉपी हो गया!' : 'Address Copied!') : (language === 'hi' ? 'पता कॉपी करें' : 'Copy Address')}</span>
           </button>
 
-          {/* Contact Phone */}
-          <div className="pt-1 flex items-center justify-center space-x-2 text-xs font-hindi text-charcoal/80">
-            <Phone className="w-3.5 h-3.5 text-royal-maroon" />
+          <div className="flex items-center justify-center space-x-2 text-xs font-hindi text-[#2D2D2D] pt-1">
+            <Phone className="w-3.5 h-3.5 text-[#5B0D1B]" />
             <span>{language === 'hi' ? 'संपर्क सूत्र:' : 'Contact:'}</span>
-            <a href="tel:+916377273385" className="hover:text-royal-maroon font-bold text-royal-maroon underline">
+            <a href="tel:+916377273385" className="hover:text-[#5B0D1B] font-bold text-[#5B0D1B] underline">
               +91 6377273385
             </a>
           </div>
         </div>
       </div>
 
-      <div className="relative z-10 text-[11px] font-hindi text-charcoal/60 pt-1">
-        {language === 'hi' ? '— पृष्ठ ६ —' : '— Page 6 —'}
-      </div>
+      <FortBougainvilleaFooter
+        pageNumberText={language === 'hi' ? '— पृष्ठ ६ —' : '— Page 6 —'}
+      />
     </div>
   );
 
-  // PAGE 7: CHIEF INVITERS & SOLICITATIONS
+  // PAGE 7: CHIEF HOSTS & INVITERS
   const renderPage7ChiefHosts = () => (
-    <div className="w-full h-full flex flex-col justify-between p-4 sm:p-5 text-center bg-gradient-to-b from-[#FFFDF9] via-[#FAF4E9] to-[#F3E7D3] text-charcoal relative select-none">
-      <div className="absolute inset-3 rounded-2xl border-2 border-antique-gold/75 pointer-events-none" />
-      <div className="absolute inset-4 rounded-xl border border-dashed border-royal-maroon/20 pointer-events-none" />
+    <div className="w-full h-full flex flex-col justify-between text-center bg-gradient-to-b from-[#FFFDF9] via-[#FAF5EC] to-[#F3E7D3] text-[#2D2D2D] relative select-none overflow-hidden">
+      <PalaceTopArch />
 
       {/* Header */}
-      <div className="relative z-10 pt-1">
-        <span className="font-royal text-xs tracking-widest text-royal-maroon uppercase font-bold">
-          {language === 'hi' ? '॥ मुख्य आमंत्रक ॥' : '॥ CHIEF HOSTS ॥'}
+      <div className="relative z-10 px-4 pt-0.5">
+        <span className="font-royal text-[11px] sm:text-xs tracking-widest text-[#5B0D1B] uppercase font-bold">
+          {language === 'hi' ? '॥ सस्नेह निमंत्रण ॥' : '॥ CHIEF HOSTS ॥'}
         </span>
-        <h2 className="font-royal text-lg sm:text-xl font-bold text-royal-maroon mt-0.5">
+        <h2 className="font-royal text-xl sm:text-2xl font-bold text-[#4A0A14] mt-0.5">
           {data.family.preshakTitle}
         </h2>
         <div className="flex items-center justify-center space-x-2 my-1">
-          <div className="h-[1px] w-12 bg-antique-gold/60" />
-          <span className="text-antique-gold text-xs">❖</span>
-          <div className="h-[1px] w-12 bg-antique-gold/60" />
+          <div className="h-[1px] w-12 bg-[#C7A15A]/60" />
+          <span className="text-[#C7A15A] text-xs">❖</span>
+          <div className="h-[1px] w-12 bg-[#C7A15A]/60" />
         </div>
       </div>
 
-      {/* Hosts & Meethi Manuhar */}
-      <div className="relative z-10 my-auto w-full max-w-sm space-y-2 text-left allow-inner-scroll overflow-y-auto max-h-[calc(78vh-115px)] pr-0.5">
-        {/* Preshak List */}
-        <div className="rounded-xl border-2 border-antique-gold/60 bg-gradient-to-b from-[#FFFDF8] via-[#FAF3E7] to-[#F5EAD6] p-3 shadow-sm">
-          <div className="text-xs font-royal font-bold text-royal-maroon uppercase mb-1.5 pb-1 border-b border-royal-maroon/15">
-            {language === 'hi' ? 'प्रेषक परिवार' : 'Preshak (Inviters)'}
-          </div>
-          <ul className="text-xs font-hindi space-y-1.5 text-charcoal/90">
-            {data.family.preshak.map((p, i) => (
-              <li key={i} className="flex items-center space-x-2">
-                <span className="text-antique-gold text-xs">❖</span>
-                <span className="font-semibold">{p}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+      {/* Hosts & Meethi Manuhar Panels */}
+      <div className="relative z-10 px-4 my-auto w-full max-w-sm mx-auto space-y-2.5 allow-inner-scroll overflow-y-auto max-h-[calc(78vh-135px)] pr-0.5">
+        {/* Preshak Panel */}
+        <HeraldicPanel
+          sideTitle={language === 'hi' ? 'प्रेषक (निमंत्रक परिवार)' : 'Preshak (Hosts)'}
+          badge={language === 'hi' ? 'ठि. फलीचड़ा' : 'Thi. Falichada'}
+          rows={[
+            {
+              label: language === 'hi' ? 'मुखिया' : 'Head',
+              value: 'श्रीमती एवं ठा. राम सिंह चौहान',
+              highlight: true
+            },
+            {
+              label: language === 'hi' ? 'आत्मज' : 'Son',
+              value: 'कुं. गजेन्द्र सिंह चौहान'
+            },
+            {
+              label: language === 'hi' ? 'समस्त' : 'Family',
+              value: 'समस्त चौहान परिवार, फलीचड़ा (मेवाड़)'
+            }
+          ]}
+        />
 
-        {/* Meethi Manuhar */}
-        <div className="rounded-xl border-2 border-antique-gold/60 bg-gradient-to-b from-[#FFFDF8] via-[#FAF3E7] to-[#F5EAD6] p-3 shadow-sm space-y-2">
-          <div>
-            <p className="font-royal text-xs font-bold text-royal-maroon">
-              {data.family.meethiManuhar.dadosa.quote}
-            </p>
-            <p className="font-hindi text-[11px] text-charcoal/80 mt-0.5">
-              {data.family.meethiManuhar.dadosa.names.join(', ')}
-            </p>
-          </div>
-          <div className="border-t border-royal-maroon/10 pt-1.5">
-            <p className="font-royal text-xs font-bold text-royal-maroon">
-              {data.family.meethiManuhar.choteBhai.quote}
-            </p>
-            <p className="font-hindi text-[11px] text-charcoal/80 mt-0.5">
-              {data.family.meethiManuhar.choteBhai.names.join(', ')}
-            </p>
-          </div>
-        </div>
+        {/* Meethi Manuhar Panel */}
+        <HeraldicPanel
+          sideTitle={language === 'hi' ? 'मीठी मनुहार (बाल मनुहार)' : 'Sweet Invocations'}
+          badge={language === 'hi' ? 'नन्हे-मुन्ने' : 'Kids'}
+          rows={[
+            {
+              label: language === 'hi' ? 'मनुहार' : 'Quote',
+              value: `"${data.family.meethiManuhar.dadosa.quote}"`,
+              highlight: true
+            },
+            {
+              label: language === 'hi' ? 'आग्रहकर्ता' : 'Names',
+              value: data.family.meethiManuhar.dadosa.names.join(', ')
+            },
+            {
+              label: language === 'hi' ? 'बाल आग्रह' : 'Kids',
+              value: data.family.meethiManuhar.choteBhai.names.join(', ')
+            }
+          ]}
+        />
 
-        {/* Swagatakankshi */}
-        <div className="rounded-xl border border-antique-gold/40 bg-white/70 p-2.5 text-center">
-          <p className="font-royal text-[11px] font-bold text-royal-maroon">
-            {data.family.swagatakankshiTitle}: <span className="font-hindi font-normal text-charcoal">{data.family.swagatakankshi}</span>
+        {/* Swagatakankshi Box */}
+        <div className="p-2.5 rounded-xl border border-[#C7A15A]/60 bg-white/85 text-center shadow-2xs">
+          <p className="font-royal text-xs font-bold text-[#5B0D1B]">
+            {data.family.swagatakankshiTitle}: <span className="font-hindi font-semibold text-[#2D2D2D]">{data.family.swagatakankshi}</span>
           </p>
         </div>
       </div>
 
-      <div className="relative z-10 text-[11px] font-hindi text-charcoal/60 pt-1">
-        {language === 'hi' ? '— पृष्ठ ७ —' : '— Page 7 —'}
-      </div>
+      <FortBougainvilleaFooter
+        pageNumberText={language === 'hi' ? '— पृष्ठ ७ —' : '— Page 7 —'}
+      />
     </div>
   );
 
-  // PAGE 8: NANIHAL, SADU JI & RELATIONS
+  // PAGE 8: RELATIONS (NANIHAL, SADU JI & JAVAI)
   const renderPage8Relations = () => (
-    <div className="w-full h-full flex flex-col justify-between p-4 sm:p-5 text-center bg-gradient-to-b from-[#FFFDF9] via-[#FAF4E9] to-[#F3E7D3] text-charcoal relative select-none">
-      <div className="absolute inset-3 rounded-2xl border-2 border-antique-gold/75 pointer-events-none" />
-      <div className="absolute inset-4 rounded-xl border border-dashed border-royal-maroon/20 pointer-events-none" />
+    <div className="w-full h-full flex flex-col justify-between text-center bg-gradient-to-b from-[#FFFDF9] via-[#FAF5EC] to-[#F3E7D3] text-[#2D2D2D] relative select-none overflow-hidden">
+      <PalaceTopArch />
 
       {/* Header */}
-      <div className="relative z-10 pt-1">
-        <span className="font-royal text-xs tracking-widest text-royal-maroon uppercase font-bold">
-          {language === 'hi' ? '॥ पारिवारिक स्नेह ॥' : '॥ FAMILY RELATIONS ॥'}
+      <div className="relative z-10 px-4 pt-0.5">
+        <span className="font-royal text-[11px] sm:text-xs tracking-widest text-[#5B0D1B] uppercase font-bold">
+          {language === 'hi' ? '॥ पारिवारिक संबंध एवं स्नेह ॥' : '॥ FAMILY RELATIONS ॥'}
         </span>
-        <h2 className="font-royal text-lg sm:text-xl font-bold text-royal-maroon mt-0.5">
-          {language === 'hi' ? 'ननिहाल एवं रिश्तेदार' : 'Maternal Family & Relations'}
+        <h2 className="font-royal text-xl sm:text-2xl font-bold text-[#4A0A14] mt-0.5">
+          {language === 'hi' ? 'ननिहाल एवं पारिवारिक संबंध' : 'Maternal Family & Relations'}
         </h2>
         <div className="flex items-center justify-center space-x-2 my-1">
-          <div className="h-[1px] w-12 bg-antique-gold/60" />
-          <span className="text-antique-gold text-xs">❖</span>
-          <div className="h-[1px] w-12 bg-antique-gold/60" />
+          <div className="h-[1px] w-12 bg-[#C7A15A]/60" />
+          <span className="text-[#C7A15A] text-xs">❖</span>
+          <div className="h-[1px] w-12 bg-[#C7A15A]/60" />
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="relative z-10 w-full max-w-sm my-auto">
-        <div className="flex rounded-xl bg-royal-maroon/10 p-1 mb-2 border border-antique-gold/40">
+      {/* Relations Body with Tabs */}
+      <div className="relative z-10 px-4 my-auto w-full max-w-sm mx-auto space-y-2 allow-inner-scroll overflow-y-auto max-h-[calc(78vh-135px)] pr-0.5">
+        {/* Tab Pill Selectors */}
+        <div className="flex rounded-xl bg-[#4A0A14]/10 p-1 border border-[#C7A15A]/40">
           {[
             { id: 'nanihal', label: language === 'hi' ? 'ननिहाल' : 'Nanihal' },
             { id: 'sadu', label: language === 'hi' ? 'साढ़ू जी' : 'Sadu Ji' },
@@ -962,8 +912,8 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
               onClick={() => setActiveRelationTab(tab.id as typeof activeRelationTab)}
               className={`flex-1 py-1 text-[11px] font-hindi font-medium rounded-lg transition-all ${
                 activeRelationTab === tab.id
-                  ? 'bg-royal-maroon text-antique-gold-lighter font-bold shadow-xs'
-                  : 'text-charcoal/70 hover:text-royal-maroon'
+                  ? 'bg-[#5B0D1B] text-[#FFF4D0] font-bold shadow-xs'
+                  : 'text-[#5B0D1B] hover:bg-[#5B0D1B]/10'
               }`}
             >
               {tab.label}
@@ -971,86 +921,85 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
           ))}
         </div>
 
-        {/* Tab Content Box */}
-        <div className="rounded-xl border-2 border-antique-gold/60 bg-gradient-to-b from-[#FFFDF8] via-[#FAF3E7] to-[#F5EAD6] p-3 text-left max-h-[44vh] overflow-y-auto allow-inner-scroll shadow-sm">
-          {activeRelationTab === 'nanihal' && (
-            <div className="space-y-2 text-xs font-hindi">
-              {data.family.nanihal.map((item, i) => (
-                <div key={i} className="pb-1.5 border-b border-royal-maroon/10 last:border-none">
-                  <p className="font-semibold text-royal-maroon">{item.line}</p>
-                  <p className="text-[11px] text-charcoal/70 mt-0.5">{item.thikana}</p>
-                </div>
-              ))}
-            </div>
-          )}
+        {/* Tab Content Panels */}
+        {activeRelationTab === 'nanihal' && (
+          <HeraldicPanel
+            sideTitle={language === 'hi' ? 'ननिहाल पक्ष — शक्तावत राजवंश' : 'Maternal Family — Shaktawat'}
+            badge={language === 'hi' ? 'बड़ा महुआ' : 'Bada Mahua'}
+            rows={data.family.nanihal.map((item) => ({
+              label: language === 'hi' ? 'ननिहाल' : 'Family',
+              value: item.line,
+              subvalue: item.thikana
+            }))}
+          />
+        )}
 
-          {activeRelationTab === 'sadu' && (
-            <div className="space-y-2 text-xs font-hindi">
-              {data.family.saduJi.map((item, i) => (
-                <div key={i} className="pb-1.5 border-b border-royal-maroon/10 last:border-none">
-                  <p className="font-semibold text-royal-maroon">{item.line}</p>
-                  <p className="text-[11px] text-charcoal/70 mt-0.5">{item.subline}</p>
-                </div>
-              ))}
-            </div>
-          )}
+        {activeRelationTab === 'sadu' && (
+          <HeraldicPanel
+            sideTitle={language === 'hi' ? 'साढ़ू जी पक्ष' : 'Sadu Ji Relations'}
+            badge={language === 'hi' ? 'मेवाड़' : 'Mewar'}
+            rows={data.family.saduJi.map((item) => ({
+              label: language === 'hi' ? 'संबंध' : 'Relation',
+              value: item.line,
+              subvalue: item.subline
+            }))}
+          />
+        )}
 
-          {activeRelationTab === 'javai' && (
-            <ul className="space-y-1.5 text-xs font-hindi">
-              {data.family.javaiPaksh.map((m, i) => (
-                <li key={i} className="flex items-start space-x-1.5">
-                  <span className="text-antique-gold text-xs mt-0.5">❖</span>
-                  <span>{m}</span>
-                </li>
-              ))}
-            </ul>
-          )}
+        {activeRelationTab === 'javai' && (
+          <HeraldicPanel
+            sideTitle={language === 'hi' ? 'जावई पक्ष' : 'Javai Paksh'}
+            badge={language === 'hi' ? 'सत्कार' : 'Honored'}
+            rows={data.family.javaiPaksh.map((name, i) => ({
+              label: `${i + 1}`,
+              value: name
+            }))}
+          />
+        )}
 
-          {activeRelationTab === 'vishesh' && (
-            <ul className="space-y-1.5 text-xs font-hindi">
-              {data.family.visheshAagrah.map((m, i) => (
-                <li key={i} className="flex items-start space-x-1.5">
-                  <span className="text-antique-gold text-xs mt-0.5">❖</span>
-                  <span>{m}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        {activeRelationTab === 'vishesh' && (
+          <HeraldicPanel
+            sideTitle={language === 'hi' ? 'विशेष आग्रह' : 'Special Invocations'}
+            badge={language === 'hi' ? 'स्नेह' : 'Warmth'}
+            rows={data.family.visheshAagrah.map((name, i) => ({
+              label: `${i + 1}`,
+              value: name
+            }))}
+          />
+        )}
       </div>
 
-      <div className="relative z-10 text-[11px] font-hindi text-charcoal/60 pt-1">
-        {language === 'hi' ? '— पृष्ठ ८ —' : '— Page 8 —'}
-      </div>
+      <FortBougainvilleaFooter
+        pageNumberText={language === 'hi' ? '— पृष्ठ ८ —' : '— Page 8 —'}
+      />
     </div>
   );
 
-  // PAGE 9: RSVP & BLESSINGS
+  // PAGE 9: BLESSINGS & WHATSAPP RSVP
   const renderPage9RSVP = () => (
-    <div className="w-full h-full flex flex-col justify-between p-4 sm:p-5 text-center bg-gradient-to-b from-[#FFFDF9] via-[#FAF4E9] to-[#F3E7D3] text-charcoal relative select-none">
-      <div className="absolute inset-3 rounded-2xl border-2 border-antique-gold/75 pointer-events-none" />
-      <div className="absolute inset-4 rounded-xl border border-dashed border-royal-maroon/20 pointer-events-none" />
+    <div className="w-full h-full flex flex-col justify-between text-center bg-gradient-to-b from-[#FFFDF9] via-[#FAF5EC] to-[#F3E7D3] text-[#2D2D2D] relative select-none overflow-hidden">
+      <PalaceTopArch />
 
       {/* Header */}
-      <div className="relative z-10 pt-1">
-        <span className="font-royal text-xs tracking-widest text-royal-maroon uppercase font-bold">
+      <div className="relative z-10 px-4 pt-0.5">
+        <span className="font-royal text-[11px] sm:text-xs tracking-widest text-[#5B0D1B] uppercase font-bold">
           {language === 'hi' ? '॥ मंगल आशीष एवं उपस्थिति ॥' : '॥ RSVP & BLESSINGS ॥'}
         </span>
-        <h2 className="font-royal text-lg sm:text-xl font-bold text-royal-maroon mt-0.5">
+        <h2 className="font-royal text-xl sm:text-2xl font-bold text-[#4A0A14] mt-0.5">
           {language === 'hi' ? 'शुभकामनाएं व WhatsApp RSVP' : 'Send RSVP via WhatsApp'}
         </h2>
         <div className="flex items-center justify-center space-x-2 my-1">
-          <div className="h-[1px] w-12 bg-antique-gold/60" />
-          <span className="text-antique-gold text-xs">❖</span>
-          <div className="h-[1px] w-12 bg-antique-gold/60" />
+          <div className="h-[1px] w-12 bg-[#C7A15A]/60" />
+          <span className="text-[#C7A15A] text-xs">❖</span>
+          <div className="h-[1px] w-12 bg-[#C7A15A]/60" />
         </div>
       </div>
 
-      {/* RSVP Mini Form */}
-      <div className="relative z-10 my-auto w-full max-w-sm">
-        <form onSubmit={handleSendRSVP} className="rounded-xl border-2 border-antique-gold/70 bg-gradient-to-b from-[#FFFDF8] via-[#FAF3E7] to-[#F5EAD6] shadow-sm p-3.5 text-left space-y-2">
+      {/* RSVP Form Body */}
+      <div className="relative z-10 px-4 my-auto w-full max-w-sm mx-auto space-y-2 allow-inner-scroll overflow-y-auto max-h-[calc(78vh-135px)] pr-0.5">
+        <form onSubmit={handleSendRSVP} className="rounded-xl border border-[#C7A15A]/70 bg-gradient-to-b from-[#FFFDF8] via-[#FAF4EA] to-[#F5EAD7] shadow-sm p-3 text-left space-y-2">
           <div>
-            <label className="block text-[11px] font-hindi font-semibold text-royal-maroon mb-1">
+            <label className="block text-[11px] font-hindi font-semibold text-[#5B0D1B] mb-1">
               {language === 'hi' ? 'आपका शुभ नाम *' : 'Your Honorable Name *'}
             </label>
             <input
@@ -1058,7 +1007,7 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
               value={rsvpName}
               onChange={(e) => setRsvpName(e.target.value)}
               placeholder={language === 'hi' ? 'जैसे: ठा. सा. ...' : 'e.g., Mr. & Mrs. ...'}
-              className="w-full px-2.5 py-1.5 text-xs font-hindi rounded-lg border border-royal-maroon/25 bg-white focus:outline-none focus:border-royal-maroon"
+              className="w-full px-2.5 py-1.5 text-xs font-hindi rounded-lg border border-[#C7A15A]/50 bg-white focus:outline-none focus:border-[#5B0D1B]"
             />
             {rsvpError && <p className="text-[10px] text-red-600 mt-0.5">{rsvpError}</p>}
           </div>
@@ -1069,8 +1018,8 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
               onClick={() => setAttendance('attending')}
               className={`py-1.5 px-2 rounded-lg border text-center transition-all ${
                 attendance === 'attending'
-                  ? 'border-royal-maroon bg-royal-maroon text-white font-semibold shadow-xs'
-                  : 'border-royal-maroon/20 bg-white/70 text-charcoal/80'
+                  ? 'border-[#5B0D1B] bg-[#5B0D1B] text-white font-semibold shadow-xs'
+                  : 'border-[#C7A15A]/40 bg-white/70 text-[#2D2D2D]'
               }`}
             >
               {language === 'hi' ? '✅ अवश्य पधारेंगे' : '✅ Attending'}
@@ -1080,8 +1029,8 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
               onClick={() => setAttendance('not_attending')}
               className={`py-1.5 px-2 rounded-lg border text-center transition-all ${
                 attendance === 'not_attending'
-                  ? 'border-royal-maroon bg-royal-maroon text-white font-semibold shadow-xs'
-                  : 'border-royal-maroon/20 bg-white/70 text-charcoal/80'
+                  ? 'border-[#5B0D1B] bg-[#5B0D1B] text-white font-semibold shadow-xs'
+                  : 'border-[#C7A15A]/40 bg-white/70 text-[#2D2D2D]'
               }`}
             >
               {language === 'hi' ? '🙏 असमर्थ' : '🙏 Regret'}
@@ -1090,7 +1039,7 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
 
           {attendance === 'attending' && (
             <div className="flex items-center justify-between text-xs font-hindi pt-0.5">
-              <span className="text-charcoal/80">{language === 'hi' ? 'सदस्य संख्या:' : 'Guests:'}</span>
+              <span className="text-[#2D2D2D]">{language === 'hi' ? 'सदस्य संख्या:' : 'Guests:'}</span>
               <div className="flex items-center space-x-1.5">
                 {[1, 2, 3, 4, 5].map((cnt) => (
                   <button
@@ -1098,7 +1047,7 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
                     type="button"
                     onClick={() => setGuestCount(cnt)}
                     className={`w-6 h-6 rounded-md text-xs font-bold transition-all ${
-                      guestCount === cnt ? 'bg-royal-maroon text-antique-gold' : 'bg-royal-maroon/10 text-royal-maroon'
+                      guestCount === cnt ? 'bg-[#5B0D1B] text-antique-gold' : 'bg-[#5B0D1B]/10 text-[#5B0D1B]'
                     }`}
                   >
                     {cnt}
@@ -1109,7 +1058,7 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
           )}
 
           <div>
-            <label className="block text-[10px] font-hindi font-semibold text-royal-maroon mb-1">
+            <label className="block text-[10px] font-hindi font-semibold text-[#5B0D1B] mb-1">
               {language === 'hi' ? 'वर-वधू हेतु शुभाशीर्वाद (वैकल्पिक)' : 'Blessing for Couple (Optional)'}
             </label>
             <input
@@ -1117,13 +1066,13 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
               value={blessingText}
               onChange={(e) => setBlessingText(e.target.value)}
               placeholder={language === 'hi' ? 'सदा सुहागन रहो...' : 'Heartiest congratulations...'}
-              className="w-full px-2.5 py-1 text-xs font-hindi rounded-lg border border-royal-maroon/25 bg-white focus:outline-none focus:border-royal-maroon"
+              className="w-full px-2.5 py-1 text-xs font-hindi rounded-lg border border-[#C7A15A]/50 bg-white focus:outline-none focus:border-[#5B0D1B]"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full py-2 rounded-xl border border-antique-gold bg-gradient-to-r from-royal-maroon-dark to-royal-maroon text-white text-xs font-hindi font-bold flex items-center justify-center space-x-1.5 shadow-sm active:scale-95 transition-all"
+            className="w-full py-2 rounded-xl border border-antique-gold bg-gradient-to-r from-[#4A0A14] to-[#660C1D] text-white text-xs font-hindi font-bold flex items-center justify-center space-x-1.5 shadow-sm active:scale-95 transition-all"
           >
             <MessageCircle className="w-3.5 h-3.5 text-antique-gold" />
             <span>{language === 'hi' ? 'WhatsApp पर RSVP भेजें' : 'Send via WhatsApp'}</span>
@@ -1131,14 +1080,14 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
         </form>
 
         {/* Instant Blessing Tap */}
-        <div className="mt-2.5 flex items-center justify-between p-2.5 rounded-xl border border-antique-gold/50 bg-gradient-to-b from-[#FFFDF8] to-[#FAF3E7] shadow-xs">
-          <span className="text-xs font-hindi text-charcoal/80">
+        <div className="flex items-center justify-between p-2.5 rounded-xl border border-[#C7A15A]/60 bg-white/90 shadow-2xs">
+          <span className="text-xs font-hindi text-[#2D2D2D]">
             {language === 'hi' ? 'वर-वधू को पुष्प आशीष दें:' : 'Bless the Couple:'}
           </span>
           <button
             onClick={handleInstantBlessing}
             className={`flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-hindi font-bold transition-all ${
-              hasBlessed ? 'bg-red-600 text-white' : 'bg-white border border-antique-gold text-royal-maroon shadow-xs'
+              hasBlessed ? 'bg-red-600 text-white' : 'bg-white border border-[#C7A15A] text-[#5B0D1B] shadow-2xs'
             }`}
           >
             <Heart className={`w-3.5 h-3.5 ${hasBlessed ? 'fill-white' : 'text-red-600'}`} />
@@ -1147,9 +1096,9 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
         </div>
       </div>
 
-      <div className="relative z-10 text-[11px] font-hindi text-charcoal/60 pt-1">
-        {language === 'hi' ? '— पृष्ठ ९ —' : '— Page 9 —'}
-      </div>
+      <FortBougainvilleaFooter
+        pageNumberText={language === 'hi' ? '— पृष्ठ ९ —' : '— Page 9 —'}
+      />
     </div>
   );
 
@@ -1191,7 +1140,7 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
           ॥ अतिथि देवो भवः ॥
         </p>
 
-        {/* 100% Real Isolated Visitor Counter (Compact Luxury Pill) */}
+        {/* 100% Real Isolated Visitor Counter */}
         <div className="mt-2.5">
           <VisitorCounter variant="pill" />
         </div>
@@ -1273,7 +1222,6 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
 
       {/* 3D BOOK MAIN STAGE */}
       <main className="relative w-full flex-1 flex items-center justify-center px-3 sm:px-6 my-auto perspective-1000 z-10">
-        {/* Book Container with Authentic Book Spine & 3D Depth */}
         <div
           className="relative w-full max-w-[420px] sm:max-w-[460px] h-[78vh] sm:h-[80vh] max-h-[690px] rounded-2xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_35px_rgba(199,161,90,0.25)] preserve-3d"
         >
@@ -1288,7 +1236,7 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
           <div className="absolute top-2 bottom-2 right-[-5px] w-2 bg-gradient-to-b from-[#C7A15A] via-[#E8DCBE] to-[#855E24] rounded-r-sm z-0 shadow-md" />
 
           {/* Current Visible Page */}
-          <div className="absolute inset-0 rounded-2xl overflow-hidden z-10 bg-[#F7F0E2]">
+          <div className="absolute inset-0 rounded-2xl overflow-hidden z-10 bg-[#FAF5EC]">
             {renderPageContent(currentPage)}
           </div>
 
@@ -1297,7 +1245,7 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
             {isFlipping && (
               <motion.div
                 key={`flip-${currentPage}-${flipDirection}`}
-                className="absolute inset-0 rounded-2xl z-20 origin-left preserve-3d pointer-events-none bg-[#F7F0E2] shadow-2xl overflow-hidden border border-antique-gold/50"
+                className="absolute inset-0 rounded-2xl z-20 origin-left preserve-3d pointer-events-none bg-[#FAF5EC] shadow-2xl overflow-hidden border border-antique-gold/50"
                 initial={{
                   rotateY: flipDirection === 'next' ? 0 : -140,
                   opacity: 1,
@@ -1313,21 +1261,20 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
                   ease: [0.45, 0.05, 0.25, 0.95],
                 }}
               >
-                {/* Visual Page Turn Highlight Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/10 pointer-events-none" />
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* Lateral Quick-Turn Arrows (Subtle edges) */}
+          {/* Lateral Quick-Turn Arrows (Matching User Reference Maroon Tabs) */}
           {currentPage > 0 && (
             <button
               onClick={turnPrev}
               disabled={isFlipping}
-              className="absolute left-[-16px] sm:left-[-22px] top-1/2 -translate-y-1/2 z-40 w-8 h-12 sm:w-10 sm:h-14 rounded-r-full bg-royal-maroon-dark/90 border border-antique-gold/60 text-antique-gold flex items-center justify-start pl-1 sm:pl-1.5 shadow-lg hover:bg-royal-maroon hover:text-white transition-all active:scale-95"
+              className="absolute left-[-14px] sm:left-[-20px] top-1/2 -translate-y-1/2 z-40 w-7 h-12 sm:w-9 sm:h-14 rounded-r-full bg-[#4A0A14] border border-[#C7A15A]/70 text-[#FFF4D0] flex items-center justify-start pl-1 sm:pl-1.5 shadow-lg hover:bg-[#660C1D] transition-all active:scale-95"
               aria-label="Previous Page"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-antique-gold" />
             </button>
           )}
 
@@ -1335,52 +1282,64 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
             <button
               onClick={turnNext}
               disabled={isFlipping}
-              className="absolute right-[-16px] sm:right-[-22px] top-1/2 -translate-y-1/2 z-40 w-8 h-12 sm:w-10 sm:h-14 rounded-l-full bg-royal-maroon-dark/90 border border-antique-gold/60 text-antique-gold flex items-center justify-end pr-1 sm:pr-1.5 shadow-lg hover:bg-royal-maroon hover:text-white transition-all active:scale-95"
+              className="absolute right-[-14px] sm:right-[-20px] top-1/2 -translate-y-1/2 z-40 w-7 h-12 sm:w-9 sm:h-14 rounded-l-full bg-[#4A0A14] border border-[#C7A15A]/70 text-[#FFF4D0] flex items-center justify-end pr-1 sm:pr-1.5 shadow-lg hover:bg-[#660C1D] transition-all active:scale-95"
               aria-label="Next Page"
             >
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-antique-gold" />
             </button>
           )}
         </div>
       </main>
 
-      {/* BOTTOM ACTION BAR */}
-      <footer className="w-full max-w-sm sm:max-w-md mx-auto px-4 py-2 z-30 flex items-center justify-between pb-safe">
-        {/* Left: Previous Page Button */}
-        <button
-          onClick={turnPrev}
-          disabled={currentPage === 0 || isFlipping}
-          className={`flex items-center space-x-1 px-3 py-1.5 rounded-full border text-xs font-hindi transition-all ${
-            currentPage === 0 ? 'opacity-30 border-gray-600 text-gray-500 cursor-not-allowed' : 'border-antique-gold/40 text-antique-gold hover:border-antique-gold active:scale-95 bg-charcoal-dark/70'
-          }`}
-        >
-          <ChevronLeft className="w-3.5 h-3.5" />
-          <span>{language === 'hi' ? 'पिछला' : 'Prev'}</span>
-        </button>
+      {/* UNIFIED LUXURY BOTTOM ACTION BAR (MATCHING USER REFERENCE DESIGN) */}
+      <footer className="w-full max-w-sm sm:max-w-md mx-auto px-3 py-2 z-30 pb-safe">
+        <div className="w-full py-1.5 px-2 rounded-full border border-[#C7A15A]/60 bg-[#35050C]/95 backdrop-blur-md shadow-2xl flex items-center justify-between">
+          {/* 1. Previous Page Button */}
+          <button
+            onClick={turnPrev}
+            disabled={currentPage === 0 || isFlipping}
+            className={`flex items-center space-x-1 px-3 py-1.5 rounded-full text-xs font-hindi transition-all ${
+              currentPage === 0
+                ? 'opacity-30 text-[#888] cursor-not-allowed'
+                : 'text-[#FFF4D0] hover:text-white active:scale-95'
+            }`}
+          >
+            <ChevronLeft className="w-3.5 h-3.5 text-antique-gold" />
+            <span>{language === 'hi' ? 'पिछला' : 'Prev'}</span>
+          </button>
 
-        {/* Center: Table of Contents & Petal Shower */}
-        <div className="flex items-center space-x-2">
+          {/* 2. Table of Contents */}
           <button
             onClick={() => setShowTOC(!showTOC)}
-            className="flex items-center space-x-1 px-2.5 py-1 rounded-full border border-antique-gold/40 bg-royal-maroon-dark/85 text-antique-gold text-[11px] font-hindi font-semibold hover:border-antique-gold active:scale-95 transition-all shadow-xs"
+            className="flex items-center space-x-1 px-3 py-1.5 rounded-full text-[#FFF4D0] hover:text-white text-xs font-hindi transition-all"
           >
-            <Menu className="w-3 h-3 text-antique-gold" />
+            <Menu className="w-3.5 h-3.5 text-antique-gold" />
             <span>{language === 'hi' ? 'विषय-सूची' : 'Contents'}</span>
           </button>
-          <PetalShowerButton />
-        </div>
 
-        {/* Right: Next Page Button */}
-        <button
-          onClick={turnNext}
-          disabled={currentPage === totalPages - 1 || isFlipping}
-          className={`flex items-center space-x-1 px-3 py-1.5 rounded-full border text-xs font-hindi transition-all ${
-            currentPage === totalPages - 1 ? 'opacity-30 border-gray-600 text-gray-500 cursor-not-allowed' : 'border-antique-gold/40 text-antique-gold hover:border-antique-gold active:scale-95 bg-charcoal-dark/70'
-          }`}
-        >
-          <span>{language === 'hi' ? 'अगला' : 'Next'}</span>
-          <ChevronRight className="w-3.5 h-3.5" />
-        </button>
+          {/* 3. Highlighted Petal Shower Button (Matching Glowing Star in Reference) */}
+          <button
+            onClick={triggerPetalShower}
+            className="group flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full border border-[#C7A15A] bg-gradient-to-r from-[#851025] to-[#A01630] text-[#FFF4D0] text-xs font-hindi font-bold shadow-royal-glow active:scale-95 transition-all"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-[#FCE8B2] animate-spin" style={{ animationDuration: '8s' }} />
+            <span>{language === 'hi' ? 'पुष्प वर्षा' : 'Petals'}</span>
+          </button>
+
+          {/* 4. Next Page Button */}
+          <button
+            onClick={turnNext}
+            disabled={currentPage === totalPages - 1 || isFlipping}
+            className={`flex items-center space-x-1 px-3 py-1.5 rounded-full text-xs font-hindi transition-all ${
+              currentPage === totalPages - 1
+                ? 'opacity-30 text-[#888] cursor-not-allowed'
+                : 'text-[#FFF4D0] hover:text-white active:scale-95'
+            }`}
+          >
+            <span>{language === 'hi' ? 'अगला' : 'Next'}</span>
+            <ChevronRight className="w-3.5 h-3.5 text-antique-gold" />
+          </button>
+        </div>
       </footer>
 
       {/* TABLE OF CONTENTS MODAL */}
