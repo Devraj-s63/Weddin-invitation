@@ -121,3 +121,4 @@ export const PwaInstallPrompt: React.FC<{ isOpen: boolean; onClose: () => void }
     </AnimatePresence>
   );
 };
+
