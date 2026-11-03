@@ -24,6 +24,7 @@ import { triggerPetalShower } from '../components/common/PetalShower';
 import { VisitorCounter } from '../components/common/VisitorCounter';
 import { audioManager } from '../utils/audioManager';
 import { PersonalizedGuestModal } from '../components/common/PersonalizedGuestModal';
+import { PwaInstallPrompt } from '../components/common/PwaInstallPrompt';
 import {
   PalaceTopArch,
   HeraldicPanel,
@@ -42,6 +43,7 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
   const [flipDirection, setFlipDirection] = useState<'next' | 'prev'>('next');
   const [showTOC, setShowTOC] = useState<boolean>(false);
   const [showGuestModal, setShowGuestModal] = useState<boolean>(false);
+  const [showPwaModal, setShowPwaModal] = useState<boolean>(false);
   const [copiedAddress, setCopiedAddress] = useState<boolean>(false);
   const [activeRelationTab, setActiveRelationTab] = useState<'nanihal' | 'sadu' | 'javai' | 'vishesh'>('nanihal');
 
@@ -1157,6 +1159,14 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
           <span>{language === 'hi' ? '✨ अतिथि निमंत्रण लिंक बनाएं (WhatsApp)' : '✨ Create Guest Link (WhatsApp)'}</span>
         </button>
 
+        {/* Add to Home Screen / Install PWA App Button */}
+        <button
+          onClick={() => setShowPwaModal(true)}
+          className="w-full py-1.5 px-3 rounded-full border border-antique-gold/70 bg-black/40 text-antique-gold-lighter text-xs font-hindi font-semibold hover:border-white active:scale-95 transition-all flex items-center justify-center space-x-1.5 shadow-sm"
+        >
+          <span>📲 {language === 'hi' ? 'शाही ऐप फोन में जोड़ें (Install App)' : 'Install Wedding App (Offline)'}</span>
+        </button>
+
         <div className="flex items-center space-x-2 w-full justify-center">
           <a
             href={data.meta.pdfDownloadUrl}
@@ -1389,6 +1399,20 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
                     </span>
                   </button>
                 ))}
+
+                {/* Direct PWA Install in Table of Contents */}
+                <div className="pt-2 border-t border-antique-gold/30">
+                  <button
+                    onClick={() => {
+                      setShowTOC(false);
+                      setShowPwaModal(true);
+                    }}
+                    className="w-full py-2 px-3 rounded-lg text-left text-xs font-hindi text-antique-gold hover:bg-white/10 flex items-center justify-between font-semibold"
+                  >
+                    <span>📲 {language === 'hi' ? 'फोन होम स्क्रीन पर ऐप जोड़ें' : 'Add App to Home Screen'}</span>
+                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-antique-gold/20 text-[#FFF4D0]">PWA</span>
+                  </button>
+                </div>
               </div>
             </motion.div>
           </motion.div>
@@ -1399,6 +1423,12 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
       <PersonalizedGuestModal
         isOpen={showGuestModal}
         onClose={() => setShowGuestModal(false)}
+      />
+
+      {/* PWA WEB APP INSTALLATION MODAL */}
+      <PwaInstallPrompt
+        isOpen={showPwaModal}
+        onClose={() => setShowPwaModal(false)}
       />
     </div>
   );

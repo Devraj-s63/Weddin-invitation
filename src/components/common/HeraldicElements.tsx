@@ -245,3 +245,4 @@ export const FortBougainvilleaFooter: React.FC<{ pageNumberText: string }> = ({ 
     </div>
   );
 };
+
