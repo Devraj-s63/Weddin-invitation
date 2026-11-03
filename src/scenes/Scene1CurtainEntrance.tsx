@@ -4,6 +4,7 @@ import { ChauhanCrest } from '../components/common/ChauhanCrest';
 import { audioManager } from '../utils/audioManager';
 import { triggerPetalShower } from '../components/common/PetalShower';
 import { useLanguage } from '../context/LanguageContext';
+import { getGuestFromUrl } from '../utils/guestManager';
 
 interface Scene1Props {
   onOpenComplete: () => void;
@@ -11,7 +12,8 @@ interface Scene1Props {
 
 export const Scene1CurtainEntrance: React.FC<Scene1Props> = ({ onOpenComplete }) => {
   const [isOpening, setIsOpening] = useState(false);
-  const { data } = useLanguage();
+  const { data, language } = useLanguage();
+  const { guestName, salutation, hasGuest } = getGuestFromUrl();
 
   const handleOpenCurtains = async () => {
     if (isOpening) return;
@@ -129,6 +131,26 @@ export const Scene1CurtainEntrance: React.FC<Scene1Props> = ({ onOpenComplete })
             >
               <ChauhanCrest size="lg" showCaption={true} />
             </motion.div>
+
+            {/* Personalized Guest Welcome Banner if present in URL */}
+            {hasGuest && (
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0, y: 15 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                transition={{ delay: 0.45, duration: 0.7 }}
+                className="my-2 px-4 py-2.5 rounded-2xl border-2 border-antique-gold/80 bg-gradient-to-r from-royal-maroon-dark via-[#550A18] to-royal-maroon-dark text-[#FFF4D0] shadow-royal-glow max-w-xs sm:max-w-md mx-auto text-center backdrop-blur-md"
+              >
+                <p className="font-royal text-[10px] sm:text-xs text-antique-gold tracking-widest uppercase font-semibold">
+                  {language === 'hi' ? '॥ सादर सस्नेह आमंत्रण ॥' : '॥ SPECIAL ROYAL INVITATION ॥'}
+                </p>
+                <h2 className="font-royal text-base sm:text-lg font-bold text-white mt-0.5 drop-shadow">
+                  {salutation ? `${salutation} ` : (language === 'hi' ? 'परम आदरणीय ' : 'Honorable ')}{guestName} {language === 'hi' ? 'सा' : ''}
+                </h2>
+                <p className="font-hindi text-[11px] text-sandstone mt-0.5">
+                  {language === 'hi' ? 'चौहान परिवार आपका हार्दिक एवं सस्नेह स्वागत करता है।' : 'The Chauhan Family cordially welcomes you to celebrate with us.'}
+                </p>
+              </motion.div>
+            )}
 
             {/* Royal Welcome Lines */}
             <motion.div

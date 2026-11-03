@@ -11,6 +11,7 @@ import { LanguageToggle } from './components/common/LanguageToggle';
 import { LanguageSelectorModal } from './components/common/LanguageSelectorModal';
 import { LanguageProvider } from './context/LanguageContext';
 import { useVisitorCounter } from './hooks/useVisitorCounter';
+import { RoyalCursorTrail } from './components/common/RoyalCursorTrail';
 
 export type WeddingStage = 'curtain' | 'card' | 'groom' | 'bride' | 'couple' | 'book';
 
@@ -57,6 +58,9 @@ function WeddingAppContent() {
 
   return (
     <div className="relative min-h-screen bg-charcoal text-ivory selection:bg-antique-gold selection:text-royal-maroon-dark overflow-hidden">
+      {/* Royal Sparkle Cursor Trail on Desktop */}
+      <RoyalCursorTrail />
+
       {/* First-time Entry Royal Language Selector Dialog */}
       <LanguageSelectorModal />
 

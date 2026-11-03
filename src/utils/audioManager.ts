@@ -109,6 +109,58 @@ class WeddingAudioManager {
     }
   }
 
+  // Realistic parchment paper flip sound effect & haptics
+  public playPageTurnSound() {
+    try {
+      // Haptic feedback on mobile if supported
+      if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+        navigator.vibrate(22);
+      }
+
+      if (this.isMuted) return;
+
+      const ctx = this.getAudioContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+      const duration = 0.16; // 160ms
+      const bufferSize = Math.floor(ctx.sampleRate * duration);
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+
+      // Filtered pink noise for organic parchment friction
+      let lastOut = 0.0;
+      for (let i = 0; i < bufferSize; i++) {
+        const white = Math.random() * 2 - 1;
+        data[i] = (lastOut + 0.02 * white) / 1.02;
+        lastOut = data[i];
+      }
+
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+
+      // Bandpass filter centered around 1200Hz sloping downwards
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(1200, now);
+      filter.frequency.exponentialRampToValueAtTime(600, now + duration);
+      filter.Q.value = 1.8;
+
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.09, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+
+      noise.start(now);
+      noise.stop(now + duration);
+    } catch {
+      // Fail silently if audio context is restricted
+    }
+  }
+
   // Graceful Web Audio Synthesizer fallback (Tanpura drone atmosphere)
   private startSynthesizer() {
     try {

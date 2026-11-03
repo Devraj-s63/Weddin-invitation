@@ -17,12 +17,15 @@ import {
   Compass,
   Shield,
   ExternalLink,
-  Sparkles
+  Sparkles,
+  Share2
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { ChauhanCrest } from '../components/common/ChauhanCrest';
 import { PetalShowerButton, triggerPetalShower } from '../components/common/PetalShower';
 import { VisitorCounter } from '../components/common/VisitorCounter';
+import { audioManager } from '../utils/audioManager';
+import { PersonalizedGuestModal } from '../components/common/PersonalizedGuestModal';
 
 interface SceneRoyalBookProps {
   onReplay: () => void;
@@ -35,8 +38,14 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
   const [isFlipping, setIsFlipping] = useState<boolean>(false);
   const [flipDirection, setFlipDirection] = useState<'next' | 'prev'>('next');
   const [showTOC, setShowTOC] = useState<boolean>(false);
+  const [showGuestModal, setShowGuestModal] = useState<boolean>(false);
   const [copiedAddress, setCopiedAddress] = useState<boolean>(false);
   const [activeRelationTab, setActiveRelationTab] = useState<'nanihal' | 'sadu' | 'javai' | 'vishesh'>('nanihal');
+
+  const toHindiDigits = (num: number | string): string => {
+    const hindiDigits = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+    return num.toString().replace(/[0-9]/g, (d) => hindiDigits[parseInt(d, 10)]);
+  };
 
   // Countdown State for Page 2
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -81,6 +90,7 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
     if (isFlipping || currentPage >= totalPages - 1) return;
     setIsFlipping(true);
     setFlipDirection('next');
+    audioManager.playPageTurnSound();
     setTimeout(() => {
       setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1));
       setIsFlipping(false);
@@ -91,6 +101,7 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
     if (isFlipping || currentPage <= 0) return;
     setIsFlipping(true);
     setFlipDirection('prev');
+    audioManager.playPageTurnSound();
     setTimeout(() => {
       setCurrentPage((prev) => Math.max(0, prev - 1));
       setIsFlipping(false);
@@ -102,6 +113,7 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
     setShowTOC(false);
     setIsFlipping(true);
     setFlipDirection(pageIndex > currentPage ? 'next' : 'prev');
+    audioManager.playPageTurnSound();
     setTimeout(() => {
       setCurrentPage(pageIndex);
       setIsFlipping(false);
@@ -273,7 +285,7 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
       {/* Center Royal Monogram & Chauhan Crest */}
       <div className="relative z-10 flex flex-col items-center my-auto py-2">
         {/* User-provided English DM Monogram */}
-        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full p-1 bg-gradient-to-b from-antique-gold via-antique-gold-dark to-royal-maroon-dark shadow-2xl mb-3">
+        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full p-1 bg-gradient-to-b from-antique-gold via-antique-gold-dark to-royal-maroon-dark shadow-2xl mb-3 gold-sheen-sweep">
           <img
             src="/images/royal-dm-monogram.webp"
             alt="DM Royal Monogram"
@@ -281,7 +293,7 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
           />
         </div>
 
-        <h1 className="font-royal text-2xl sm:text-3xl font-bold text-antique-gold-lighter tracking-wider drop-shadow-lg">
+        <h1 className="font-royal text-2xl sm:text-3xl font-bold tracking-wider drop-shadow-lg gold-foil-text">
           {language === 'hi' ? 'शाही विवाह निमंत्रण' : 'Royal Rajput Wedding'}
         </h1>
 
@@ -394,7 +406,7 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
         <span className="font-royal text-xs tracking-widest text-royal-maroon uppercase font-bold">
           {language === 'hi' ? '॥ श्री गणेशाय नमः ॥' : '॥ SHREE GANESHAY NAMAH ॥'}
         </span>
-        <h2 className="font-royal text-xl sm:text-2xl font-bold text-royal-maroon mt-0.5">
+        <h2 className="font-royal text-xl sm:text-2xl font-bold tracking-wider mt-0.5 drop-shadow gold-foil-text">
           {language === 'hi' ? 'शुभ विवाह' : 'Royal Wedding'}
         </h2>
       </div>
@@ -1170,7 +1182,7 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
         </p>
 
         <div className="my-1.5">
-          <span className="font-royal text-2xl sm:text-3xl text-antique-gold font-bold tracking-wider drop-shadow-md">
+          <span className="font-royal text-2xl sm:text-3xl font-bold tracking-wider drop-shadow-md gold-foil-text">
             {data.farewell.padharoSa}
           </span>
         </div>
@@ -1185,8 +1197,17 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
         </div>
       </div>
 
-      {/* Bottom Actions: Replay & PDF Download */}
+      {/* Bottom Actions: Guest Link, Replay & PDF Download */}
       <div className="relative z-10 pb-2 space-y-2 w-full max-w-xs flex flex-col items-center">
+        {/* Create Personalized Guest Invitation Link */}
+        <button
+          onClick={() => setShowGuestModal(true)}
+          className="w-full py-2 px-3 rounded-full border-2 border-antique-gold bg-gradient-to-r from-royal-maroon-dark via-[#6B0D1E] to-royal-maroon-dark text-[#FFF4D0] text-xs font-hindi font-bold shadow-royal-glow hover:border-white active:scale-95 transition-all flex items-center justify-center space-x-1.5"
+        >
+          <Share2 className="w-3.5 h-3.5 text-antique-gold" />
+          <span>{language === 'hi' ? '✨ अतिथि निमंत्रण लिंक बनाएं (WhatsApp)' : '✨ Create Guest Link (WhatsApp)'}</span>
+        </button>
+
         <div className="flex items-center space-x-2 w-full justify-center">
           <a
             href={data.meta.pdfDownloadUrl}
@@ -1245,7 +1266,7 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
       <header className="w-full max-w-sm mx-auto px-4 py-2 flex items-center justify-center z-30 pt-safe">
         <div className="px-3.5 py-1 rounded-full border border-antique-gold/30 bg-charcoal-dark/75 text-sandstone text-[11px] sm:text-xs font-hindi backdrop-blur-sm shadow-xs">
           {language === 'hi'
-            ? `${currentPage === 0 ? 'मुखपृष्ठ' : currentPage === 10 ? 'अंतिम पृष्ठ' : `पृष्ठ ${currentPage}`} / १०`
+            ? `${currentPage === 0 ? 'मुखपृष्ठ' : currentPage === 10 ? 'अंतिम पृष्ठ' : `पृष्ठ ${toHindiDigits(currentPage)}`} / १०`
             : `${currentPage === 0 ? 'Cover' : currentPage === 10 ? 'Back' : `Page ${currentPage}`} of 10`}
         </div>
       </header>
@@ -1414,6 +1435,12 @@ export const SceneRoyalBook: React.FC<SceneRoyalBookProps> = ({ onReplay, initia
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* PERSONALIZED GUEST LINK GENERATOR MODAL */}
+      <PersonalizedGuestModal
+        isOpen={showGuestModal}
+        onClose={() => setShowGuestModal(false)}
+      />
     </div>
   );
 };

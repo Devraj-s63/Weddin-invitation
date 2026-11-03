@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
 import { JharokhaCrown } from '../components/common/OrnateMotif';
 import { triggerPetalShower } from '../components/common/PetalShower';
+import { getGuestFromUrl } from '../utils/guestManager';
 
 interface SceneRoyalCardOpeningProps {
   onOpenInvitation: () => void;
@@ -15,6 +16,7 @@ export const SceneRoyalCardOpening: React.FC<SceneRoyalCardOpeningProps> = ({
 }) => {
   const [isOpeningCard, setIsOpeningCard] = useState(false);
   const { data, language } = useLanguage();
+  const { guestName, hasGuest } = getGuestFromUrl();
 
   const handleOpen = () => {
     if (isOpeningCard) return;
@@ -113,7 +115,7 @@ export const SceneRoyalCardOpening: React.FC<SceneRoyalCardOpeningProps> = ({
 
             {/* Center Royal Monogram & Title */}
             <div className="relative z-10 my-auto flex flex-col items-center py-2">
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 bg-gradient-to-b from-antique-gold via-antique-gold-dark to-royal-maroon-dark shadow-2xl mb-2.5">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 bg-gradient-to-b from-antique-gold via-antique-gold-dark to-royal-maroon-dark shadow-2xl mb-2.5 gold-sheen-sweep">
                 <img
                   src="/images/royal-dm-monogram.webp"
                   alt="Devraj & Madhu Royal Monogram"
@@ -121,7 +123,13 @@ export const SceneRoyalCardOpening: React.FC<SceneRoyalCardOpeningProps> = ({
                 />
               </div>
 
-              <h2 className="font-royal text-2xl sm:text-3xl font-bold text-antique-gold-lighter tracking-wider drop-shadow">
+              {hasGuest && (
+                <div className="mb-2 px-3 py-0.5 rounded-full border border-antique-gold/50 bg-black/40 text-[10px] font-royal text-antique-gold-lighter tracking-wider">
+                  {language === 'hi' ? `सादर प्रेषित: ${guestName} सा` : `Specially Invited: ${guestName}`}
+                </div>
+              )}
+
+              <h2 className="font-royal text-2xl sm:text-3xl font-bold tracking-wider drop-shadow gold-foil-text">
                 {language === 'hi' ? 'शुभ विवाह' : 'Royal Wedding'}
               </h2>
 

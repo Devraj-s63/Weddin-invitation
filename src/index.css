@@ -140,6 +140,73 @@
   padding-bottom: max(1rem, env(safe-area-inset-bottom));
 }
 
+/* Metallic Gold Foil Shimmer on Headings */
+@keyframes goldFoilShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.gold-foil-text {
+  background: linear-gradient(
+    90deg,
+    #D4AF37 0%,
+    #FFF8DE 25%,
+    #E5C158 50%,
+    #FFF9E6 75%,
+    #D4AF37 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: goldFoilShimmer 7s linear infinite;
+  display: inline-block;
+}
+
+/* Gold Sheen Sweep for Cards & Monogram */
+@keyframes goldSweep {
+  0%, 70% {
+    left: -120%;
+    opacity: 0;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    left: 200%;
+    opacity: 0;
+  }
+}
+
+.gold-sheen-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.gold-sheen-sweep::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -120%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 243, 204, 0.2),
+    rgba(255, 255, 255, 0.45),
+    rgba(255, 243, 204, 0.2),
+    transparent
+  );
+  transform: rotate(25deg);
+  pointer-events: none;
+  animation: goldSweep 6.5s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
